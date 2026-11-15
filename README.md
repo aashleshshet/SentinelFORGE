@@ -56,7 +56,7 @@ docker compose logs --tail=100 api
 docker compose down                 # preserves the named database volume
 ```
 
-The three CI jobs are configured to cover SQLite and PostgreSQL contracts, the real browser/API workflow, and a complete Compose build/replay. See [validation status](docs/VALIDATION.md) for what was actually run and any outstanding limits.
+All three CI jobs passed: SQLite and PostgreSQL contracts, the real browser/API workflow, and a complete Compose build/replay. See the [recorded run and validation limits](docs/VALIDATION.md).
 
 ## Authenticated development mode (optional)
 

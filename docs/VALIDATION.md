@@ -14,8 +14,8 @@ Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 | Frontend dependency audit | No known vulnerabilities in the scanned dependency set; re-run after dependency updates |
 | Scenario evaluation | 7 TP, 2 FP, 7 TN, 2 FN; failures retained in the dataset |
 | Throughput benchmark | Three SQLite/WAL runs; median 6,072.36 events/s for the stated benign batch workload |
-| PostgreSQL integration | Passed in GitHub Actions run [43700040298](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43700040298), along with the backend and browser jobs |
-| Complete Docker Compose deployment | CI caught a malformed temporary-filesystem mount and host access blocked by an internal-only API network. A quoted mount and separate loopback gateway address these issues; deployment revalidation is pending. Docker is not available on the development host |
+| PostgreSQL integration | Passed in GitHub Actions run [43701088632](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43701088632), along with the backend and browser jobs |
+| Complete Docker Compose deployment | Passed in the same run: image build, three healthy services, host HTTP health check, authenticated ingestion, seven alerts and persisted cases. Earlier failures and fixes are recorded below. Docker is not available on the development host; this evidence is from the Linux CI runner |
 
 ## Actual fixes from validation
 
@@ -35,6 +35,6 @@ The Impeccable helper could not run in this environment, and the independent rev
 
 ## Reproducibility and limits
 
-`requirements.lock`, `requirements-runtime.lock` and `frontend/pnpm-lock.yaml` pin the measured installations. CI has separate backend/PostgreSQL, browser, and Compose jobs. CI results are linked from the repository Actions page; a workflow file alone is not evidence that it passed. Screenshots under `docs/screenshots` were captured from the compiled React application using only demo telemetry.
+`requirements.lock`, `requirements-runtime.lock` and `frontend/pnpm-lock.yaml` pin the measured installations. CI has separate backend/PostgreSQL, browser, and Compose jobs. All three passed for code commit `03b5b3b7d3b39b5a06be2902b38a574491b55eab` in [run 43701088632](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43701088632). This validation-record update changes documentation only. Screenshots under `docs/screenshots` were captured from the compiled React application using only demo telemetry.
 
 No live Windows/Linux/Wazuh/Zeek deployment, enterprise throughput test, independent detection corpus, penetration test or production security review has been performed. See README's implemented/planned table and the threat model.
