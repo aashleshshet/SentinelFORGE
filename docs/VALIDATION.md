@@ -14,7 +14,8 @@ Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 | Frontend dependency audit | No known vulnerabilities in the scanned dependency set; re-run after dependency updates |
 | Scenario evaluation | 7 TP, 2 FP, 7 TN, 2 FN; failures retained in the dataset |
 | Throughput benchmark | Three SQLite/WAL runs; median 6,072.36 events/s for the stated benign batch workload |
-| PostgreSQL integration and complete Docker Compose deployment | Configured in CI; Docker is not available on the development host, so local execution has not been claimed |
+| PostgreSQL integration | Passed in GitHub Actions run [43700040298](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43700040298), along with the backend and browser jobs |
+| Complete Docker Compose deployment | Initial CI run built the image but caught a malformed temporary-filesystem mount. Quoting was corrected; deployment revalidation is pending. Docker is not available on the development host |
 
 ## Actual fixes from validation
 
@@ -24,6 +25,7 @@ Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 - The mobile “Detection rules” navigation label touched the screen edge; the mobile label is now “Rules” with the full accessible name retained.
 - The initial overview sorted solely by time and could hide older critical signals; it now shows highest-severity signals first, then most recent within severity.
 - Adapter parsing failures are handled before persistence; internal detection/database exceptions propagate and roll back the transaction.
+- Docker rejected a temporary-filesystem option parsed as a second mount because a comma-separated YAML scalar was unquoted. The mount is now one quoted string.
 
 One dependency emits a Starlette warning that its httpx-based TestClient path is deprecated. It does not fail the suite; migration to the upstream replacement is planned after compatibility review. The repository does not suppress the warning.
 
