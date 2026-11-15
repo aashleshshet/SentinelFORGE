@@ -87,5 +87,8 @@ jobs:
       - run: curl --fail http://127.0.0.1:8000/api/health
       - name: Exercise PostgreSQL deployment
         run: python scripts/smoke.py
+      - name: Capture gateway startup diagnostics
+        if: failure()
+        run: docker compose logs --no-color --tail=100 gateway
       - run: docker compose down --volumes
         if: always()
