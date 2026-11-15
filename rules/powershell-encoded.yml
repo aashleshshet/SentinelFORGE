@@ -1,0 +1,38 @@
+title: Suspicious PowerShell arguments
+id: 00000000-0000-0000-0000-000000000002
+status: experimental
+description: PowerShell process uses an encoded-command or download/decode marker;
+  intent requires review.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: process
+    process|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+    - /pwsh
+    command|contains:
+    - ' -enc '
+    - ' -encodedcommand '
+    - FromBase64String
+    - DownloadString(
+  condition: selection
+level: high
+tags:
+- attack.t1059.001
+falsepositives:
+- Administrative encoded scripts
+- Software deployment agents
+x-sentinelforge:
+  slug: powershell-encoded
+  confidence: 75
+  required_telemetry:
+  - process
+  - command
+  validation: synthetic-fixtures
+  explanation: PowerShell process uses an encoded-command or download/decode marker;
+    intent requires review.

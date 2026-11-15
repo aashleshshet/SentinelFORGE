@@ -1,0 +1,34 @@
+{
+  "environment": {
+    "python": "3.12.14",
+    "os": "Darwin",
+    "machine": "arm64",
+    "database": "SQLite file, WAL"
+  },
+  "workload": "Unique benign process events, batches of 100, seven active rules, one client, commit per batch",
+  "scope": "In-process HTTP + validation + normalization + detection + DB; excludes network, live sensors and alert-heavy state growth",
+  "median_events_per_second": 6072.36,
+  "runs": [
+    {
+      "events": 1000,
+      "seconds": 0.1659,
+      "events_per_second": 6027.88,
+      "batch_latency_ms_median": 15.233,
+      "batch_latency_ms_max": 24.339
+    },
+    {
+      "events": 1000,
+      "seconds": 0.1617,
+      "events_per_second": 6184.59,
+      "batch_latency_ms_median": 16.041,
+      "batch_latency_ms_max": 16.846
+    },
+    {
+      "events": 1000,
+      "seconds": 0.1647,
+      "events_per_second": 6072.36,
+      "batch_latency_ms_median": 16.377,
+      "batch_latency_ms_max": 17.334
+    }
+  ]
+}

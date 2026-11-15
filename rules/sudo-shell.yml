@@ -1,0 +1,35 @@
+title: Interactive root shell through sudo
+id: 00000000-0000-0000-0000-000000000006
+status: experimental
+description: A logged sudo command launches a shell as root. Compare against the user's
+  approved duties.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: privilege
+    process: sudo
+    fields.target_user: root
+    command|contains:
+    - /bin/bash
+    - /bin/sh
+    - /bin/zsh
+  condition: selection
+level: medium
+tags:
+- attack.t1548.003
+falsepositives:
+- Authorized system administration
+x-sentinelforge:
+  slug: sudo-shell
+  confidence: 60
+  required_telemetry:
+  - user
+  - command
+  - fields.target_user
+  validation: synthetic-fixtures
+  explanation: A logged sudo command launches a shell as root. Compare against the
+    user's approved duties.

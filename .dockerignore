@@ -1,0 +1,17 @@
+.git
+.env
+.env.*
+.venv
+*.db
+*.db-*
+**/__pycache__
+**/node_modules
+frontend/dist
+frontend/test-results
+work
+.taste-skill
+.impeccable
+docs
+.pytest_cache
+.ruff_cache
+.coverage

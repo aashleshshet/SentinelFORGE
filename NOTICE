@@ -1,0 +1,20 @@
+SentinelForge original code and original detection rules are MIT licensed.
+
+MITRE ATT&CK® is a registered trademark of The MITRE Corporation. The selected
+STIX attack-pattern objects in data/attack.json are reproduced from the official
+MITRE ATT&CK STIX data repository. Their descriptions and references retain
+MITRE's attribution. Their source URL and SHA-256 are embedded in the bundle.
+MITRE ATT&CK terms: https://attack.mitre.org/resources/terms-of-use/
+Source: https://github.com/mitre-attack/attack-stix-data
+No MITRE endorsement or complete ATT&CK coverage is claimed.
+
+Sigma is a detection rule specification maintained by the SigmaHQ community.
+These seven rules are original; the evaluator supports only the subset documented
+in docs/DETECTION_RULES.md. It is not a full Sigma backend or certification.
+Specification: https://sigmahq.io/sigma-specification/
+
+Frontend dependencies retain their individual licenses. Public Sans and IBM Plex
+Mono font packages include their open font licenses. Their license files are
+preserved by the package manager; see pnpm-lock.yaml and the installed packages.
+Screenshots are generated from SentinelForge's synthetic fixtures; no stock
+images, external telemetry, customer names or real investigations are used.

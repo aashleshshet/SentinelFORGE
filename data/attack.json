@@ -1,0 +1,486 @@
+{
+  "type": "bundle",
+  "id": "bundle--334dd54f-ac9f-4990-9d9e-e51ecfff5430",
+  "objects": [
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+      "created": "2019-11-27T14:58:00.429Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1053/005",
+          "external_id": "T1053.005"
+        },
+        {
+          "source_name": "ProofPoint Serpent",
+          "description": "Campbell, B. et al. (2022, March 21). Serpent, No Swiping! New Backdoor Targets French Entities with Unique Attack Chain. Retrieved April 11, 2022.",
+          "url": "https://www.proofpoint.com/us/blog/threat-insight/serpent-no-swiping-new-backdoor-targets-french-entities-unique-attack-chain"
+        },
+        {
+          "source_name": "Defending Against Scheduled Task Attacks in Windows Environments",
+          "description": "Harshal Tupsamudre. (2022, June 20). Defending Against Scheduled Tasks. Retrieved July 5, 2022.",
+          "url": "https://blog.qualys.com/vulnerabilities-threat-research/2022/06/20/defending-against-scheduled-task-attacks-in-windows-environments"
+        },
+        {
+          "source_name": "Twitter Leoloobeek Scheduled Task",
+          "description": "Loobeek, L. (2017, December 8). leoloobeek Status. Retrieved September 12, 2024.",
+          "url": "https://x.com/leoloobeek/status/939248813465853953"
+        },
+        {
+          "source_name": "Tarrask scheduled task",
+          "description": "Microsoft Threat Intelligence Team & Detection and Response Team . (2022, April 12). Tarrask malware uses scheduled tasks for defense evasion. Retrieved June 1, 2022.",
+          "url": "https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/"
+        },
+        {
+          "source_name": "Microsoft Scheduled Task Events Win10",
+          "description": "Microsoft. (2017, May 28). Audit Other Object Access Events. Retrieved June 27, 2019.",
+          "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events"
+        },
+        {
+          "source_name": "TechNet Scheduled Task Events",
+          "description": "Microsoft. (n.d.). General Task Registration. Retrieved December 12, 2017.",
+          "url": "https://technet.microsoft.com/library/dd315590.aspx"
+        },
+        {
+          "source_name": "Red Canary - Atomic Red Team",
+          "description": "Red Canary - Atomic Red Team. (n.d.). T1053.005 - Scheduled Task/Job: Scheduled Task. Retrieved June 19, 2024.",
+          "url": "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md"
+        },
+        {
+          "source_name": "TechNet Autoruns",
+          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016.",
+          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902"
+        },
+        {
+          "source_name": "TechNet Forum Scheduled Task Operational Setting",
+          "description": "Satyajit321. (2015, November 3). Scheduled Tasks History Retention settings. Retrieved December 12, 2017.",
+          "url": "https://social.technet.microsoft.com/Forums/en-US/e5bca729-52e7-4fcb-ba12-3225c564674c/scheduled-tasks-history-retention-settings?forum=winserver8gen"
+        },
+        {
+          "source_name": "SigmaHQ",
+          "description": "Sittikorn S. (2022, April 15). Removal Of SD Value to Hide Schedule Task - Registry. Retrieved June 1, 2022.",
+          "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_delete/registry_delete_schtasks_hide_task_via_sd_value_removal.yml"
+        },
+        {
+          "source_name": "Stack Overflow",
+          "description": "Stack Overflow. (n.d.). How to find the location of the Scheduled Tasks folder. Retrieved June 19, 2024.",
+          "url": "https://stackoverflow.com/questions/2913816/how-to-find-the-location-of-the-scheduled-tasks-folder"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-05-12T15:12:00.618Z",
+      "name": "Scheduled Task",
+      "description": "Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. There are multiple ways to access the Task Scheduler in Windows. The [schtasks](https://attack.mitre.org/software/S0111) utility can be run directly on the command line, or the Task Scheduler can be opened through the GUI within the Administrator Tools section of the Control Panel.(Citation: Stack Overflow) In some cases, adversaries have used a .NET wrapper for the Windows Task Scheduler, and alternatively, adversaries have used the Windows netapi32 library and [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) (WMI) to create a scheduled task. Adversaries may also utilize the Powershell Cmdlet `Invoke-CimMethod`, which leverages WMI class `PS_ScheduledTask` to create a scheduled task via an XML path.(Citation: Red Canary - Atomic Red Team)\n\nAn adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence. The Windows Task Scheduler can also be abused to conduct remote Execution as part of Lateral Movement and/or to run a process under the context of a specified account (such as SYSTEM). Similar to [System Binary Proxy Execution](https://attack.mitre.org/techniques/T1218), adversaries have also abused the Windows Task Scheduler to potentially mask one-time execution under signed/trusted system processes.(Citation: ProofPoint Serpent)\n\nAdversaries may also create \"hidden\" scheduled tasks (i.e. [Hide Artifacts](https://attack.mitre.org/techniques/T1564)) that may not be visible to defender tools and manual queries used to enumerate tasks. Specifically, an adversary may hide a task from `schtasks /query` and the Task Scheduler by deleting the associated Security Descriptor (SD) registry value (where deletion of this value must be completed using SYSTEM permissions).(Citation: SigmaHQ)(Citation: Tarrask scheduled task) Adversaries may also employ alternate methods to hide tasks, such as altering the metadata (e.g., `Index` value) within associated registry keys.(Citation: Defending Against Scheduled Task Attacks in Windows Environments) ",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_contributors": [
+        "Andrew Northern, @ex_raritas",
+        "Bryan Campbell, @bry_campbell",
+        "Selena Larson, @selenalarson",
+        "Sittikorn Sangrattanapitak",
+        "Zachary Abzug, @ZackDoesML"
+      ],
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_version": "1.8",
+      "x_mitre_remote_support": false
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--09c4c11e-4fa1-4f8c-8dad-3cf8e69ad119",
+      "created": "2020-02-11T18:38:22.617Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1110/001",
+          "external_id": "T1110.001"
+        },
+        {
+          "source_name": "Trend Micro Emotet 2020",
+          "description": "Cybercrime & Digital Threat Team. (2020, February 13). Emotet Now Spreads via Wi-Fi. Retrieved February 16, 2022.",
+          "url": "https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/emotet-now-spreads-via-wi-fi"
+        },
+        {
+          "source_name": "Cylance Cleaver",
+          "description": "Cylance. (2014, December). Operation Cleaver. Retrieved September 14, 2017.",
+          "url": "https://web.archive.org/web/20200302085133/https://www.cylance.com/content/dam/cylance/pages/operation-cleaver/Cylance_Operation_Cleaver_Report.pdf"
+        },
+        {
+          "source_name": "US-CERT TA18-068A 2018",
+          "description": "US-CERT. (2018, March 27). TA18-068A Brute Force Attacks Conducted by Cyber Actors. Retrieved October 2, 2019.",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA18-086A"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-11-03T23:41:24.595Z",
+      "name": "Password Guessing",
+      "description": "Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts. Without knowledge of the password for an account, an adversary may opt to systematically guess the password using a repetitive or iterative mechanism. An adversary may guess login credentials without prior knowledge of system or environment passwords during an operation by using a list of common passwords. Password guessing may or may not take into account the target's policies on password complexity or use policies that may lock accounts out after a number of failed attempts.\n\nGuessing passwords can be a risky option because it could cause numerous authentication failures and account lockouts, depending on the organization's login failure policies.(Citation: Cylance Cleaver)\n\nTypically, management services over commonly used ports are used when guessing passwords. Commonly targeted services include the following:\n\n* SSH (22/TCP)\n* Telnet (23/TCP)\n* FTP (21/TCP)\n* NetBIOS / SMB / Samba (139/TCP & 445/TCP)\n* LDAP (389/TCP)\n* Kerberos (88/TCP)\n* RDP / Terminal Services (3389/TCP)\n* HTTP/HTTP Management Services (80/TCP & 443/TCP)\n* MSSQL (1433/TCP)\n* Oracle (1521/TCP)\n* MySQL (3306/TCP)\n* VNC (5900/TCP)\n* SNMP (161/UDP and 162/TCP/UDP)\n\nIn addition to management services, adversaries may \"target single sign-on (SSO) and cloud-based applications utilizing federated authentication protocols,\" as well as externally facing email applications, such as Office 365.(Citation: US-CERT TA18-068A 2018) Further, adversaries may abuse network device interfaces (such as `wlanAPI`) to brute force accessible wifi-router(s) via wireless authentication protocols.(Citation: Trend Micro Emotet 2020)\n\nIn default environments, LDAP and Kerberos connection attempts are less likely to trigger events over SMB, which creates Windows \"logon failure\" event ID 4625.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_contributors": [
+        "Microsoft Threat Intelligence Center (MSTIC)",
+        "Mohamed Kmal"
+      ],
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "Containers",
+        "ESXi",
+        "IaaS",
+        "Identity Provider",
+        "Linux",
+        "macOS",
+        "Network Devices",
+        "Office Suite",
+        "SaaS",
+        "Windows"
+      ],
+      "x_mitre_version": "1.7"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--1365fe3b-0f50-455d-b4da-266ce31c23b0",
+      "created": "2020-01-30T14:34:44.992Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1548/003",
+          "external_id": "T1548.003"
+        },
+        {
+          "source_name": "cybereason osx proton",
+          "description": "Amit Serper. (2018, May 10). ProtonB What this Mac Malware Actually Does. Retrieved March 19, 2018.",
+          "url": "https://www.cybereason.com/blog/labs-proton-b-what-this-mac-malware-actually-does"
+        },
+        {
+          "source_name": "OSX.Dok Malware",
+          "description": "Thomas Reed. (2017, July 7). New OSX.Dok malware intercepts web traffic. Retrieved July 10, 2017.",
+          "url": "https://blog.malwarebytes.com/threat-analysis/2017/04/new-osx-dok-malware-intercepts-web-traffic/"
+        },
+        {
+          "source_name": "sudo man page 2018",
+          "description": "Todd C. Miller. (2018). Sudo Man Page. Retrieved March 19, 2018.",
+          "url": "https://www.sudo.ws/"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-11-03T21:38:08.407Z",
+      "name": "Sudo and Sudo Caching",
+      "description": "Adversaries may perform sudo caching and/or use the sudoers file to elevate privileges. Adversaries may do this to execute commands as other users or spawn processes with higher privileges.\n\nWithin Linux and MacOS systems, sudo (sometimes referred to as \"superuser do\") allows users to perform commands from terminals with elevated privileges and to control who can perform these commands on the system. The <code>sudo</code> command \"allows a system administrator to delegate authority to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while providing an audit trail of the commands and their arguments.\"(Citation: sudo man page 2018) Since sudo was made for the system administrator, it has some useful configuration features such as a <code>timestamp_timeout</code>, which is the amount of time in minutes between instances of <code>sudo</code> before it will re-prompt for a password. This is because <code>sudo</code> has the ability to cache credentials for a period of time. Sudo creates (or touches) a file at <code>/var/db/sudo</code> with a timestamp of when sudo was last run to determine this timeout. Additionally, there is a <code>tty_tickets</code> variable that treats each new tty (terminal session) in isolation. This means that, for example, the sudo timeout of one tty will not affect another tty (you will have to type the password again).\n\nThe sudoers file, <code>/etc/sudoers</code>, describes which users can run which commands and from which terminals. This also describes which commands users can run as other users or groups. This provides the principle of least privilege such that users are running in their lowest possible permissions for most of the time and only elevate to other users or permissions as needed, typically by prompting for a password. However, the sudoers file can also specify when to not prompt users for passwords with a line like <code>user1 ALL=(ALL) NOPASSWD: ALL</code>.(Citation: OSX.Dok Malware) Elevated privileges are required to edit this file though.\n\nAdversaries can also abuse poor configurations of these mechanisms to escalate privileges without needing the user's password. For example, <code>/var/db/sudo</code>'s timestamp can be monitored to see if it falls within the <code>timestamp_timeout</code> range. If it does, then malware can execute sudo commands without needing to supply the user's password. Additionally, if <code>tty_tickets</code> is disabled, adversaries can do this from any tty for that user.\n\nIn the wild, malware has disabled <code>tty_tickets</code> to potentially make scripting easier by issuing <code>echo \\'Defaults !tty_tickets\\' >> /etc/sudoers</code>.(Citation: cybereason osx proton) In order for this change to be reflected, the malware also issued <code>killall Terminal</code>. As of macOS Sierra, the sudoers file has <code>tty_tickets</code> enabled by default.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "Linux",
+        "macOS"
+      ],
+      "x_mitre_version": "2.0"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--635cbe30-392d-4e27-978e-66774357c762",
+      "created": "2020-01-28T13:50:22.506Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1136/001",
+          "external_id": "T1136.001"
+        },
+        {
+          "source_name": "cisco_username_cmd",
+          "description": "Cisco. (2023, March 6). username - Cisco IOS Security Command Reference: Commands S to Z. Retrieved July 13, 2022.",
+          "url": "https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/s1/sec-s1-cr-book/sec-cr-t2.html#wp1047035630"
+        },
+        {
+          "source_name": "Cyber Security News",
+          "description": "Kaaviya. (n.d.). SuperBlack Actors Exploiting Two Fortinet Vulnerabilities to Deploy Ransomware. Retrieved September 22, 2025.",
+          "url": "https://cybersecuritynews.com/superblack-actors-exploiting-two-fortinet-vulnerabilities/"
+        },
+        {
+          "source_name": "Kubernetes Service Accounts Security",
+          "description": "Kubernetes. (n.d.). Service Accounts. Retrieved July 14, 2023.",
+          "url": "https://kubernetes.io/docs/concepts/security/service-accounts/"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-11-04T03:16:37.829Z",
+      "name": "Local Account",
+      "description": "Adversaries may create a local account to maintain access to victim systems. Local accounts are those configured by an organization for use by users, remote support, services, or for administration on a single system or service. \n\nFor example, with a sufficient level of access, the Windows <code>net user /add</code> command can be used to create a local account.  In Linux, the `useradd` command can be used, while on macOS systems, the <code>dscl -create</code> command can be used. Local accounts may also be added to network devices, often via common [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as <code>username</code>, to ESXi servers via `esxcli system account add`, or to Kubernetes clusters using the `kubectl` utility.(Citation: cisco_username_cmd)(Citation: Kubernetes Service Accounts Security)\n\nAdversaries may also create new local accounts on network firewall management consoles \u2013 for example, by exploiting a vulnerable firewall management system, threat actors may be able to establish super-admin accounts that could be used to modify firewall rules and gain further access to the network.(Citation: Cyber Security News)\n\nSuch accounts may be used to establish secondary credentialed access that does not require persistent remote access tools to be deployed on the system.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_contributors": [
+        "Austin Clark, @c2defense"
+      ],
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "Containers",
+        "ESXi",
+        "Linux",
+        "macOS",
+        "Network Devices",
+        "Windows"
+      ],
+      "x_mitre_version": "1.5"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "created": "2020-03-09T13:48:55.078Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/001",
+          "external_id": "T1059.001"
+        },
+        {
+          "source_name": "Microsoft PSfromCsharp APR 2014",
+          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019.",
+          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/"
+        },
+        {
+          "source_name": "SilentBreak Offensive PS Dec 2015",
+          "description": "Christensen, L.. (2015, December 28). The Evolution of Offensive PowerShell Invocation. Retrieved December 8, 2018.",
+          "url": "https://web.archive.org/web/20190508170150/https://silentbreaksecurity.com/powershell-jobs-without-powershell-exe/"
+        },
+        {
+          "source_name": "Github PSAttack",
+          "description": "Haight, J. (2016, April 21). PS>Attack. Retrieved September 27, 2024.",
+          "url": "https://github.com/Exploit-install/PSAttack-1"
+        },
+        {
+          "source_name": "Powershell installation",
+          "description": "Microsoft. (n.d.). Install PowerShell on Windows, Linux, and macOS. Retrieved September 17, 2026.",
+          "url": "https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.6"
+        },
+        {
+          "source_name": "TechNet PowerShell",
+          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016.",
+          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx"
+        },
+        {
+          "source_name": "Sixdub PowerPick Jan 2016",
+          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018.",
+          "url": "https://web.archive.org/web/20160327101330/http://www.sixdub.net/?p=367"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-09-18T13:23:14.419Z",
+      "name": "PowerShell",
+      "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system.(Citation: TechNet PowerShell) PowerShell can also be installed on Linux and macOS.(Citation: Powershell installation) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the <code>Start-Process</code> cmdlet which can be used to run an executable and the <code>Invoke-Command</code> cmdlet which runs a command locally or on a remote computer (though administrator permissions are required to use PowerShell to connect to remote systems).\n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  [PowerSploit](https://attack.mitre.org/software/S0194), [PoshC2](https://attack.mitre.org/software/S0378), and PSAttack.(Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the <code>powershell.exe</code> binary through interfaces to PowerShell's underlying <code>System.Management.Automation</code> assembly DLL exposed through the .NET framework and Windows Common Language Interface (CLI).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)(Citation: Microsoft PSfromCsharp APR 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_contributors": [
+        "Mayuresh Dani, Qualys",
+        "Praetorian",
+        "Ross Brittain",
+        "Stephan H. Wenderlich, Gray-Hat IT-Security Consulting"
+      ],
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "Windows",
+        "Linux",
+        "macOS"
+      ],
+      "x_mitre_version": "1.6",
+      "x_mitre_remote_support": false
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "created": "2020-03-09T14:15:05.330Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/004",
+          "external_id": "T1059.004"
+        },
+        {
+          "source_name": "Apple ZShell",
+          "description": "Apple. (2020, January 28). Use zsh as the default shell on your Mac. Retrieved June 12, 2020.",
+          "url": "https://support.apple.com/HT208050"
+        },
+        {
+          "source_name": "DieNet Bash",
+          "description": "die.net. (n.d.). bash(1) - Linux man page. Retrieved June 12, 2020.",
+          "url": "https://linux.die.net/man/1/bash"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-05-12T15:12:00.707Z",
+      "name": "Unix Shell",
+      "description": "Adversaries may abuse Unix shell commands and scripts for execution. Unix shells are the primary command prompt on Linux, macOS, and ESXi systems, though many variations of the Unix shell exist (e.g. sh, ash, bash, zsh, etc.) depending on the specific OS or distribution.(Citation: DieNet Bash)(Citation: Apple ZShell) Unix shells can control every aspect of a system, with certain commands requiring elevated privileges.\n\nUnix shells also support scripts that enable sequential execution of commands as well as other typical programming operations such as conditionals and loops. Common uses of shell scripts include long or repetitive tasks, or the need to run the same set of commands on multiple systems.\n\nAdversaries may abuse Unix shells to execute various commands or payloads. Interactive shells may be accessed through command and control channels or during lateral movement such as with [SSH](https://attack.mitre.org/techniques/T1021/004). Adversaries may also leverage shell scripts to deliver and execute multiple commands on victims or as part of payloads used for persistence.\n\nSome systems, such as embedded devices, lightweight Linux distributions, and ESXi servers, may leverage stripped-down Unix shells via Busybox, a small executable that contains a variety of tools, including a simple shell.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "ESXi",
+        "Linux",
+        "macOS",
+        "Network Devices"
+      ],
+      "x_mitre_version": "1.4",
+      "x_mitre_remote_support": false
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--b18eae87-b469-4e14-b454-b171b416bc18",
+      "created": "2020-03-14T18:18:32.443Z",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "revoked": false,
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1571",
+          "external_id": "T1571"
+        },
+        {
+          "source_name": "Symantec Elfin Mar 2019",
+          "description": "Security Response attack Investigation Team. (2019, March 27). Elfin: Relentless Espionage Group Targets Multiple Organizations in Saudi Arabia and U.S.. Retrieved April 10, 2019.",
+          "url": "https://www.symantec.com/blogs/threat-intelligence/elfin-apt33-espionage"
+        },
+        {
+          "source_name": "change_rdp_port_conti",
+          "description": "The DFIR Report. (2022, March 1). \"Change RDP port\" #ContiLeaks. Retrieved September 12, 2024.",
+          "url": "https://x.com/TheDFIRReport/status/1498657772254240768"
+        },
+        {
+          "source_name": "Fortinet Agent Tesla April 2018",
+          "description": "Zhang, X. (2018, April 05). Analysis of New Agent Tesla Spyware Variant. Retrieved November 5, 2018.",
+          "url": "https://www.fortinet.com/blog/threat-research/analysis-of-new-agent-tesla-spyware-variant.html"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "modified": "2026-11-03T20:07:36.359Z",
+      "name": "Non-Standard Port",
+      "description": "Adversaries may communicate using a protocol and port pairing that are typically not associated (for example, HTTPS over port 8088(Citation: Symantec Elfin Mar 2019) or port 587(Citation: Fortinet Agent Tesla April 2018) as opposed to the traditional port 443). Adversaries may make changes to the standard port used by a protocol to bypass filtering or muddle analysis/parsing of network data.\n\nAdversaries may also make changes to victim systems to abuse non-standard ports. For example, Registry keys and other configuration settings can be used to modify protocol and port pairings.(Citation: change_rdp_port_conti)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "x_mitre_attack_spec_version": "3.3.0",
+      "x_mitre_deprecated": false,
+      "x_mitre_domains": [
+        "enterprise-attack"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "x_mitre_platforms": [
+        "ESXi",
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_version": "1.3"
+    }
+  ],
+  "sentinelforge_provenance": {
+    "source": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json",
+    "source_sha256": "539a843a7b53ed9749740b2123dddae3726b1a4831841c32aca740b011b910b5",
+    "note": "Selected original MITRE attack-pattern objects; see NOTICE for attribution."
+  }
+}

@@ -1,0 +1,40 @@
+title: SSH password guessing
+id: 00000000-0000-0000-0000-000000000001
+status: experimental
+description: Five failed SSH authentications from the same IP on the same host within
+  300 seconds.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: authentication
+    outcome: failure
+    fields.service: sshd
+  condition: selection
+level: high
+tags:
+- attack.t1110.001
+falsepositives:
+- Bastions shared by many users
+- Misconfigured automation with stale credentials
+x-sentinelforge:
+  slug: ssh-brute-force
+  confidence: 85
+  required_telemetry:
+  - host
+  - timestamp
+  - src_ip
+  - outcome
+  - fields.service
+  validation: synthetic-fixtures
+  explanation: Five failed SSH authentications from the same IP on the same host within
+    300 seconds.
+  aggregate:
+    count: 5
+    seconds: 300
+    group_by:
+    - host
+    - src_ip

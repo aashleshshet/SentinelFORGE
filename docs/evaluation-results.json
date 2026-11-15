@@ -1,0 +1,194 @@
+{
+  "dataset": "data/evaluation.json",
+  "unit": "scenario; any generated alert is a positive prediction",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Darwin",
+    "machine": "arm64",
+    "database": "SQLite in memory"
+  },
+  "confusion_matrix": {
+    "TP": 7,
+    "FP": 2,
+    "TN": 7,
+    "FN": 2
+  },
+  "precision": 0.7777777777777778,
+  "recall": 0.7777777777777778,
+  "false_positive_rate": 0.2222222222222222,
+  "latency_ms": {
+    "definition": "HTTP TestClient ingestion to committed response, alerting scenarios only; no network transit or event-observation delay",
+    "median": 3.333,
+    "maximum": 9.719
+  },
+  "limitations": [
+    "Synthetic toy corpus; not representative of deployment traffic",
+    "Fixtures overlap rule development; no independent holdout",
+    "Scenario-level classification can credit any rule; per-rule tests separately enforce rule identity",
+    "No production baseline, live sensor, distributed or PostgreSQL benchmark"
+  ],
+  "scenarios": [
+    {
+      "id": "ssh-brute-force-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 5,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 9.719
+    },
+    {
+      "id": "ssh-brute-force-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 4,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 4.595
+    },
+    {
+      "id": "powershell-encoded-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.731
+    },
+    {
+      "id": "powershell-encoded-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 2.061
+    },
+    {
+      "id": "shell-unusual-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.245
+    },
+    {
+      "id": "shell-unusual-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 1.991
+    },
+    {
+      "id": "scheduled-task-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.289
+    },
+    {
+      "id": "scheduled-task-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 2.289
+    },
+    {
+      "id": "account-uid-zero-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.333
+    },
+    {
+      "id": "account-uid-zero-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 1.928
+    },
+    {
+      "id": "sudo-shell-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.21
+    },
+    {
+      "id": "sudo-shell-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 1.961
+    },
+    {
+      "id": "outbound-port-positive",
+      "label": true,
+      "alerted": true,
+      "classification": "TP",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 3.382
+    },
+    {
+      "id": "outbound-port-negative",
+      "label": false,
+      "alerted": false,
+      "classification": "TN",
+      "events": 1,
+      "reason": "Rule contract fixture",
+      "ingest_ms": 1.971
+    },
+    {
+      "id": "authorized-encoded-admin",
+      "label": false,
+      "alerted": true,
+      "classification": "FP",
+      "events": 1,
+      "reason": "Authorized encoded PowerShell produces a known false positive",
+      "ingest_ms": 3.202
+    },
+    {
+      "id": "authorized-task-maintenance",
+      "label": false,
+      "alerted": true,
+      "classification": "FP",
+      "events": 1,
+      "reason": "Approved task creation produces a known false positive",
+      "ingest_ms": 3.351
+    },
+    {
+      "id": "powershell-file-evasion",
+      "label": true,
+      "alerted": false,
+      "classification": "FN",
+      "events": 1,
+      "reason": "Malicious file execution without monitored arguments is outside coverage",
+      "ingest_ms": 1.862
+    },
+    {
+      "id": "https-c2-blindspot",
+      "label": true,
+      "alerted": false,
+      "classification": "FN",
+      "events": 1,
+      "reason": "HTTPS C2 is not detected by the uncommon-port heuristic",
+      "ingest_ms": 1.972
+    }
+  ]
+}

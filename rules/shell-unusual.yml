@@ -1,0 +1,33 @@
+title: Shell with a TCP redirection
+id: 00000000-0000-0000-0000-000000000003
+status: experimental
+description: Unix shell command contains /dev/tcp/ redirection; investigate process
+  context.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: process
+    process|endswith:
+    - /bash
+    - /sh
+    - /zsh
+    command|contains: /dev/tcp/
+  condition: selection
+level: high
+tags:
+- attack.t1059.004
+falsepositives:
+- Shell-based network diagnostics
+x-sentinelforge:
+  slug: shell-unusual
+  confidence: 80
+  required_telemetry:
+  - process
+  - command
+  validation: synthetic-fixtures
+  explanation: Unix shell command contains /dev/tcp/ redirection; investigate process
+    context.

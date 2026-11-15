@@ -1,0 +1,33 @@
+title: UID-zero account creation
+id: 00000000-0000-0000-0000-000000000005
+status: experimental
+description: useradd explicitly requests UID 0, creating a root-equivalent local identity
+  if it succeeds.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: process
+    process|endswith: /useradd
+    command|contains:
+    - -u 0
+    - --uid 0
+  condition: selection
+level: critical
+tags:
+- attack.t1136.001
+falsepositives:
+- Recovery procedures
+- Isolated test systems
+x-sentinelforge:
+  slug: account-uid-zero
+  confidence: 90
+  required_telemetry:
+  - process
+  - command
+  validation: synthetic-fixtures
+  explanation: useradd explicitly requests UID 0, creating a root-equivalent local
+    identity if it succeeds.

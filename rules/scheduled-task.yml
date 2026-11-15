@@ -1,0 +1,31 @@
+title: Scheduled task creation
+id: 00000000-0000-0000-0000-000000000004
+status: experimental
+description: schtasks.exe creates a task. This is a persistence-capable action, not
+  proof of malicious intent.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: process
+    process|endswith: \schtasks.exe
+    command|contains: /create
+  condition: selection
+level: medium
+tags:
+- attack.t1053.005
+falsepositives:
+- Approved scheduled maintenance
+- Installers
+x-sentinelforge:
+  slug: scheduled-task
+  confidence: 65
+  required_telemetry:
+  - process
+  - command
+  validation: synthetic-fixtures
+  explanation: schtasks.exe creates a task. This is a persistence-capable action,
+    not proof of malicious intent.

