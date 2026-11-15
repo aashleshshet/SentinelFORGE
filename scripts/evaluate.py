@@ -7,6 +7,7 @@ import statistics
 import time
 from pathlib import Path
 
+from evaluation_metrics import input_conflicts, metrics, target_status
 from fastapi.testclient import TestClient
 from sentinelforge.api import create_app
 from sentinelforge.config import ROOT, Settings
@@ -55,7 +56,7 @@ def run():
                 latencies.append(elapsed)
         app.state.engine.dispose()
     counts = {key: sum(o["classification"] == key for o in outcomes) for key in ("TP", "FP", "TN", "FN")}
-    tp, fp, tn, fn = (counts[k] for k in ("TP", "FP", "TN", "FN"))
+    measured = metrics(counts)
     return {
         "dataset": "data/evaluation.json",
         "unit": "scenario; any generated alert is a positive prediction",
@@ -66,13 +67,13 @@ def run():
             "database": "SQLite in memory",
         },
         "confusion_matrix": counts,
-        "precision": tp / (tp + fp),
-        "recall": tp / (tp + fn),
-        "false_positive_rate": fp / (fp + tn),
+        **measured,
+        "target_status": target_status(measured),
+        "input_audit": input_conflicts(scenarios),
         "latency_ms": {
             "definition": "HTTP TestClient ingestion to committed response, alerting scenarios only; no network transit or event-observation delay",
-            "median": round(statistics.median(latencies), 3),
-            "maximum": round(max(latencies), 3),
+            "median": round(statistics.median(latencies), 3) if latencies else None,
+            "maximum": round(max(latencies), 3) if latencies else None,
         },
         "limitations": [
             "Synthetic toy corpus; not representative of deployment traffic",
@@ -87,7 +88,12 @@ def run():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "docs/evaluation-results.json")
+    parser.add_argument(
+        "--require-targets", action="store_true", help="Exit 1 unless all strict targets pass"
+    )
     args = parser.parse_args()
     result = run()
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps({k: v for k, v in result.items() if k not in ("scenarios", "limitations")}, indent=2))
+    if args.require_targets and not result["target_status"]["met"]:
+        raise SystemExit(1)

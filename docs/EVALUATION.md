@@ -42,3 +42,17 @@ python scripts/benchmark.py --events 1000 --runs 3 --output /tmp/benchmark.json
 ```
 
 See [raw evaluation results](evaluation-results.json), [raw benchmark results](benchmark-results.json) and [validation status](VALIDATION.md). Timing varies with hardware and runtime. CI publishes its own measurements as artifacts rather than overwriting these recorded observations.
+
+## Improvement targets and input contradictions
+
+Targets are **precision >90%, recall >90%, accuracy >90%, FPR <5%**; they are not current results. Accuracy for the recorded confusion matrix is **14/18 = 77.78%**.
+
+Three opposite-label pairs have identical submitted events: `powershell-encoded-positive` / `authorized-encoded-admin`, `scheduled-task-positive` / `authorized-task-maintenance`, and `outbound-port-negative` / `https-c2-blindspot`. For a deterministic detector using only these events with identical initial state, at least three errors are unavoidable; accuracy cannot exceed **15/18 = 83.33%**. Additional trustworthy context and a separately versioned evaluation are required, while retaining this legacy corpus.
+
+The evaluator now reports accuracy, strict target status, and an identical-input conflict audit. Undefined ratios and latency for no alerting scenarios are reported as null. To write the measured report and exit unsuccessfully when any target is unmet:
+
+```sh
+python scripts/evaluate.py --require-targets --output /tmp/evaluation-targets.json
+```
+
+This command is expected to exit 1 on the current corpus. Default evaluation remains descriptive and does not enforce these aspirational targets. Historical result files remain unchanged. See the [detailed implementation prompt](DETECTION_IMPROVEMENT_PROMPT.md) for context enrichment, regression tests, independent evaluation and truthful GitHub reporting requirements.
