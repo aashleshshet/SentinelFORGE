@@ -1,0 +1,153 @@
+[
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/compare_baseline.py",
+      "--dataset",
+      "data/evaluation.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/legacy-reference.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/evaluation.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/legacy-candidate.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/compare_baseline.py",
+      "--dataset",
+      "data/evaluation-v2/development.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/development-reference.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/evaluation-v2/development.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/development-candidate.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/compare_baseline.py",
+      "--dataset",
+      "data/evaluation-v2/validation.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/validation-reference.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/evaluation-v2/validation.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/validation-candidate.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/compare_baseline.py",
+      "--dataset",
+      "data/evaluation-v2/holdout.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/holdout-reference.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/evaluation-v2/holdout.json",
+      "--require-targets",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/holdout-candidate.json"
+    ],
+    "exit_code": 1
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/compare_baseline.py",
+      "--dataset",
+      "data/evaluation-v2/robustness.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/robustness-reference.json"
+    ],
+    "exit_code": 2
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/evaluation-v2/robustness.json",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/robustness-candidate.json"
+    ],
+    "exit_code": 2
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/evaluate.py",
+      "--require-targets",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/legacy-targets.json"
+    ],
+    "exit_code": 1
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/benchmark.py",
+      "--events",
+      "1000",
+      "--runs",
+      "3",
+      "--workload",
+      "benign",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/benchmark-benign.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+      "scripts/benchmark.py",
+      "--events",
+      "1000",
+      "--runs",
+      "3",
+      "--workload",
+      "alert-heavy",
+      "--output",
+      "docs/evidence/detection-improvement/candidate/benchmark-alert-heavy.json"
+    ],
+    "exit_code": 0
+  }
+]

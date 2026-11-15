@@ -2,6 +2,10 @@
 
 Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 
+## Detection-improvement candidate
+
+The unmerged evidence-led candidate passes 159 local Python tests with 95.32% coverage, all 11 browser tests, TypeScript/Vite, Ruff/Prettier, deterministic generation and dependency audits. The separate detection target gate fails honestly on the designated synthetic holdout: precision 83.33%, recall 62.50%, accuracy 75.00%, FPR 12.50%. See [full before/after evidence and limitations](DETECTION_IMPROVEMENT.md) and [validation logs](evidence/detection-improvement/validation/). Earlier release records below are historical.
+
 ## Modernization release
 
 Commit [`5d1fed0`](https://github.com/aashleshshet/SentinelFORGE/commit/5d1fed097244fd5b32572e4f7e9d2cd983474716) passed all three jobs in [CI run 43728447649](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43728447649), including PostgreSQL contracts and the full Docker Compose deployment. Local validation recorded 61 Python tests with 94.92% statement coverage. All 11 browser tests pass in CI: five authenticated and six public-demo/guide tests. The six public tests also pass on the deployed application code.

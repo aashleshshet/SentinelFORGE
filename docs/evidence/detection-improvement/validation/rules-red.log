@@ -1,0 +1,142 @@
+.......FFFFFFFF                                                          [100%]
+=================================== FAILURES ===================================
+________________ test_malformed_extension_fails_closed[change0] ________________
+
+change = {'confidence': -1}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change1] ________________
+
+change = {'confidence': 101}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change2] ________________
+
+change = {'confidence': True}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change3] ________________
+
+change = {'confidence': '80'}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change4] ________________
+
+change = {'aggregate': {}}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change5] ________________
+
+change = {'unexpected_exemption': True}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+________________ test_malformed_extension_fails_closed[change6] ________________
+
+change = {'required_telemetry': []}
+
+    @pytest.mark.parametrize('change', [
+        {'confidence': -1}, {'confidence': 101}, {'confidence': True}, {'confidence': '80'},
+        {'aggregate': {}}, {'unexpected_exemption': True}, {'required_telemetry': []},
+    ])
+    def test_malformed_extension_fails_closed(change):
+        rule = deepcopy(yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text()))
+        rule['x-sentinelforge'].update(change)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:48: Failed
+_____________ test_rule_identity_and_empty_detections_fail_closed ______________
+
+    def test_rule_identity_and_empty_detections_fail_closed():
+        original = yaml.safe_load((ROOT / 'rules/scheduled-task.yml').read_text())
+        for update in [{'id': 'not-a-uuid'}, {'tags': []}, {'detection': {'condition': 'selection'}}]:
+            rule = deepcopy(original)
+            rule.update(update)
+>           with pytest.raises(ValueError):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests/test_rules.py:57: Failed
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change0] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change1] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change2] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change3] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change4] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change5] - ...
+FAILED tests/test_rules.py::test_malformed_extension_fails_closed[change6] - ...
+FAILED tests/test_rules.py::test_rule_identity_and_empty_detections_fail_closed
+8 failed, 7 passed, 1 warning in 0.04s

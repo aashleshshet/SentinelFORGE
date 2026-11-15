@@ -1,0 +1,57 @@
+{
+  "dataset": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation.json",
+  "valid": true,
+  "confusion_matrix": {
+    "TP": 7,
+    "FP": 2,
+    "TN": 7,
+    "FN": 2
+  },
+  "denominators": {
+    "total": 18,
+    "positive": 9,
+    "negative": 9,
+    "predicted_positive": 9,
+    "classified": 18,
+    "errors": 0
+  },
+  "precision": 0.7777777777777778,
+  "recall": 0.7777777777777778,
+  "accuracy": 0.7777777777777778,
+  "false_positive_rate": 0.2222222222222222,
+  "targets": {
+    "passed": false,
+    "checks": {
+      "precision": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "recall": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "accuracy": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "false_positive_rate": {
+        "value": 0.2222222222222222,
+        "operator": "<",
+        "threshold": 0.05,
+        "passed": false
+      }
+    },
+    "basis": "Unrounded point estimates; separate from uncertainty and external validity",
+    "required": true
+  },
+  "errors": [],
+  "exit_code": 1
+}
+/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa

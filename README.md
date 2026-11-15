@@ -14,7 +14,7 @@ See the [modernization and validation report](docs/MODERNIZATION.md) for the mid
 
 1. Ingest Linux authentication, assembled auditd, Sysmon JSON, Wazuh alert JSON, Zeek conn.log JSON, and synthetic events.
 2. Normalize timestamps and attribution, reject invalid records, and deduplicate exact content replays.
-3. Run seven tested rules using a documented Sigma subset; attach official MITRE ATT&CK metadata and exact event evidence.
+3. Run nine experimental rules using a documented Sigma subset; attach official MITRE ATT&CK metadata and exact event evidence.
 4. Correlate alerts by host or non-generic user in a 15-minute activity window; inspect the grouping reason and risk calculation.
 5. Assign/escalate/close cases, add notes and checklists, preserve a SHA-256-verified snapshot, and export a JSON incident report.
 6. Request simulated isolation with a separate administrator's approval. No endpoint commands are ever executed.
@@ -97,7 +97,9 @@ pip-audit -r requirements.lock
 pnpm --dir frontend audit --audit-level high
 ```
 
-The current toy corpus deliberately includes failures: **7 TP, 2 FP, 7 TN, 2 FN**; precision **77.8%**, recall **77.8%**, false-positive rate **22.2%**. These are scenario-level synthetic results, not real-world efficacy estimates. See [evaluation methodology and measured latency/throughput](docs/EVALUATION.md), [raw evaluation results](docs/evaluation-results.json), and [benchmark results](docs/benchmark-results.json).
+The preserved legacy toy corpus deliberately includes failures: **7 TP, 2 FP, 7 TN, 2 FN**; precision **77.8%**, recall **77.8%**, false-positive rate **22.2%**. These are scenario-level synthetic results, not real-world efficacy estimates. See [evaluation methodology and measured latency/throughput](docs/EVALUATION.md), [raw evaluation results](docs/evaluation-results.json), and [benchmark results](docs/benchmark-results.json).
+
+The [evidence-led improvement report](docs/DETECTION_IMPROVEMENT.md) records separately frozen synthetic datasets, scoped administrative approvals and two context-supported rules. On its 16-case holdout the candidate measures 83.33% precision, 62.50% recall, 75.00% accuracy and 12.50% FPR: **the requested targets remain unmet**. These co-designed synthetic cases are not independent deployment validation. The strict CI target gate remains failing.
 
 ## Replay your own telemetry
 
@@ -134,7 +136,7 @@ For the approval flow, sign in as `analyst`, request a simulation, then sign in 
 | Capability | Status |
 |---|---|
 | Six ingestion formats, normalization, UTC validation, deduplication | Implemented; adapter fixtures and API tests |
-| Seven detections with exact evidence and ATT&CK mapping | Implemented; experimental, synthetic validation only |
+| Nine detections with exact evidence and ATT&CK mapping | Implemented; experimental, synthetic validation only |
 | Sigma workflow | Bounded dictionary/boolean subset; custom SSH aggregation extension |
 | Explainable correlation, risk, notes, assignment, escalation, checklist | Implemented |
 | Responsive dashboard, search, source/severity/technique filters | Implemented; real API data, 10-second polling |

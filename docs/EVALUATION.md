@@ -1,10 +1,14 @@
 # Evaluation
 
+The evidence-led candidate and before/after matrices are recorded in [the detection improvement report](DETECTION_IMPROVEMENT.md). Targets remain unmet. Its evaluator adds accuracy, strict gates, null denominators, 95% Wilson intervals, rejection accounting, contradiction and leakage checks. [Corpus provenance](EVALUATION_CORPUS.md) and raw generated reports distinguish each experiment. The historical measurements below remain unchanged.
+
+## Historical baseline
+
 The checked-in results were measured on Python 3.12.14, macOS arm64. Detection classification uses SQLite in memory; throughput uses a fresh SQLite file with WAL for each run. These measurements are evidence for this implementation under the stated workload, not deployment performance guarantees.
 
 ## Dataset and unit of analysis
 
-`data/evaluation.json` has 18 independent labeled scenarios, nine suspicious and nine benign. Each runs in a fresh database, avoiding contamination between thresholds or suppression windows. Seven suspicious scenarios exercise the seven rule contracts; seven benign near-matches test exclusions. Two additional benign administrative scenarios deliberately trigger alerts; two suspicious scenarios deliberately avoid the monitored predicates. Labels describe the scenario's assigned intent, including cases whose visible telemetry is indistinguishable without context.
+`data/evaluation.json` has 18 labeled scenarios (including three identical-input pairs with opposite labels), nine suspicious and nine benign. Each runs in a fresh database, avoiding contamination between thresholds or suppression windows. Seven suspicious scenarios exercise the seven rule contracts; seven benign near-matches test exclusions. Two additional benign administrative scenarios deliberately trigger alerts; two suspicious scenarios deliberately avoid the monitored predicates. Labels describe the scenario's assigned intent, including cases whose visible telemetry is indistinguishable without context.
 
 Classification is **per scenario**: any emitted alert predicts suspicious. Per-rule contract tests separately assert the correct rule ID, ATT&CK ID and evidence. The fixtures overlap development; this is not an independent holdout, a prevalence-weighted field test or a statistically representative sample.
 
