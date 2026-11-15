@@ -17,3 +17,5 @@ __pycache__
 .coverage
 frontend/test-results
 .DS_Store
+
+.agents
