@@ -2,11 +2,11 @@
 :root {
   font-family: "Public Sans", sans-serif;
   color: #f2f2f3;
-  background: #171719;
+  background: #080d19;
   font-synthesis: none;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
-  --ground: #171719;
+  --ground: #080d19;
   --surface: #131217;
   --raised: #212023;
   --border: #2b2a2e;
@@ -76,7 +76,7 @@ textarea {
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: #4a4950 #171719;
+  scrollbar-color: #4a4950 var(--ground);
 }
 h1,
 h2,
@@ -243,17 +243,6 @@ pre {
 }
 .connection.offline > span {
   background: var(--negative);
-}
-.user-avatar {
-  border: 1px solid var(--control);
-  border-radius: 50%;
-  width: 29px;
-  height: 29px;
-  display: grid;
-  place-items: center;
-  font-size: 11px;
-  color: #d6c6ac;
-  background: #28241e;
 }
 .identity {
   font-size: 12px;
@@ -451,7 +440,7 @@ th {
 }
 td {
   padding: 15px 12px 15px 0;
-  border-top: 1px solid #25242a;
+  border-top: 1px solid var(--border);
   line-height: 1.5;
 }
 td:last-child,
@@ -526,7 +515,7 @@ td:first-child {
   align-items: center;
   gap: 10px;
   padding: 12px 0;
-  border-top: 1px solid #25242a;
+  border-top: 1px solid var(--border);
   min-height: 59px;
 }
 .source-row:first-of-type {
@@ -613,7 +602,7 @@ td:first-child {
 }
 .heat-track {
   height: 2px;
-  background: #2f2f35;
+  background: var(--border);
   width: 100%;
   margin-top: 5px;
 }
@@ -655,7 +644,7 @@ td:first-child {
 .bar-track {
   height: 4px;
   flex: 1;
-  background: #2b2a30;
+  background: var(--border);
 }
 .bar-track > span {
   display: block;
@@ -683,7 +672,7 @@ td:first-child {
   justify-content: space-between;
   padding: 10px 0;
   border: 0;
-  border-bottom: 1px solid #25242a;
+  border-bottom: 1px solid var(--border);
   background: none;
   font-size: 11px;
   width: 100%;
@@ -701,7 +690,7 @@ td:first-child {
   justify-content: space-between;
   gap: 14px;
   padding: 8px 0;
-  border-bottom: 1px solid #25242a;
+  border-bottom: 1px solid var(--border);
   font-size: 11px;
 }
 .rule-summary:last-of-type {
@@ -1628,9 +1617,6 @@ details[open] summary > svg:last-child {
   }
   .topbar-right {
     gap: 6px;
-  }
-  .user-avatar {
-    display: none;
   }
 }
 

@@ -11,7 +11,7 @@ from urllib.parse import urlsplit
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, ValidationError
@@ -627,5 +627,12 @@ def create_app(settings: Settings | None = None):
 
     # API routes precede the built frontend. No CORS wildcard or cross-site cookies.
     if Path(settings.frontend_path).is_dir():
+
+        @app.get("/how-it-works", include_in_schema=False)
+        @app.get("/how-it-works/", include_in_schema=False)
+        def workflow_guide():
+            # A fixed public document route; never a catch-all for API/asset paths.
+            return FileResponse(Path(settings.frontend_path) / "how-it-works" / "index.html")
+
         app.mount("/", StaticFiles(directory=settings.frontend_path, html=True), name="dashboard")
     return app

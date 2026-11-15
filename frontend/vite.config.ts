@@ -3,5 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: { input: ["index.html", "how-it-works/index.html"] },
+  },
   server: { proxy: { "/api": "http://127.0.0.1:8000" } },
 });

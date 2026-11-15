@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createRoot } from "react-dom/client";
 import {
   Activity,
@@ -14,6 +21,10 @@ import {
   FolderOpen,
   LayoutDashboard,
   LogOut,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ArrowUpRight,
   Network,
   Play,
   RefreshCw,
@@ -29,6 +40,23 @@ import "@fontsource/public-sans/600.css";
 import "@fontsource/public-sans/700.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "./style.css";
+import "./modern.css";
+import {
+  GlassButton,
+  GlassInput,
+  GlassNavbar,
+  GlassSidebar,
+  GlassTable,
+  GlassModal,
+} from "./components/glass";
+const HowItWorks = lazy(() => import("./HowItWorks"));
+function initialView(): View {
+  const value = new URLSearchParams(window.location.search).get("view");
+  return value &&
+    ["overview", "alerts", "cases", "telemetry", "rules"].includes(value)
+    ? (value as View)
+    : "overview";
+}
 import type {
   Alert,
   CaseDetail,
@@ -127,7 +155,42 @@ function App() {
       active = false;
     };
   }, []);
-  const [view, setView] = useState<View>("overview");
+  const [view, setView] = useState<View>(initialView);
+  const [guide, setGuide] = useState(
+    window.location.pathname.replace(/\/$/, "") === "/how-it-works",
+  );
+  const [collapsed, setCollapsed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const onPop = () => {
+      setGuide(window.location.pathname.replace(/\/$/, "") === "/how-it-works");
+      setView(initialView());
+      setSelectedId(null);
+      setDetail(null);
+      setQuery("");
+      setPage(0);
+      setSeverity("");
+      setTechnique("");
+      setSource("");
+      setStatus("");
+      setMenuOpen(false);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  useEffect(() => {
+    document.title = guide
+      ? "How It Works · SentinelForge"
+      : `${labels[view]} · SentinelForge`;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        guide
+          ? "Learn SentinelForge: security log ingestion, explainable detections, incident investigation and evidence exports. An interactive guide to the real workflow."
+          : "SentinelForge security operations and evidence-led investigation",
+      );
+  }, [guide, view]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [alerts, setAlerts] = useState<Page<Alert>>({ total: 0, items: [] });
   const [cases, setCases] = useState<Page<Incident>>({ total: 0, items: [] });
@@ -221,7 +284,7 @@ function App() {
     }
   }, [api, page, query, severity, technique, source, status, view, selectedId]);
   useEffect(() => {
-    if (!principal) return;
+    if (!principal || guide) return;
     const delay = setTimeout(refresh, 180);
     const poll = principal.demo ? undefined : setInterval(refresh, 10000);
     return () => {
@@ -229,7 +292,7 @@ function App() {
       clearInterval(poll);
       generation.current++;
     };
-  }, [principal, refresh]);
+  }, [principal, refresh, guide]);
   async function action(work: () => Promise<unknown>, success?: string) {
     setBusy(true);
     setError("");
@@ -244,6 +307,17 @@ function App() {
     }
   }
   function navigate(next: View) {
+    window.history.pushState(
+      null,
+      "",
+      next === "overview" ? "/" : `/?view=${next}`,
+    );
+    setGuide(false);
+    setMenuOpen(false);
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() =>
+      document.getElementById("main-content")?.focus(),
+    );
     setView(next);
     setSelectedId(null);
     setDetail(null);
@@ -254,6 +328,21 @@ function App() {
     setSource("");
     setStatus("");
     setMessage("");
+  }
+  function showGuide(event?: React.MouseEvent<HTMLAnchorElement>) {
+    if (
+      event &&
+      (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+    )
+      return;
+    event?.preventDefault();
+    window.history.pushState(null, "", "/how-it-works");
+    setGuide(true);
+    setMenuOpen(false);
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() =>
+      document.getElementById("main-content")?.focus(),
+    );
   }
   function investigate(id: string) {
     setSelectedId(id);
@@ -289,7 +378,7 @@ function App() {
   const alertTable = (rows: Alert[], compact = false) =>
     rows.length ? (
       <div className="table-scroll">
-        <table className="alert-table">
+        <GlassTable className="alert-table">
           <thead>
             <tr>
               <th>Detection / host</th>
@@ -305,12 +394,12 @@ function App() {
             {rows.map((a) => (
               <tr key={a.id}>
                 <td>
-                  <button
+                  <GlassButton
                     className="row-title"
                     onClick={() => investigate(a.case_id)}
                   >
                     {a.title}
-                  </button>
+                  </GlassButton>
                   <small className="cell-sub mono">
                     {a.host}
                     {a.user ? ` · ${a.user}` : ""}
@@ -328,19 +417,19 @@ function App() {
                 )}
                 <td className="numeric muted">{date(a.timestamp)}</td>
                 <td>
-                  <button
+                  <GlassButton
                     className="icon-button"
                     title={`Investigate ${a.title}`}
                     aria-label={`Investigate ${a.title}`}
                     onClick={() => investigate(a.case_id)}
                   >
                     <ChevronRight size={17} />
-                  </button>
+                  </GlassButton>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </GlassTable>
       </div>
     ) : (
       <Empty>
@@ -348,6 +437,66 @@ function App() {
           ? "No alerts match these filters."
           : "No alerts yet. Ingest telemetry or replay the demo to start."}
       </Empty>
+    );
+
+  const guideLink = (
+    <a
+      className="guide-link secondary"
+      href="/how-it-works"
+      onClick={showGuide}
+      aria-current={guide ? "page" : undefined}
+    >
+      <BookOpen size={16} />
+      How It Works
+    </a>
+  );
+  if (guide)
+    return (
+      <div className="guide-shell">
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <GlassNavbar className="guide-navbar">
+          <a
+            className="guide-brand"
+            href="/"
+            onClick={(event) => {
+              if (
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+              )
+                return;
+              event.preventDefault();
+              navigate("overview");
+            }}
+          >
+            <Mark />
+            <strong>SentinelForge</strong>
+          </a>
+          <nav aria-label="Main navigation">
+            {guideLink}
+            <GlassButton
+              className="primary"
+              onClick={() => navigate("overview")}
+            >
+              Open workspace
+              <ArrowUpRight size={15} />
+            </GlassButton>
+          </nav>
+        </GlassNavbar>
+        <Suspense
+          fallback={
+            <main id="main-content" className="route-loading" aria-busy="true">
+              <p>Opening the field guide…</p>
+              <div className="skeleton" />
+            </main>
+          }
+        >
+          <HowItWorks navigate={navigate} />
+        </Suspense>
+      </div>
     );
 
   if (booting)
@@ -358,7 +507,8 @@ function App() {
           <strong>SentinelForge</strong>
         </div>
         <main className="login-panel">
-          <p>Opening workspace…</p>
+          <p role="status">Opening workspace…</p>
+          <div className="skeleton" />
         </main>
       </div>
     );
@@ -394,7 +544,7 @@ function App() {
             }}
           >
             <label htmlFor="token">Access token</label>
-            <input
+            <GlassInput
               id="token"
               type="password"
               autoComplete="off"
@@ -404,16 +554,17 @@ function App() {
               onChange={(e) => setToken(e.target.value)}
               placeholder="Paste your access token"
             />
-            <button className="primary" disabled={busy}>
+            <GlassButton className="primary" disabled={busy}>
               {busy ? "Connecting…" : "Open workspace"}
               <ArrowRight size={16} />
-            </button>
+            </GlassButton>
           </form>
           {error && (
             <p className="error" role="alert">
               {error}
             </p>
           )}
+          {guideLink}
           <p className="login-help">
             First run? Generate your local credentials with{" "}
             <code>python scripts/setup.py</code> and open <code>.env</code>.
@@ -426,8 +577,11 @@ function App() {
     );
 
   return (
-    <div className="app-shell">
-      <aside className="rail">
+    <div className={`app-shell ${collapsed ? "sidebar-collapsed" : ""}`}>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <GlassSidebar className="rail">
         <a
           href="#"
           className="brand-mark"
@@ -439,12 +593,28 @@ function App() {
           }}
         >
           <Mark />
+          <span className="brand-name">
+            SentinelForge<small>SECURITY OPERATIONS</small>
+          </span>
         </a>
+        <GlassButton
+          className="collapse-sidebar icon-button"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-expanded={!collapsed}
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          {collapsed ? (
+            <PanelLeftOpen size={18} />
+          ) : (
+            <PanelLeftClose size={18} />
+          )}
+        </GlassButton>
+        <span className="nav-caption">WORKSPACE</span>
         <nav aria-label="Main navigation">
           {(Object.keys(labels) as View[]).map((v) => {
             const Icon = icons[v];
             return (
-              <button
+              <GlassButton
                 key={v}
                 className={view === v && !selectedId ? "nav-active" : ""}
                 aria-current={view === v && !selectedId ? "page" : undefined}
@@ -464,12 +634,18 @@ function App() {
                     }[v]
                   }
                 </span>
-              </button>
+              </GlassButton>
             );
           })}
         </nav>
+        <div className="sidebar-guide">
+          <BookOpen size={20} />
+          <strong>Follow the evidence.</strong>
+          <p>A practical guide to your first investigation.</p>
+          {guideLink}
+        </div>
         {!principal.local && !principal.demo && (
-          <button
+          <GlassButton
             className="signout"
             title="Sign out"
             aria-label="Sign out"
@@ -483,11 +659,41 @@ function App() {
             }}
           >
             <LogOut size={18} />
-          </button>
+          </GlassButton>
         )}
-      </aside>
+      </GlassSidebar>
+      <GlassModal
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        title="Your workspace"
+      >
+        <nav className="mobile-navigation" aria-label="Mobile navigation">
+          {(Object.keys(labels) as View[]).map((v) => {
+            const Icon = icons[v];
+            return (
+              <GlassButton
+                key={v}
+                aria-current={view === v ? "page" : undefined}
+                onClick={() => navigate(v)}
+              >
+                <Icon size={20} />
+                {labels[v]}
+              </GlassButton>
+            );
+          })}
+          {guideLink}
+        </nav>
+      </GlassModal>
       <div className="workspace">
-        <header className="topbar">
+        <GlassNavbar className="topbar">
+          <GlassButton
+            className="mobile-menu-button icon-button"
+            aria-label="Open navigation"
+            aria-haspopup="dialog"
+            onClick={() => setMenuOpen(true)}
+          >
+            <Menu size={21} />
+          </GlassButton>
           <div className="wordmark">
             SentinelForge <span>/</span>{" "}
             <span className="workspace-name">
@@ -499,27 +705,15 @@ function App() {
               <span />
               {error ? "Connection needs attention" : "API connected"}
             </span>
-            <span className="user-avatar">
-              {principal.local
-                ? "LO"
-                : principal.name.slice(0, 2).toUpperCase()}
-            </span>
-            <span className="identity">
-              {principal.demo
-                ? "Demo visitor"
-                : principal.local
-                  ? "Local analyst"
-                  : principal.name}
-              <small>
-                {principal.demo
-                  ? "Read-only"
-                  : principal.local
-                    ? "Local mode"
-                    : principal.role}
-              </small>
-            </span>
+            <div className="top-guide-link">{guideLink}</div>
+            {!principal.demo && (
+              <span className="identity">
+                {principal.local ? "Local analyst" : principal.name}
+                <small>{principal.local ? "Local mode" : principal.role}</small>
+              </span>
+            )}
             {!principal.local && !principal.demo && (
-              <button
+              <GlassButton
                 className="mobile-signout icon-button"
                 aria-label="Sign out"
                 onClick={() => {
@@ -530,11 +724,11 @@ function App() {
                 }}
               >
                 <LogOut size={16} />
-              </button>
+              </GlassButton>
             )}
           </div>
-        </header>
-        <main>
+        </GlassNavbar>
+        <main id="main-content" tabIndex={-1}>
           {principal.demo && (
             <div className="notice demo-notice" role="note">
               <span>
@@ -553,7 +747,7 @@ function App() {
           <div className="page-heading">
             <div>
               {selectedId && (
-                <button
+                <GlassButton
                   className="back-button"
                   onClick={() => {
                     setSelectedId(null);
@@ -561,7 +755,7 @@ function App() {
                   }}
                 >
                   <ArrowLeft size={14} /> Back to {labels[view].toLowerCase()}
-                </button>
+                </GlassButton>
               )}
               <h1>{title}</h1>
               <p>
@@ -581,15 +775,23 @@ function App() {
               </p>
             </div>
             <div className="heading-actions">
-              <button className="secondary" disabled={busy} onClick={refresh}>
+              <GlassButton
+                className="secondary"
+                disabled={busy}
+                onClick={refresh}
+              >
                 <RefreshCw size={14} />
                 <span>Refresh</span>
-              </button>
+              </GlassButton>
               {principal.role === "admin" && !selectedId && (
-                <button className="primary" disabled={busy} onClick={replay}>
+                <GlassButton
+                  className="primary"
+                  disabled={busy}
+                  onClick={replay}
+                >
                   <Play size={14} />
                   {busy ? "Processing…" : "Replay demo"}
-                </button>
+                </GlassButton>
               )}
             </div>
           </div>
@@ -603,13 +805,13 @@ function App() {
             <div className="notice" role="status">
               <Check size={16} />
               <span>{message}</span>
-              <button
+              <GlassButton
                 aria-label="Dismiss message"
                 className="icon-button"
                 onClick={() => setMessage("")}
               >
                 <X size={15} />
-              </button>
+              </GlassButton>
             </div>
           )}
           {!stats && !error && (
@@ -679,7 +881,7 @@ function App() {
                                 {e.host} · {short(e.id)}
                               </small>
                               {e.dst_ip && (
-                                <button
+                                <GlassButton
                                   className="text-button"
                                   onClick={() =>
                                     action(async () => {
@@ -697,7 +899,7 @@ function App() {
                                   }
                                 >
                                   Check local IOC <ArrowRight size={12} />
-                                </button>
+                                </GlassButton>
                               )}
                             </div>
                           </article>
@@ -772,12 +974,12 @@ function App() {
                             onChange={(e) => setNote(e.target.value)}
                             placeholder="What did you observe? What will you check next?"
                           />
-                          <button
+                          <GlassButton
                             className="secondary"
                             disabled={busy || !note.trim()}
                           >
                             Add note <ArrowRight size={14} />
-                          </button>
+                          </GlassButton>
                         </form>
                       )}
                     </section>
@@ -811,7 +1013,7 @@ function App() {
                         <span className="muted">Assigned to</span>
                         <strong>{detail.assignee || "Unassigned"}</strong>
                         {canEdit && (
-                          <button
+                          <GlassButton
                             className="text-button"
                             disabled={busy}
                             onClick={() =>
@@ -825,7 +1027,7 @@ function App() {
                             }
                           >
                             Assign to me
-                          </button>
+                          </GlassButton>
                         )}
                       </div>
                       <p className="muted small">
@@ -843,7 +1045,7 @@ function App() {
                         review_response: "Review response options",
                       }).map(([key, label]) => (
                         <label className="checklist-row" key={key}>
-                          <input
+                          <GlassInput
                             type="checkbox"
                             checked={!!detail.checklist[key]}
                             disabled={!canEdit || busy}
@@ -899,7 +1101,7 @@ function App() {
                           : "Freeze the case, source events, and notes in a SHA-256-verified snapshot."}
                       </p>
                       {canEdit && (
-                        <button
+                        <GlassButton
                           className="secondary full"
                           disabled={busy}
                           onClick={() =>
@@ -915,20 +1117,20 @@ function App() {
                         >
                           <FileCheck2 size={15} />
                           Preserve evidence
-                        </button>
+                        </GlassButton>
                       )}
                       {detail.evidence.map((e) => (
                         <div className="evidence-row" key={e.id}>
                           <span className="mono">{e.sha256.slice(0, 12)}…</span>
                           {(canEdit || principal.demo) && (
-                            <button
+                            <GlassButton
                               className="text-button"
                               disabled={busy}
                               onClick={() => action(() => download(e.id))}
                             >
                               <ArrowDownToLine size={14} />
                               Export
-                            </button>
+                            </GlassButton>
                           )}
                         </div>
                       ))}
@@ -969,12 +1171,12 @@ function App() {
                             required
                             onChange={(e) => setReason(e.target.value)}
                           />
-                          <button
+                          <GlassButton
                             className="secondary full"
                             disabled={busy || reason.trim().length < 10}
                           >
                             Request simulation
-                          </button>
+                          </GlassButton>
                         </form>
                       )}
                       {detail.responses.map((r) => (
@@ -994,7 +1196,7 @@ function App() {
                           {principal.role === "admin" &&
                             r.status === "pending" &&
                             r.requested_by !== principal.name && (
-                              <button
+                              <GlassButton
                                 className="secondary full"
                                 disabled={busy}
                                 onClick={() =>
@@ -1009,7 +1211,7 @@ function App() {
                                 }
                               >
                                 Approve simulation
-                              </button>
+                              </GlassButton>
                             )}
                         </div>
                       ))}
@@ -1056,12 +1258,12 @@ function App() {
                     <section className="panel queue-panel">
                       <div className="panel-heading">
                         <h2>Signals to investigate</h2>
-                        <button
+                        <GlassButton
                           className="text-button"
                           onClick={() => navigate("alerts")}
                         >
                           View queue <ArrowRight size={14} />
-                        </button>
+                        </GlassButton>
                       </div>
                       {alertTable(alerts.items, true)}
                       <div className="panel-foot">
@@ -1140,7 +1342,7 @@ function App() {
                     </div>
                     <div className="technique-grid">
                       {stats.techniques.map((t) => (
-                        <button
+                        <GlassButton
                           className={
                             t.alerts ? "technique has-alert" : "technique"
                           }
@@ -1166,7 +1368,7 @@ function App() {
                               }}
                             />
                           </div>
-                        </button>
+                        </GlassButton>
                       ))}
                     </div>
                   </section>
@@ -1179,7 +1381,7 @@ function App() {
                       <div className="distribution">
                         {Object.entries(stats.severity).map(
                           ([level, count]) => (
-                            <button
+                            <GlassButton
                               key={level}
                               className="distribution-row"
                               onClick={() => {
@@ -1197,7 +1399,7 @@ function App() {
                                 />
                               </div>
                               <strong className="mono">{count}</strong>
-                            </button>
+                            </GlassButton>
                           ),
                         )}
                       </div>
@@ -1212,7 +1414,7 @@ function App() {
                         <span>Events / alerts</span>
                       </div>
                       {stats.hosts.slice(0, 4).map((h) => (
-                        <button
+                        <GlassButton
                           className="host-row"
                           key={h.host}
                           onClick={() => {
@@ -1225,19 +1427,19 @@ function App() {
                             {h.events}{" "}
                             <span className="muted">/ {h.alerts}</span>
                           </span>
-                        </button>
+                        </GlassButton>
                       ))}
                       {!stats.hosts.length && <Empty>No hosts observed.</Empty>}
                     </section>
                     <section className="panel">
                       <div className="panel-heading">
                         <h2>Rule activity</h2>
-                        <button
+                        <GlassButton
                           className="text-button"
                           onClick={() => navigate("rules")}
                         >
                           All rules <ArrowRight size={13} />
-                        </button>
+                        </GlassButton>
                       </div>
                       {[...rules]
                         .sort((a, b) => b.alert_count - a.alert_count)
@@ -1260,7 +1462,7 @@ function App() {
                   <div className="filter-bar">
                     <label className="search-field">
                       <Search size={15} />
-                      <input
+                      <GlassInput
                         aria-label="Search alerts"
                         placeholder="Search detection, host, or user"
                         value={query}
@@ -1310,7 +1512,7 @@ function App() {
                   <div className="filter-bar">
                     <label className="search-field">
                       <Search size={15} />
-                      <input
+                      <GlassInput
                         aria-label="Search investigations"
                         placeholder="Search case title or host"
                         value={query}
@@ -1341,7 +1543,7 @@ function App() {
                   </div>
                   <section className="panel">
                     <div className="table-scroll">
-                      <table>
+                      <GlassTable>
                         <thead>
                           <tr>
                             <th>Investigation</th>
@@ -1355,12 +1557,12 @@ function App() {
                           {cases.items.map((c) => (
                             <tr key={c.id}>
                               <td>
-                                <button
+                                <GlassButton
                                   className="row-title"
                                   onClick={() => investigate(c.id)}
                                 >
                                   {c.title}
-                                </button>
+                                </GlassButton>
                                 <small className="cell-sub mono">
                                   {short(c.id)} · {c.hosts.length} hosts
                                 </small>
@@ -1376,18 +1578,18 @@ function App() {
                                 <span className="muted">/100</span>
                               </td>
                               <td>
-                                <button
+                                <GlassButton
                                   className="icon-button"
                                   aria-label={`Open case ${short(c.id)}`}
                                   onClick={() => investigate(c.id)}
                                 >
                                   <ChevronRight size={16} />
-                                </button>
+                                </GlassButton>
                               </td>
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </GlassTable>
                     </div>
                     {!cases.items.length && (
                       <Empty>No investigations match this view.</Empty>
@@ -1400,7 +1602,7 @@ function App() {
                   <div className="filter-bar">
                     <label className="search-field">
                       <Search size={15} />
-                      <input
+                      <GlassInput
                         aria-label="Search telemetry"
                         placeholder="Search host, user, or event kind"
                         value={query}
@@ -1428,7 +1630,7 @@ function App() {
                     <span className="result-count">{events.total} events</span>
                     {principal.role === "admin" && (
                       <>
-                        <input
+                        <GlassInput
                           ref={file}
                           type="file"
                           className="sr-only"
@@ -1455,14 +1657,14 @@ function App() {
                             e.target.value = "";
                           }}
                         />
-                        <button
+                        <GlassButton
                           className="secondary"
                           disabled={busy}
                           onClick={() => file.current?.click()}
                         >
                           <Upload size={14} />
                           Import JSON
-                        </button>
+                        </GlassButton>
                       </>
                     )}
                   </div>
@@ -1574,14 +1776,14 @@ function App() {
                       ).total
                     }
                   </span>
-                  <button
+                  <GlassButton
                     className="secondary"
                     disabled={page === 0}
                     onClick={() => setPage((p) => p - 1)}
                   >
                     Previous
-                  </button>
-                  <button
+                  </GlassButton>
+                  <GlassButton
                     className="secondary"
                     disabled={
                       (page + 1) * 50 >=
@@ -1595,7 +1797,7 @@ function App() {
                     onClick={() => setPage((p) => p + 1)}
                   >
                     Next
-                  </button>
+                  </GlassButton>
                 </div>
               )}
             </>

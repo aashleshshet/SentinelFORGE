@@ -165,3 +165,58 @@ test("responsive screenshots have no horizontal overflow", async ({ page }) => {
     fullPage: true,
   });
 });
+
+test("public guide preserves an authenticated in-memory session", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/how-it-works");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Understand SentinelForge.",
+  );
+  expect((await request.get("/api/stats")).status()).toBe(401);
+  await page
+    .getByRole("button", { name: "Open workspace", exact: true })
+    .click();
+  await expect(page.getByLabel("Access token", { exact: true })).toBeVisible();
+  await login(page);
+  await page
+    .locator(".topbar")
+    .getByRole("link", { name: "How It Works" })
+    .click();
+  await page
+    .getByRole("button", { name: "Open workspace", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Replay demo", exact: true }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(() => ({
+      local: localStorage.length,
+      session: sessionStorage.length,
+    })),
+  ).toEqual({ local: 0, session: 0 });
+  expect(page.url()).not.toContain(credential("admin"));
+  await page.getByRole("button", { name: "Sign out", exact: true }).click();
+  await expect(page.getByLabel("Access token", { exact: true })).toBeVisible();
+});
+
+test("JSON import validates input and preserves deduplication", async ({
+  page,
+}) => {
+  await login(page);
+  await page.getByRole("button", { name: "Telemetry", exact: true }).click();
+  await page.getByLabel("Upload JSON telemetry").setInputFiles({
+    name: "invalid.json",
+    mimeType: "application/json",
+    buffer: Buffer.from('{"events":"invalid"}'),
+  });
+  await expect(page.getByRole("alert")).toContainText("invalid fields");
+  await page
+    .getByLabel("Upload JSON telemetry")
+    .setInputFiles(resolve(root, "data/demo.json"));
+  await expect(page.getByRole("status")).toContainText(
+    "Import: 0 accepted, 18 duplicates, 0 rejected",
+  );
+  await expect(page.locator(".event-list details")).toHaveCount(18);
+});
