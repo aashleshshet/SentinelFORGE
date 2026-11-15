@@ -66,6 +66,15 @@ jobs:
           python -m uvicorn sentinelforge.main:app --host 127.0.0.1 --port 8000 --no-access-log > /tmp/sentinelforge.log 2>&1 &
           for i in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8000/api/health && break; sleep 1; done
       - run: pnpm --dir frontend exec playwright test
+      - name: Test public demo, guide and accessibility
+        env:
+          SF_PUBLIC_DEMO: '1'
+          SF_BASE_URL: http://127.0.0.1:8002
+        run: |
+          python -m uvicorn app:app --host 127.0.0.1 --port 8002 --no-access-log > /tmp/sentinelforge-public.log 2>&1 &
+          for i in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8002/api/health && break; sleep 1; done
+          curl --fail --silent http://127.0.0.1:8002/api/health
+          pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -74,6 +83,9 @@ jobs:
             docs/screenshots/
             frontend/test-results/
             /tmp/sentinelforge.log
+            /tmp/sentinelforge-public.log
+            work/modernization/
+            work/vercel-screenshots/
   containers:
     runs-on: ubuntu-latest
     steps:
