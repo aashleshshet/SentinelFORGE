@@ -11,10 +11,7 @@ logsource:
 detection:
   selection:
     kind: process
-    process|endswith: /useradd
-    command|contains:
-    - -u 0
-    - --uid 0
+    fields.sf_uid_zero: true
   condition: selection
 level: critical
 tags:

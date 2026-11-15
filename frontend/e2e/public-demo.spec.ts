@@ -58,7 +58,7 @@ test("public visitor explores real evidence without signing in", async ({
   await page
     .getByRole("button", { name: "Detection rules", exact: true })
     .click();
-  await expect(page.locator(".rule-card")).toHaveCount(7);
+  await expect(page.locator(".rule-card")).toHaveCount(9);
   const denied = await request.post("/api/demo");
   expect(denied.status()).toBe(403);
   await page.getByRole("button", { name: "Overview", exact: true }).click();

@@ -108,7 +108,7 @@ test("filters, empty state, telemetry details, rules, and viewer restrictions", 
   await page
     .getByRole("button", { name: "Detection rules", exact: true })
     .click();
-  await expect(page.locator(".rule-card")).toHaveCount(7);
+  await expect(page.locator(".rule-card")).toHaveCount(9);
   await page.locator(".rule-card summary").first().click();
   await expect(page.locator(".rule-body").first()).toContainText(
     "False positives:",

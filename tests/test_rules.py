@@ -36,3 +36,31 @@ def test_unsupported_modifier_is_rejected():
     rule["detection"]["selection"] = {"command|re": ".*"}
     with pytest.raises(ValueError, match="modifier"):
         Rule(rule)
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"confidence": -1},
+        {"confidence": 101},
+        {"confidence": True},
+        {"confidence": "80"},
+        {"aggregate": {}},
+        {"unexpected_exemption": True},
+        {"required_telemetry": []},
+    ],
+)
+def test_malformed_extension_fails_closed(change):
+    rule = deepcopy(yaml.safe_load((ROOT / "rules/scheduled-task.yml").read_text()))
+    rule["x-sentinelforge"].update(change)
+    with pytest.raises(ValueError):
+        Rule(rule)
+
+
+def test_rule_identity_and_empty_detections_fail_closed():
+    original = yaml.safe_load((ROOT / "rules/scheduled-task.yml").read_text())
+    for update in [{"id": "not-a-uuid"}, {"tags": []}, {"detection": {"condition": "selection"}}]:
+        rule = deepcopy(original)
+        rule.update(update)
+        with pytest.raises(ValueError):
+            Rule(rule)

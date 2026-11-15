@@ -1,0 +1,37 @@
+title: PowerShell file execution with supporting evidence
+id: 00000000-0000-0000-0000-000000000008
+status: experimental
+description: PowerShell -File execution has an observed script hash matched to active
+  operator intelligence, or Office ancestry with a bypass/hidden engine option. This
+  is a scoped signal, not proof of compromise.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: process
+    fields.sf_powershell_file_suspicious: true
+  condition: selection
+level: high
+tags:
+- attack.t1059.001
+falsepositives:
+- Security lab exercises
+- Office automation using hidden or bypass options
+- Incorrect operator intelligence
+x-sentinelforge:
+  slug: powershell-file-context
+  confidence: 80
+  required_telemetry:
+  - process
+  - command
+  - parent
+  - fields.original_file_name
+  - fields.script_path
+  - fields.script_sha256
+  validation: synthetic-fixtures
+  explanation: PowerShell -File execution has an observed script hash matched to active
+    operator intelligence, or Office ancestry with a bypass/hidden engine option.
+    This is a scoped signal, not proof of compromise.

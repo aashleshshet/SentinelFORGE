@@ -1,8 +1,9 @@
 title: Suspicious PowerShell arguments
 id: 00000000-0000-0000-0000-000000000002
 status: experimental
-description: PowerShell process uses an encoded-command or download/decode marker;
-  intent requires review.
+description: PowerShell engine arguments contain an encoded-command option or inline
+  download/decode marker; bounded parsing never executes content. Intent requires
+  review.
 author: SentinelForge contributors
 date: '2026-11-15'
 logsource:
@@ -11,15 +12,7 @@ logsource:
 detection:
   selection:
     kind: process
-    process|endswith:
-    - \powershell.exe
-    - \pwsh.exe
-    - /pwsh
-    command|contains:
-    - ' -enc '
-    - ' -encodedcommand '
-    - FromBase64String
-    - DownloadString(
+    fields.sf_powershell_encoded: true
   condition: selection
 level: high
 tags:
@@ -34,5 +27,6 @@ x-sentinelforge:
   - process
   - command
   validation: synthetic-fixtures
-  explanation: PowerShell process uses an encoded-command or download/decode marker;
-    intent requires review.
+  explanation: PowerShell engine arguments contain an encoded-command option or inline
+    download/decode marker; bounded parsing never executes content. Intent requires
+    review.

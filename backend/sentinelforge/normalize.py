@@ -78,6 +78,11 @@ def normalize(envelope: Envelope) -> Normalized:
                     command=data.get("CommandLine"),
                     parent=data.get("ParentImage"),
                 )
+                original = data.get("OriginalFileName")
+                if original is not None:
+                    if not isinstance(original, str) or len(original) > 255:
+                        raise ValueError("invalid OriginalFileName observation")
+                    base["fields"]["original_file_name"] = original
             elif event_id == 3:
                 base.update(
                     kind="network",
@@ -157,6 +162,7 @@ def normalize(envelope: Envelope) -> Normalized:
                             "Image": ed.get("image"),
                             "CommandLine": ed.get("commandLine"),
                             "ParentImage": ed.get("parentImage"),
+                            "OriginalFileName": ed.get("originalFileName"),
                             "User": ed.get("user"),
                             "SourceIp": ed.get("sourceIp"),
                             "DestinationIp": ed.get("destinationIp"),

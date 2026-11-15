@@ -6,7 +6,7 @@ import urllib.request
 from pathlib import Path
 
 URL = "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json"
-TARGETS = {"T1110.001", "T1059.001", "T1059.004", "T1053.005", "T1136.001", "T1548.003", "T1571"}
+TARGETS = {"T1110.001", "T1059.001", "T1059.004", "T1053.005", "T1136.001", "T1548.003", "T1571", "T1071.001"}
 root = Path(__file__).resolve().parents[1]
 with urllib.request.urlopen(URL, timeout=60) as response:
     raw = response.read(100_000_000)

@@ -32,12 +32,11 @@ DEFINITIONS = [
         {
             "selection": {
                 "kind": "process",
-                "process|endswith": ["\\powershell.exe", "\\pwsh.exe", "/pwsh"],
-                "command|contains": [" -enc ", " -encodedcommand ", "FromBase64String", "DownloadString("],
+                "fields.sf_powershell_encoded": True,
             },
             "condition": "selection",
         },
-        "PowerShell process uses an encoded-command or download/decode marker; intent requires review.",
+        "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review.",
         ["Administrative encoded scripts", "Software deployment agents"],
         ["process", "command"],
         None,
@@ -89,8 +88,7 @@ DEFINITIONS = [
         {
             "selection": {
                 "kind": "process",
-                "process|endswith": "/useradd",
-                "command|contains": ["-u 0", "--uid 0"],
+                "fields.sf_uid_zero": True,
             },
             "condition": "selection",
         },
@@ -136,6 +134,49 @@ DEFINITIONS = [
         "Connection to a globally routable IP on a configured uncommon port. Port alone does not establish C2.",
         ["Approved nonstandard services", "Security lab traffic"],
         ["dst_ip", "dst_port"],
+        None,
+    ),
+]
+
+# These rules use server-derived context, never telemetry-provided verdict flags.
+# The original seven-rule demo and eighteen legacy scenarios remain unchanged.
+DEFINITIONS += [
+    (
+        "powershell-file-context",
+        "PowerShell file execution with supporting evidence",
+        "high",
+        "T1059.001",
+        80,
+        {
+            "selection": {"kind": "process", "fields.sf_powershell_file_suspicious": True},
+            "condition": "selection",
+        },
+        "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise.",
+        [
+            "Security lab exercises",
+            "Office automation using hidden or bypass options",
+            "Incorrect operator intelligence",
+        ],
+        [
+            "process",
+            "command",
+            "parent",
+            "fields.original_file_name",
+            "fields.script_path",
+            "fields.script_sha256",
+        ],
+        None,
+    ),
+    (
+        "https-context",
+        "Port 443 destination matches active scoped intelligence",
+        "high",
+        "T1071.001",
+        80,
+        {"selection": {"kind": "network", "fields.sf_https_indicator": True}, "condition": "selection"},
+        "An enrolled collector observed a connection to port 443 and an exact destination in active, provenance-bearing operator intelligence. Port 443 does not prove HTTPS or C2; protocol semantics are not inspected.",
+        ["Stale or incorrect threat intelligence", "Shared hosting", "Authorized security lab traffic"],
+        ["dst_ip", "dst_port", "source", "sensor", "host", "operator intelligence"],
         None,
     ),
 ]

@@ -1697,7 +1697,7 @@ function App() {
                   <div className="rule-info">
                     <BookOpen size={18} />
                     <span>
-                      Seven experimental rules · Sigma dictionary selections and
+                      Nine experimental rules · Sigma dictionary selections and
                       boolean conditions · Confidence is a heuristic, not a
                       probability.
                     </span>
