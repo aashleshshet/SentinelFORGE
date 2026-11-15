@@ -2,6 +2,19 @@
 
 The Vercel project serves a public, read-only synthetic demonstration. No sign-in, API token, cloud database or external enrichment service is required. The native local launcher remains the full editable workspace.
 
+Live: **[sentinelforge-theta.vercel.app](https://sentinelforge-theta.vercel.app)**. Project `sentinelforge`, team `aashlesh-ramadas-shet`.
+
+## Recorded verification
+
+Production deployment `dpl_8z2ZWXWbpsaouyX53AgMGKMnk6JX` reached READY for code commit `557be3d916c9995b32d73dbdde7ecee19d9c10ec` on 2026-11-15. Vercel reported 23 seconds of build work, approximately 36 seconds from build start to READY.
+
+- Unauthenticated HTTPS health and identity requests returned HTTP 200; identity was `demo-visitor`, viewer, `demo: true`, `local: false`.
+- The public browser test passed against the production domain in 7.7 seconds, covering initial render, no sign-in, critical-alert filtering, investigation timeline, disabled edits, synthetic evidence download, telemetry-source filtering, seven rule cards, HTTP 403 for demo replay, and mobile overflow.
+- All three [GitHub CI jobs](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43722177935) passed for the same code: backend/PostgreSQL, authenticated browser workflow and Docker Compose deployment.
+- The scoped Vercel runtime scan returned no error/fatal records during the post-deployment verification window. This is a point-in-time check, not continuous monitoring or a production security review.
+
+This final live-link and verification update changes documentation only.
+
 ## Data and isolation
 
 `scripts/build_public_demo.py` replays `data/demo.json` through the actual authenticated ingestion API in an isolated in-memory database. It runs the seven detection rules, creates correlated cases, adds clearly synthetic investigation notes and preserves evidence snapshots. The result is committed as `data/public-demo.json` with a digest of its source fixtures and rules. IDs and bookkeeping timestamps are deterministic.
