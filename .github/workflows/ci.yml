@@ -34,16 +34,55 @@ jobs:
         env:
           SF_TEST_DATABASE_URL: postgresql+psycopg://sentinel:test-only-ci-password@localhost:5432/sentinelforge_test
         run: pytest -q
-      - run: python scripts/evaluate.py --output /tmp/evaluation.json
-      - run: python scripts/benchmark.py --events 1000 --output /tmp/benchmark.json
+      - name: Verify frozen inputs and generated rules
+        run: |
+          python scripts/build_evaluation_corpus.py --check
+          python scripts/build_fixtures.py
+          python scripts/build_public_demo.py --check
+          git diff --exit-code -- rules data
+      - name: Evaluate legacy and expanded regressions
+        run: |
+          python scripts/evaluate.py --output /tmp/detection/legacy.json
+          python scripts/evaluate.py --dataset data/evaluation-v2/development.json --output /tmp/detection/development.json
+          python scripts/evaluate.py --dataset data/evaluation-v2/validation.json --output /tmp/detection/validation.json
+          set +e
+          python scripts/evaluate.py --require-targets --output /tmp/detection/legacy-targets.json
+          legacy_exit=$?
+          python scripts/evaluate.py --dataset data/evaluation-v2/robustness.json --output /tmp/detection/robustness.json
+          robustness_exit=$?
+          set -e
+          test "$legacy_exit" -eq 1
+          test "$robustness_exit" -eq 2
+      - run: python scripts/benchmark.py --events 1000 --runs 3 --output /tmp/benchmark.json
       - run: pip-audit -r requirements.lock
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: backend-validation
           path: |
             coverage.xml
-            /tmp/evaluation.json
+            /tmp/detection/
             /tmp/benchmark.json
+  detection-targets:
+    # A separate, deliberately blocking point-estimate gate. Unmet targets remain red in the draft PR.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.lock && pip install --no-deps -e .
+      - run: python scripts/build_evaluation_corpus.py --check
+      - name: Strict targets on the declared frozen acceptance dataset
+        run: python scripts/evaluate.py --dataset data/evaluation-v2/holdout.json --require-targets --output /tmp/holdout-targets.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: detection-targets
+          path: |
+            /tmp/holdout-targets.json
+            data/evaluation-v2/manifest.json
+            data/evaluation-v2/leakage-audit.json
   browser:
     runs-on: ubuntu-latest
     steps:
