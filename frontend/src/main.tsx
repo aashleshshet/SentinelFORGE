@@ -223,7 +223,7 @@ function App() {
   useEffect(() => {
     if (!principal) return;
     const delay = setTimeout(refresh, 180);
-    const poll = setInterval(refresh, 10000);
+    const poll = principal.demo ? undefined : setInterval(refresh, 10000);
     return () => {
       clearTimeout(delay);
       clearInterval(poll);
@@ -358,7 +358,7 @@ function App() {
           <strong>SentinelForge</strong>
         </div>
         <main className="login-panel">
-          <p>Opening local workspace…</p>
+          <p>Opening workspace…</p>
         </main>
       </div>
     );
@@ -468,7 +468,7 @@ function App() {
             );
           })}
         </nav>
-        {!principal.local && (
+        {!principal.local && !principal.demo && (
           <button
             className="signout"
             title="Sign out"
@@ -490,7 +490,9 @@ function App() {
         <header className="topbar">
           <div className="wordmark">
             SentinelForge <span>/</span>{" "}
-            <span className="workspace-name">Local lab</span>
+            <span className="workspace-name">
+              {principal.demo ? "Public demo" : "Local lab"}
+            </span>
           </div>
           <div className="topbar-right">
             <span className={`connection ${error ? "offline" : ""}`}>
@@ -503,10 +505,20 @@ function App() {
                 : principal.name.slice(0, 2).toUpperCase()}
             </span>
             <span className="identity">
-              {principal.local ? "Local analyst" : principal.name}
-              <small>{principal.local ? "Local mode" : principal.role}</small>
+              {principal.demo
+                ? "Demo visitor"
+                : principal.local
+                  ? "Local analyst"
+                  : principal.name}
+              <small>
+                {principal.demo
+                  ? "Read-only"
+                  : principal.local
+                    ? "Local mode"
+                    : principal.role}
+              </small>
             </span>
-            {!principal.local && (
+            {!principal.local && !principal.demo && (
               <button
                 className="mobile-signout icon-button"
                 aria-label="Sign out"
@@ -523,6 +535,21 @@ function App() {
           </div>
         </header>
         <main>
+          {principal.demo && (
+            <div className="notice demo-notice" role="note">
+              <span>
+                <strong>Synthetic demo</strong> · Explore the evidence. Run
+                locally to import telemetry and manage cases.
+              </span>
+              <a
+                href="https://github.com/aashleshshet/SentinelFORGE#run-locally--no-token-or-sign-in"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Run locally <ArrowRight size={14} />
+              </a>
+            </div>
+          )}
           <div className="page-heading">
             <div>
               {selectedId && (
@@ -867,8 +894,9 @@ function App() {
                         <FileCheck2 size={16} />
                       </div>
                       <p className="muted">
-                        Freeze the case, source events, and notes in a
-                        SHA-256-verified snapshot.
+                        {principal.demo
+                          ? "Download a preserved snapshot of this synthetic investigation. Its SHA-256 digest can be verified locally."
+                          : "Freeze the case, source events, and notes in a SHA-256-verified snapshot."}
                       </p>
                       {canEdit && (
                         <button
@@ -892,7 +920,7 @@ function App() {
                       {detail.evidence.map((e) => (
                         <div className="evidence-row" key={e.id}>
                           <span className="mono">{e.sha256.slice(0, 12)}…</span>
-                          {canEdit && (
+                          {(canEdit || principal.demo) && (
                             <button
                               className="text-button"
                               disabled={busy}
@@ -905,7 +933,9 @@ function App() {
                         </div>
                       ))}
                       <small className="muted">
-                        Append-only API · database storage
+                        {principal.demo
+                          ? "Bundled synthetic evidence · read-only"
+                          : "Append-only API · database storage"}
                       </small>
                     </section>
                     <section className="panel">
@@ -1044,7 +1074,11 @@ function App() {
                     </section>
                     <section className="panel sources-panel">
                       <div className="panel-heading">
-                        <h2>Ingestion status</h2>
+                        <h2>
+                          {principal.demo
+                            ? "Demo telemetry"
+                            : "Ingestion status"}
+                        </h2>
                         <Activity size={16} />
                       </div>
                       {stats.sources.map((s) => {
@@ -1077,8 +1111,16 @@ function App() {
                         );
                       })}
                       <div className="panel-foot">
-                        <span>Activity window: 5 min</span>
-                        <span>Polls every 10s</span>
+                        <span>
+                          {principal.demo
+                            ? "Fixed synthetic dataset"
+                            : "Activity window: 5 min"}
+                        </span>
+                        <span>
+                          {principal.demo
+                            ? "18 sample events"
+                            : "Polls every 10s"}
+                        </span>
                       </div>
                     </section>
                   </div>

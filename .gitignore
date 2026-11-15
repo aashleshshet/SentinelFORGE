@@ -24,3 +24,5 @@ test-results/
 *.tsbuildinfo
 .venv
 .pnpm-store/
+.vercel/
+.DS_Store

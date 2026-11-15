@@ -36,6 +36,10 @@ class Guardrails:
     async def __call__(self, scope, receive, send):
         if scope["type"] != "http":
             return await self.app(scope, receive, send)
+        if self.settings.public_demo and scope["method"] not in {"GET", "HEAD", "OPTIONS"}:
+            return await JSONResponse(
+                {"detail": "Public demo is read-only. Run locally to investigate your own data."}, 403
+            )(scope, receive, send)
         start = time.perf_counter()
         request_id = str(uuid4())
         if scope["path"].startswith("/api/") and scope["path"] != "/api/health":
@@ -113,6 +117,10 @@ def create_app(settings: Settings | None = None):
     app.add_middleware(Guardrails, settings=settings)
     app.state.engine, factory = database(settings.database_url)
     app.state.sessions = factory
+    if settings.public_demo:
+        from .public_demo import load_snapshot
+
+        load_snapshot(app.state.engine)
     rules = load_rules(settings.rules_path)
     attack = (
         json.loads(settings.attack_path.read_text()) if settings.attack_path.exists() else {"objects": []}
@@ -133,6 +141,10 @@ def create_app(settings: Settings | None = None):
     security = HTTPBearer(auto_error=False)
 
     def identity(request: Request, credentials: HTTPAuthorizationCredentials | None = Depends(security)):
+        if settings.public_demo:
+            return Identity(
+                name="demo-visitor", role="viewer", token="public-demo-unused-placeholder-no-credential"
+            )
         if settings.local_mode and not request.headers.get("authorization"):
             peer = request.client.host if request.client else ""
             host = urlsplit("http://" + request.headers.get("host", "")).hostname
@@ -169,6 +181,7 @@ def create_app(settings: Settings | None = None):
     analyst = roles("analyst", "admin")
     admin = roles("admin")
     ingest = roles("ingest", "admin")
+    evidence_read = read if settings.public_demo else analyst
 
     def session():
         with factory() as value:
@@ -277,7 +290,10 @@ def create_app(settings: Settings | None = None):
 
     @app.get("/api/me")
     def me(actor=Depends(read)):
-        return {"name": actor.name, "role": actor.role, "local": actor.name == "__local__"}
+        result = {"name": actor.name, "role": actor.role, "local": actor.name == "__local__"}
+        if settings.public_demo:
+            result["demo"] = True
+        return result
 
     @app.post("/api/ingest")
     def ingest_events(batch: Batch, db=Depends(session), actor=Depends(ingest)):
@@ -312,7 +328,7 @@ def create_app(settings: Settings | None = None):
         return {"total": total, "items": [{"id": e.id, "received_at": e.received_at, **e.data} for e in rows]}
 
     @app.get("/api/events/{event_id}")
-    def event_detail(event_id: str, db=Depends(session), actor=Depends(analyst)):
+    def event_detail(event_id: str, db=Depends(session), actor=Depends(evidence_read)):
         row = db.get(Event, event_id)
         if not row:
             raise HTTPException(404, "Event not found")
@@ -467,14 +483,15 @@ def create_app(settings: Settings | None = None):
         return {k: v for k, v in serialize(evidence).items() if k != "snapshot"}
 
     @app.get("/api/evidence/{evidence_id}/export")
-    def export(evidence_id: str, db=Depends(session), actor=Depends(analyst)):
+    def export(evidence_id: str, db=Depends(session), actor=Depends(evidence_read)):
         with mutation(db):
             evidence = db.get(Evidence, evidence_id)
             if not evidence:
                 raise HTTPException(404, "Evidence not found")
             if digest(evidence.snapshot) != evidence.sha256:
                 raise HTTPException(409, "Evidence integrity verification failed")
-            audit(db, actor, "evidence.export", evidence.case_id, evidence_id=evidence.id)
+            if not settings.public_demo:
+                audit(db, actor, "evidence.export", evidence.case_id, evidence_id=evidence.id)
         return JSONResponse(
             {"sha256": evidence.sha256, "snapshot": evidence.snapshot},
             headers={"Content-Disposition": f'attachment; filename="case-{evidence.case_id}.json"'},
@@ -580,7 +597,7 @@ def create_app(settings: Settings | None = None):
             "first_event": db.scalar(select(func.min(Event.timestamp))),
             "last_event": db.scalar(select(func.max(Event.timestamp))),
             "updated_at": now(),
-            "scope": "All retained telemetry",
+            "scope": "Synthetic demo snapshot" if settings.public_demo else "All retained telemetry",
         }
 
     @app.put("/api/iocs")

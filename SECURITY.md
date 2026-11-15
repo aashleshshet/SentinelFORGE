@@ -2,6 +2,8 @@
 
 SentinelForge is an experimental local security lab. Do not expose it publicly or ingest production secrets without a security review and deployment controls. The shipped Compose port binds only to `127.0.0.1`.
 
+The separate [public portfolio demo](docs/VERCEL.md) serves only bundled synthetic data. It accepts no mutations, loads an isolated read-only in-memory database and ignores operator credentials. It does not expose the local workspace or replace authentication for real deployments.
+
 ## Local mode
 
 The user-requested `python scripts/run_local.py` workflow intentionally requires no token. It binds loopback, disables forwarded-address trust and checks the request peer, Host, Origin and cross-site Fetch Metadata. This grants every local program access as a shared administrator. It is suitable for this trusted-computer demo, never for a public service, SSH tunnel shared with others, or reverse proxy. Authenticated mode remains the default for the normal ASGI entry point and Docker deployment. Two-person approval requires authenticated mode because local mode has one identity.

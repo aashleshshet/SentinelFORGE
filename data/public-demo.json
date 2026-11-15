@@ -1,0 +1,1922 @@
+{
+  "schema_version": 1,
+  "source_sha256": "7d4b05373197816f737aa251af607a9459c2a72bbeb451011919deeb146f3c8e",
+  "synthetic": true,
+  "tables": {
+    "alerts": [
+      {
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "confidence": 85,
+        "correlation_reason": "New case: no open host/user match within 15 minutes.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "48102125-3eb5-5687-a02e-3afe91f12f15",
+          "31fe2922-322f-5316-b13d-c4ca9e14e2f1",
+          "cedbf090-842f-50ef-9adc-ccf29fa5a7e6",
+          "76a7ce92-e676-5b14-b0d3-7a197c241b28",
+          "fdd3e062-8ce9-5360-9ebf-254e8f2ca765"
+        ],
+        "explanation": "5 SSH failures in 300 seconds from 192.0.2.45.",
+        "group_key": "72ce5bd2b262098ff8f8f5e228ef9d55b8145ddb3883b3e2d6a6712f6cef9d9b",
+        "host": "edge-01",
+        "id": "d4a0793a-f07a-5751-bd16-b549951a5f99",
+        "rule_id": "00000000-0000-0000-0000-000000000001",
+        "severity": "high",
+        "techniques": [
+          "T1110.001"
+        ],
+        "timestamp": "2026-11-15T09:00:04.000000+00:00",
+        "title": "SSH password guessing",
+        "user": "analyst"
+      },
+      {
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "confidence": 75,
+        "correlation_reason": "New case: no open host/user match within 15 minutes.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "38983512-9654-570b-a6ac-3e5489b333bc"
+        ],
+        "explanation": "PowerShell process uses an encoded-command or download/decode marker; intent requires review.",
+        "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
+        "host": "workstation-07",
+        "id": "4ecdad83-10d0-5869-96bf-e308c6b3db8d",
+        "rule_id": "00000000-0000-0000-0000-000000000002",
+        "severity": "high",
+        "techniques": [
+          "T1059.001"
+        ],
+        "timestamp": "2026-11-15T09:02:00.000000+00:00",
+        "title": "Suspicious PowerShell arguments",
+        "user": "forge\\morgan"
+      },
+      {
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "confidence": 80,
+        "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "a86c7dcc-c9c5-537e-ad7a-7358cd711d88"
+        ],
+        "explanation": "Unix shell command contains /dev/tcp/ redirection; investigate process context.",
+        "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+        "host": "edge-01",
+        "id": "0226d5c7-c30c-5a3b-9b4e-f3b8f3887c45",
+        "rule_id": "00000000-0000-0000-0000-000000000003",
+        "severity": "high",
+        "techniques": [
+          "T1059.004"
+        ],
+        "timestamp": "2026-11-15T09:03:00.123000+00:00",
+        "title": "Shell with a TCP redirection",
+        "user": "1001"
+      },
+      {
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "confidence": 65,
+        "correlation_reason": "Same host workstation-07; within 15-minute case activity window.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d"
+        ],
+        "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent.",
+        "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
+        "host": "workstation-07",
+        "id": "d36b13d3-6d2f-5c5d-bf4d-4f975ece5f46",
+        "rule_id": "00000000-0000-0000-0000-000000000004",
+        "severity": "medium",
+        "techniques": [
+          "T1053.005"
+        ],
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "title": "Scheduled task creation",
+        "user": "forge\\morgan"
+      },
+      {
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "confidence": 90,
+        "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "6cbb656f-8555-5f99-87ed-96897e98256b"
+        ],
+        "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds.",
+        "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+        "host": "edge-01",
+        "id": "8cdd56f5-a79c-5f2b-b72f-974bc05abe51",
+        "rule_id": "00000000-0000-0000-0000-000000000005",
+        "severity": "critical",
+        "techniques": [
+          "T1136.001"
+        ],
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "title": "UID-zero account creation",
+        "user": "analyst"
+      },
+      {
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "confidence": 60,
+        "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "9cafdd80-eab4-56c1-9736-aa4d154d4495"
+        ],
+        "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties.",
+        "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+        "host": "edge-01",
+        "id": "f48c719c-2326-5c1a-8e61-9967aa35ddb3",
+        "rule_id": "00000000-0000-0000-0000-000000000006",
+        "severity": "medium",
+        "techniques": [
+          "T1548.003"
+        ],
+        "timestamp": "2026-11-15T09:04:00.000000+00:00",
+        "title": "Interactive root shell through sudo",
+        "user": "analyst"
+      },
+      {
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "confidence": 45,
+        "correlation_reason": "Same host workstation-07; within 15-minute case activity window.",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "event_ids": [
+          "e894b23a-faf7-5f9a-9eef-2870b7dfd4e9"
+        ],
+        "explanation": "Connection to a globally routable IP on a configured uncommon port. Port alone does not establish C2.",
+        "group_key": "dba47b705b4ba0ace03e285e46c3352e78fe47bdf0ff7d4d2b4a84f42132cede",
+        "host": "workstation-07",
+        "id": "d06dd856-3382-534f-9e60-5aa2ec47d92f",
+        "rule_id": "00000000-0000-0000-0000-000000000007",
+        "severity": "medium",
+        "techniques": [
+          "T1571"
+        ],
+        "timestamp": "2026-11-15T09:05:00.000000+00:00",
+        "title": "Outbound connection on an uncommon port",
+        "user": null
+      }
+    ],
+    "audit": [
+      {
+        "action": "ingest",
+        "actor": "demo-analyst",
+        "case_id": null,
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "detail": {
+          "accepted": 18,
+          "duplicates": 0,
+          "rejected": 0
+        },
+        "id": "ac55f50a-3210-5ebd-a4f0-13871ce978bd"
+      },
+      {
+        "action": "note.add",
+        "actor": "demo-analyst",
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "detail": {},
+        "id": "451b0062-2e80-5ff5-8238-7dfdaf8bafba"
+      },
+      {
+        "action": "evidence.preserve",
+        "actor": "demo-analyst",
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "detail": {
+          "sha256": "bdfc2813a385d6a0574441386ad19dd91d01dc4792aa4afdb0e79a2beb74ab75"
+        },
+        "id": "5a2700b3-cecc-5e6e-a8f2-ac08011aebcd"
+      },
+      {
+        "action": "note.add",
+        "actor": "demo-analyst",
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "detail": {},
+        "id": "7488fb13-87b6-5cc2-bd4b-75fa3ab1df00"
+      },
+      {
+        "action": "evidence.preserve",
+        "actor": "demo-analyst",
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "detail": {
+          "sha256": "d0f2ebe235ab1da3ea821f494f5faf4a92728842ac875e79f8543b04c0296463"
+        },
+        "id": "6c71cf9e-b20f-593b-ab90-671e4cfcd3e1"
+      }
+    ],
+    "cases": [
+      {
+        "assignee": null,
+        "checklist": {},
+        "first_seen": "2026-11-15T09:00:00.000000+00:00",
+        "hosts": [
+          "edge-01"
+        ],
+        "id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "last_seen": "2026-11-15T09:04:00.000000+00:00",
+        "risk": 100,
+        "status": "open",
+        "title": "SSH password guessing \u00b7 edge-01",
+        "users": [
+          "1001",
+          "analyst"
+        ]
+      },
+      {
+        "assignee": null,
+        "checklist": {},
+        "first_seen": "2026-11-15T09:00:00.000000+00:00",
+        "hosts": [
+          "workstation-07"
+        ],
+        "id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "last_seen": "2026-11-15T09:05:00.000000+00:00",
+        "risk": 79,
+        "status": "open",
+        "title": "Suspicious PowerShell arguments \u00b7 workstation-07",
+        "users": [
+          "forge\\morgan"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "service": "sshd"
+          },
+          "host": "edge-01",
+          "kind": "authentication",
+          "outcome": "failure",
+          "parent": null,
+          "process": null,
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": "192.0.2.45",
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "47bf6b9202f1ced6b26a1bfe5ae7dbc97efe911aede747d21b5389bb289efa73",
+        "host": "edge-01",
+        "id": "48102125-3eb5-5687-a02e-3afe91f12f15",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": "192.0.2.45",
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "service": "sshd"
+          },
+          "host": "edge-01",
+          "kind": "authentication",
+          "outcome": "failure",
+          "parent": null,
+          "process": null,
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": "192.0.2.45",
+          "timestamp": "2026-11-15T09:00:01.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "335fe1d83caa9d3346c4b0110987e3d0334500658582ce0ee6b9a9a01f9dd9a1",
+        "host": "edge-01",
+        "id": "31fe2922-322f-5316-b13d-c4ca9e14e2f1",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": "192.0.2.45",
+        "timestamp": "2026-11-15T09:00:01.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "service": "sshd"
+          },
+          "host": "edge-01",
+          "kind": "authentication",
+          "outcome": "failure",
+          "parent": null,
+          "process": null,
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": "192.0.2.45",
+          "timestamp": "2026-11-15T09:00:02.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "facae45df6836fcb00919ca3e0b127ca2a3e8f8277ff3385d3983163c4c6e049",
+        "host": "edge-01",
+        "id": "cedbf090-842f-50ef-9adc-ccf29fa5a7e6",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": "192.0.2.45",
+        "timestamp": "2026-11-15T09:00:02.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "service": "sshd"
+          },
+          "host": "edge-01",
+          "kind": "authentication",
+          "outcome": "failure",
+          "parent": null,
+          "process": null,
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": "192.0.2.45",
+          "timestamp": "2026-11-15T09:00:03.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "667e915324fb19bc7153002810bf97455761bb3708cf455d4f956ec35fabb6b6",
+        "host": "edge-01",
+        "id": "76a7ce92-e676-5b14-b0d3-7a197c241b28",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": "192.0.2.45",
+        "timestamp": "2026-11-15T09:00:03.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "service": "sshd"
+          },
+          "host": "edge-01",
+          "kind": "authentication",
+          "outcome": "failure",
+          "parent": null,
+          "process": null,
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": "192.0.2.45",
+          "timestamp": "2026-11-15T09:00:04.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "60ad0054296a2c63588f4b9fb915a40e395d9d2d46f0d81fd822e3b242f2b3b6",
+        "host": "edge-01",
+        "id": "fdd3e062-8ce9-5360-9ebf-254e8f2ca765",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:00:04Z edge-01 sshd[1204]: Failed password for analyst from 192.0.2.45 port 51004 ssh2",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": "192.0.2.45",
+        "timestamp": "2026-11-15T09:00:04.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": "1001",
+          "fields": {
+            "event_id": 1
+          },
+          "host": "workstation-07",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+          "sensor": "sysmon-01",
+          "source": "sysmon",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:02:00.000000+00:00",
+          "user": "forge\\morgan"
+        },
+        "fingerprint": "158932f2e76ecc9ac39e4788f92af5b0e52010c57651e0550a9305c603370fa8",
+        "host": "workstation-07",
+        "id": "38983512-9654-570b-a6ac-3e5489b333bc",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+            "Computer": "workstation-07",
+            "EventID": 1,
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "RecordID": "1001",
+            "User": "forge\\morgan",
+            "UtcTime": "2026-11-15 09:02:00"
+          },
+          "sensor": "sysmon-01",
+          "source": "sysmon",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "sysmon",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:02:00.000000+00:00",
+        "user": "forge\\morgan"
+      },
+      {
+        "data": {
+          "command": "bash -c echo demo >/dev/tcp/192.0.2.9/4444",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": "800",
+          "fields": {
+            "euid": "1001",
+            "uid": "1001"
+          },
+          "host": "edge-01",
+          "kind": "process",
+          "outcome": "success",
+          "parent": null,
+          "process": "/bin/bash",
+          "sensor": "audit-01",
+          "source": "auditd",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:03:00.123000+00:00",
+          "user": "1001"
+        },
+        "fingerprint": "fe565f4bfe0d89254ace4548f8a644a4535616c23d2e62fe0312e2f8345ff573",
+        "host": "edge-01",
+        "id": "a86c7dcc-c9c5-537e-ad7a-7358cd711d88",
+        "kind": "process",
+        "raw": {
+          "host": "edge-01",
+          "payload": "type=SYSCALL msg=audit(1794733380.123:800): success=yes uid=1001 auid=1001 euid=1001 exe=\"/bin/bash\"\ntype=EXECVE msg=audit(1794733380.123:800): argc=3 a0=\"bash\" a1=\"-c\" a2=\"echo demo >/dev/tcp/192.0.2.9/4444\"",
+          "sensor": "audit-01",
+          "source": "auditd",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "auditd",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:03:00.123000+00:00",
+        "user": "1001"
+      },
+      {
+        "data": {
+          "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "workstation-07",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "C:\\Windows\\System32\\schtasks.exe",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": "forge\\morgan"
+        },
+        "fingerprint": "c01b1883eee9f6730e57864445ad37951eabf45f2dfe4756a233063a73d69d41",
+        "host": "workstation-07",
+        "id": "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+            "host": "workstation-07",
+            "kind": "process",
+            "process": "C:\\Windows\\System32\\schtasks.exe",
+            "timestamp": "2026-11-15T09:00:00Z",
+            "user": "forge\\morgan"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": "forge\\morgan"
+      },
+      {
+        "data": {
+          "command": "useradd -o -u 0 lab-admin",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "edge-01",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "/usr/sbin/useradd",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "a9fcffb32ecb8363a0047117d426c54df8c8e6d4dce5593a1ed03a25581a1fdb",
+        "host": "edge-01",
+        "id": "6cbb656f-8555-5f99-87ed-96897e98256b",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "useradd -o -u 0 lab-admin",
+            "host": "edge-01",
+            "kind": "process",
+            "process": "/usr/sbin/useradd",
+            "timestamp": "2026-11-15T09:00:00Z",
+            "user": "analyst"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": "/bin/bash",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "target_user": "root"
+          },
+          "host": "edge-01",
+          "kind": "privilege",
+          "outcome": "success",
+          "parent": null,
+          "process": "sudo",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:04:00.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+        "host": "edge-01",
+        "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
+        "kind": "privilege",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/bin/bash",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:04:00.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": "1.1.1.1",
+          "dst_port": 4444,
+          "external_id": "Cdemo01",
+          "fields": {
+            "conn_state": null,
+            "destination_scope": "public",
+            "orig_bytes": 620,
+            "proto": "tcp",
+            "service": null
+          },
+          "host": "workstation-07",
+          "kind": "network",
+          "outcome": "unknown",
+          "parent": null,
+          "process": null,
+          "sensor": "zeek-01",
+          "source": "zeek",
+          "src_ip": "10.0.0.7",
+          "timestamp": "2026-11-15T09:05:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "9effa08098bff9540f875248a86ae1e8424169aa2b8b8a64e2c03745c881fa7c",
+        "host": "workstation-07",
+        "id": "e894b23a-faf7-5f9a-9eef-2870b7dfd4e9",
+        "kind": "network",
+        "raw": {
+          "host": "workstation-07",
+          "payload": {
+            "id.orig_h": "10.0.0.7",
+            "id.resp_h": "1.1.1.1",
+            "id.resp_p": 4444,
+            "orig_bytes": 620,
+            "proto": "tcp",
+            "ts": 1794733500,
+            "uid": "Cdemo01"
+          },
+          "sensor": "zeek-01",
+          "source": "zeek",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "zeek",
+        "src_ip": "10.0.0.7",
+        "timestamp": "2026-11-15T09:05:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": "powershell -File inventory.ps1",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "lab-01",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "C:\\Windows\\powershell.exe",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "c5313befef8f0a85ead9edd59d1fe685275f6f7b5ab871a279e81b0e92b28776",
+        "host": "lab-01",
+        "id": "c1be559c-800c-59c7-ae12-c6aba1fac4bc",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "powershell -File inventory.ps1",
+            "host": "lab-01",
+            "kind": "process",
+            "process": "C:\\Windows\\powershell.exe",
+            "timestamp": "2026-11-15T09:00:00Z"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": "bash -c uptime",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "lab-01",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "/bin/bash",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "eb4f96a2f81fde2c8b26e7ef6a473ab30514bea7f2750c567e362503ea301e2a",
+        "host": "lab-01",
+        "id": "aaa30916-daff-50f7-a16a-682c10839bc7",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "bash -c uptime",
+            "host": "lab-01",
+            "kind": "process",
+            "process": "/bin/bash",
+            "timestamp": "2026-11-15T09:00:00Z"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": "schtasks /query",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "lab-01",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "C:\\Windows\\schtasks.exe",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "e4e1dd6939650678c77276a9703b047abd3e3f3509a1898dad820e5f6571c93a",
+        "host": "lab-01",
+        "id": "5bbd0db4-3c99-5d72-af73-5453f0c074ba",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "schtasks /query",
+            "host": "lab-01",
+            "kind": "process",
+            "process": "C:\\Windows\\schtasks.exe",
+            "timestamp": "2026-11-15T09:00:00Z"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": "useradd -u 1002 developer",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {},
+          "host": "lab-01",
+          "kind": "process",
+          "outcome": "unknown",
+          "parent": null,
+          "process": "/usr/sbin/useradd",
+          "sensor": "fixture",
+          "source": "synthetic",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:00:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "583215747e4e8fec3b94734c1250ea4c60f9bd94769fc3fc5803c7269f075760",
+        "host": "lab-01",
+        "id": "84e1f15c-bb70-51f2-aad6-d532bd80e42a",
+        "kind": "process",
+        "raw": {
+          "host": null,
+          "payload": {
+            "command": "useradd -u 1002 developer",
+            "host": "lab-01",
+            "kind": "process",
+            "process": "/usr/sbin/useradd",
+            "timestamp": "2026-11-15T09:00:00Z"
+          },
+          "sensor": "fixture",
+          "source": "synthetic",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "synthetic",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:00:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": "/usr/bin/id",
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": null,
+          "fields": {
+            "target_user": "root"
+          },
+          "host": "edge-01",
+          "kind": "privilege",
+          "outcome": "success",
+          "parent": null,
+          "process": "sudo",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "src_ip": null,
+          "timestamp": "2026-11-15T09:04:00.000000+00:00",
+          "user": "analyst"
+        },
+        "fingerprint": "17cffcce040a0bb1b3ca093e7d0efecebf183f1466265a12f5942c90ab08be41",
+        "host": "edge-01",
+        "id": "72736670-4f92-571f-8cf2-2be7b9d01394",
+        "kind": "privilege",
+        "raw": {
+          "host": null,
+          "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/usr/bin/id",
+          "sensor": "auth-01",
+          "source": "linux_auth",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "linux_auth",
+        "src_ip": null,
+        "timestamp": "2026-11-15T09:04:00.000000+00:00",
+        "user": "analyst"
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": "1.1.1.1",
+          "dst_port": 443,
+          "external_id": "Cdemo01",
+          "fields": {
+            "conn_state": null,
+            "destination_scope": "public",
+            "orig_bytes": 620,
+            "proto": "tcp",
+            "service": null
+          },
+          "host": "workstation-07",
+          "kind": "network",
+          "outcome": "unknown",
+          "parent": null,
+          "process": null,
+          "sensor": "zeek-01",
+          "source": "zeek",
+          "src_ip": "10.0.0.7",
+          "timestamp": "2026-11-15T09:05:00.000000+00:00",
+          "user": null
+        },
+        "fingerprint": "75446787f403f3218fa20a1c7def294a5e75f8ecc3782ce15c2cddffdf52df3c",
+        "host": "workstation-07",
+        "id": "0171eba5-4e8a-5b59-8783-de737438479c",
+        "kind": "network",
+        "raw": {
+          "host": "workstation-07",
+          "payload": {
+            "id.orig_h": "10.0.0.7",
+            "id.resp_h": "1.1.1.1",
+            "id.resp_p": 443,
+            "orig_bytes": 620,
+            "proto": "tcp",
+            "ts": 1794733500,
+            "uid": "Cdemo01"
+          },
+          "sensor": "zeek-01",
+          "source": "zeek",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "zeek",
+        "src_ip": "10.0.0.7",
+        "timestamp": "2026-11-15T09:05:00.000000+00:00",
+        "user": null
+      },
+      {
+        "data": {
+          "command": null,
+          "dst_ip": null,
+          "dst_port": null,
+          "external_id": "demo-wazuh-01",
+          "fields": {
+            "service": "sshd",
+            "wazuh_groups": [
+              "authentication_success"
+            ],
+            "wazuh_rule_id": "5715"
+          },
+          "host": "db-02",
+          "kind": "authentication",
+          "outcome": "success",
+          "parent": null,
+          "process": null,
+          "sensor": "wazuh-manager",
+          "source": "wazuh",
+          "src_ip": "192.0.2.50",
+          "timestamp": "2026-11-15T09:06:00.000000+00:00",
+          "user": "deploy"
+        },
+        "fingerprint": "c1ab2c50d37a16b9600d7a536045cc5307556c8625d76bc8449db71fb95fb3a5",
+        "host": "db-02",
+        "id": "ca6f291c-13e6-550d-879e-62f8dcce9e8e",
+        "kind": "authentication",
+        "raw": {
+          "host": null,
+          "payload": {
+            "agent": {
+              "name": "db-02"
+            },
+            "decoder": {
+              "name": "sshd"
+            },
+            "full_log": "sshd: Accepted publickey for deploy from 192.0.2.50 port 52120 ssh2",
+            "id": "demo-wazuh-01",
+            "rule": {
+              "groups": [
+                "authentication_success"
+              ],
+              "id": "5715"
+            },
+            "timestamp": "2026-11-15T09:06:00Z"
+          },
+          "sensor": "wazuh-manager",
+          "source": "wazuh",
+          "timestamp": null
+        },
+        "received_at": "2026-11-15T09:10:00.000000+00:00",
+        "source": "wazuh",
+        "src_ip": "192.0.2.50",
+        "timestamp": "2026-11-15T09:06:00.000000+00:00",
+        "user": "deploy"
+      }
+    ],
+    "evidence": [
+      {
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "created_by": "demo-analyst",
+        "id": "2b8fe60b-3894-57b3-8855-bfac0412fcb6",
+        "sha256": "bdfc2813a385d6a0574441386ad19dd91d01dc4792aa4afdb0e79a2beb74ab75",
+        "snapshot": {
+          "case": {
+            "alerts": [
+              {
+                "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+                "confidence": 90,
+                "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "6cbb656f-8555-5f99-87ed-96897e98256b"
+                ],
+                "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds.",
+                "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+                "host": "edge-01",
+                "id": "8cdd56f5-a79c-5f2b-b72f-974bc05abe51",
+                "rule_id": "00000000-0000-0000-0000-000000000005",
+                "severity": "critical",
+                "techniques": [
+                  "T1136.001"
+                ],
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "title": "UID-zero account creation",
+                "user": "analyst"
+              },
+              {
+                "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+                "confidence": 85,
+                "correlation_reason": "New case: no open host/user match within 15 minutes.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "48102125-3eb5-5687-a02e-3afe91f12f15",
+                  "31fe2922-322f-5316-b13d-c4ca9e14e2f1",
+                  "cedbf090-842f-50ef-9adc-ccf29fa5a7e6",
+                  "76a7ce92-e676-5b14-b0d3-7a197c241b28",
+                  "fdd3e062-8ce9-5360-9ebf-254e8f2ca765"
+                ],
+                "explanation": "5 SSH failures in 300 seconds from 192.0.2.45.",
+                "group_key": "72ce5bd2b262098ff8f8f5e228ef9d55b8145ddb3883b3e2d6a6712f6cef9d9b",
+                "host": "edge-01",
+                "id": "d4a0793a-f07a-5751-bd16-b549951a5f99",
+                "rule_id": "00000000-0000-0000-0000-000000000001",
+                "severity": "high",
+                "techniques": [
+                  "T1110.001"
+                ],
+                "timestamp": "2026-11-15T09:00:04.000000+00:00",
+                "title": "SSH password guessing",
+                "user": "analyst"
+              },
+              {
+                "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+                "confidence": 80,
+                "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "a86c7dcc-c9c5-537e-ad7a-7358cd711d88"
+                ],
+                "explanation": "Unix shell command contains /dev/tcp/ redirection; investigate process context.",
+                "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+                "host": "edge-01",
+                "id": "0226d5c7-c30c-5a3b-9b4e-f3b8f3887c45",
+                "rule_id": "00000000-0000-0000-0000-000000000003",
+                "severity": "high",
+                "techniques": [
+                  "T1059.004"
+                ],
+                "timestamp": "2026-11-15T09:03:00.123000+00:00",
+                "title": "Shell with a TCP redirection",
+                "user": "1001"
+              },
+              {
+                "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+                "confidence": 60,
+                "correlation_reason": "Same host edge-01; within 15-minute case activity window.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "9cafdd80-eab4-56c1-9736-aa4d154d4495"
+                ],
+                "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties.",
+                "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
+                "host": "edge-01",
+                "id": "f48c719c-2326-5c1a-8e61-9967aa35ddb3",
+                "rule_id": "00000000-0000-0000-0000-000000000006",
+                "severity": "medium",
+                "techniques": [
+                  "T1548.003"
+                ],
+                "timestamp": "2026-11-15T09:04:00.000000+00:00",
+                "title": "Interactive root shell through sudo",
+                "user": "analyst"
+              }
+            ],
+            "assignee": null,
+            "checklist": {},
+            "evidence": [],
+            "first_seen": "2026-11-15T09:00:00.000000+00:00",
+            "hosts": [
+              "edge-01"
+            ],
+            "id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+            "last_seen": "2026-11-15T09:04:00.000000+00:00",
+            "notes": [
+              {
+                "author": "demo-analyst",
+                "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "id": "4928edee-4fa0-5179-835e-b4866f060ca2",
+                "text": "Synthetic training investigation: correlate the source events, validate the command context and review the rule's false-positive considerations before escalating."
+              }
+            ],
+            "responses": [],
+            "risk": 100,
+            "status": "open",
+            "timeline": [
+              {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "fingerprint": "47bf6b9202f1ced6b26a1bfe5ae7dbc97efe911aede747d21b5389bb289efa73",
+                "host": "edge-01",
+                "id": "48102125-3eb5-5687-a02e-3afe91f12f15",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": "useradd -o -u 0 lab-admin",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {},
+                "fingerprint": "a9fcffb32ecb8363a0047117d426c54df8c8e6d4dce5593a1ed03a25581a1fdb",
+                "host": "edge-01",
+                "id": "6cbb656f-8555-5f99-87ed-96897e98256b",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "/usr/sbin/useradd",
+                "sensor": "fixture",
+                "source": "synthetic",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "fingerprint": "335fe1d83caa9d3346c4b0110987e3d0334500658582ce0ee6b9a9a01f9dd9a1",
+                "host": "edge-01",
+                "id": "31fe2922-322f-5316-b13d-c4ca9e14e2f1",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:01.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "fingerprint": "facae45df6836fcb00919ca3e0b127ca2a3e8f8277ff3385d3983163c4c6e049",
+                "host": "edge-01",
+                "id": "cedbf090-842f-50ef-9adc-ccf29fa5a7e6",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:02.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "fingerprint": "667e915324fb19bc7153002810bf97455761bb3708cf455d4f956ec35fabb6b6",
+                "host": "edge-01",
+                "id": "76a7ce92-e676-5b14-b0d3-7a197c241b28",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:03.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "fingerprint": "60ad0054296a2c63588f4b9fb915a40e395d9d2d46f0d81fd822e3b242f2b3b6",
+                "host": "edge-01",
+                "id": "fdd3e062-8ce9-5360-9ebf-254e8f2ca765",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:04.000000+00:00",
+                "user": "analyst"
+              },
+              {
+                "command": "bash -c echo demo >/dev/tcp/192.0.2.9/4444",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": "800",
+                "fields": {
+                  "euid": "1001",
+                  "uid": "1001"
+                },
+                "fingerprint": "fe565f4bfe0d89254ace4548f8a644a4535616c23d2e62fe0312e2f8345ff573",
+                "host": "edge-01",
+                "id": "a86c7dcc-c9c5-537e-ad7a-7358cd711d88",
+                "kind": "process",
+                "outcome": "success",
+                "parent": null,
+                "process": "/bin/bash",
+                "sensor": "audit-01",
+                "source": "auditd",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:03:00.123000+00:00",
+                "user": "1001"
+              },
+              {
+                "command": "/bin/bash",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "target_user": "root"
+                },
+                "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+                "host": "edge-01",
+                "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
+                "kind": "privilege",
+                "outcome": "success",
+                "parent": null,
+                "process": "sudo",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:04:00.000000+00:00",
+                "user": "analyst"
+              }
+            ],
+            "title": "SSH password guessing \u00b7 edge-01",
+            "users": [
+              "1001",
+              "analyst"
+            ]
+          },
+          "events": [
+            {
+              "data": {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "host": "edge-01",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "47bf6b9202f1ced6b26a1bfe5ae7dbc97efe911aede747d21b5389bb289efa73",
+              "host": "edge-01",
+              "id": "48102125-3eb5-5687-a02e-3afe91f12f15",
+              "kind": "authentication",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:00:00Z edge-01 sshd[1200]: Failed password for analyst from 192.0.2.45 port 51000 ssh2",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": "192.0.2.45",
+              "timestamp": "2026-11-15T09:00:00.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": "useradd -o -u 0 lab-admin",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {},
+                "host": "edge-01",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "/usr/sbin/useradd",
+                "sensor": "fixture",
+                "source": "synthetic",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "a9fcffb32ecb8363a0047117d426c54df8c8e6d4dce5593a1ed03a25581a1fdb",
+              "host": "edge-01",
+              "id": "6cbb656f-8555-5f99-87ed-96897e98256b",
+              "kind": "process",
+              "raw": {
+                "host": null,
+                "payload": {
+                  "command": "useradd -o -u 0 lab-admin",
+                  "host": "edge-01",
+                  "kind": "process",
+                  "process": "/usr/sbin/useradd",
+                  "timestamp": "2026-11-15T09:00:00Z",
+                  "user": "analyst"
+                },
+                "sensor": "fixture",
+                "source": "synthetic",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "synthetic",
+              "src_ip": null,
+              "timestamp": "2026-11-15T09:00:00.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "host": "edge-01",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:01.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "335fe1d83caa9d3346c4b0110987e3d0334500658582ce0ee6b9a9a01f9dd9a1",
+              "host": "edge-01",
+              "id": "31fe2922-322f-5316-b13d-c4ca9e14e2f1",
+              "kind": "authentication",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:00:01Z edge-01 sshd[1201]: Failed password for analyst from 192.0.2.45 port 51001 ssh2",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": "192.0.2.45",
+              "timestamp": "2026-11-15T09:00:01.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "host": "edge-01",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:02.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "facae45df6836fcb00919ca3e0b127ca2a3e8f8277ff3385d3983163c4c6e049",
+              "host": "edge-01",
+              "id": "cedbf090-842f-50ef-9adc-ccf29fa5a7e6",
+              "kind": "authentication",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:00:02Z edge-01 sshd[1202]: Failed password for analyst from 192.0.2.45 port 51002 ssh2",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": "192.0.2.45",
+              "timestamp": "2026-11-15T09:00:02.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "host": "edge-01",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:03.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "667e915324fb19bc7153002810bf97455761bb3708cf455d4f956ec35fabb6b6",
+              "host": "edge-01",
+              "id": "76a7ce92-e676-5b14-b0d3-7a197c241b28",
+              "kind": "authentication",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:00:03Z edge-01 sshd[1203]: Failed password for analyst from 192.0.2.45 port 51003 ssh2",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": "192.0.2.45",
+              "timestamp": "2026-11-15T09:00:03.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": null,
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "service": "sshd"
+                },
+                "host": "edge-01",
+                "kind": "authentication",
+                "outcome": "failure",
+                "parent": null,
+                "process": null,
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": "192.0.2.45",
+                "timestamp": "2026-11-15T09:00:04.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "60ad0054296a2c63588f4b9fb915a40e395d9d2d46f0d81fd822e3b242f2b3b6",
+              "host": "edge-01",
+              "id": "fdd3e062-8ce9-5360-9ebf-254e8f2ca765",
+              "kind": "authentication",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:00:04Z edge-01 sshd[1204]: Failed password for analyst from 192.0.2.45 port 51004 ssh2",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": "192.0.2.45",
+              "timestamp": "2026-11-15T09:00:04.000000+00:00",
+              "user": "analyst"
+            },
+            {
+              "data": {
+                "command": "bash -c echo demo >/dev/tcp/192.0.2.9/4444",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": "800",
+                "fields": {
+                  "euid": "1001",
+                  "uid": "1001"
+                },
+                "host": "edge-01",
+                "kind": "process",
+                "outcome": "success",
+                "parent": null,
+                "process": "/bin/bash",
+                "sensor": "audit-01",
+                "source": "auditd",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:03:00.123000+00:00",
+                "user": "1001"
+              },
+              "fingerprint": "fe565f4bfe0d89254ace4548f8a644a4535616c23d2e62fe0312e2f8345ff573",
+              "host": "edge-01",
+              "id": "a86c7dcc-c9c5-537e-ad7a-7358cd711d88",
+              "kind": "process",
+              "raw": {
+                "host": "edge-01",
+                "payload": "type=SYSCALL msg=audit(1794733380.123:800): success=yes uid=1001 auid=1001 euid=1001 exe=\"/bin/bash\"\ntype=EXECVE msg=audit(1794733380.123:800): argc=3 a0=\"bash\" a1=\"-c\" a2=\"echo demo >/dev/tcp/192.0.2.9/4444\"",
+                "sensor": "audit-01",
+                "source": "auditd",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "auditd",
+              "src_ip": null,
+              "timestamp": "2026-11-15T09:03:00.123000+00:00",
+              "user": "1001"
+            },
+            {
+              "data": {
+                "command": "/bin/bash",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {
+                  "target_user": "root"
+                },
+                "host": "edge-01",
+                "kind": "privilege",
+                "outcome": "success",
+                "parent": null,
+                "process": "sudo",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:04:00.000000+00:00",
+                "user": "analyst"
+              },
+              "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+              "host": "edge-01",
+              "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
+              "kind": "privilege",
+              "raw": {
+                "host": null,
+                "payload": "2026-11-15T09:04:00Z edge-01 sudo: analyst : TTY=pts/0 ; PWD=/home/analyst ; USER=root ; COMMAND=/bin/bash",
+                "sensor": "auth-01",
+                "source": "linux_auth",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "linux_auth",
+              "src_ip": null,
+              "timestamp": "2026-11-15T09:04:00.000000+00:00",
+              "user": "analyst"
+            }
+          ],
+          "preserved_at": "2026-11-15T09:10:00.000000+00:00",
+          "schema_version": 1
+        }
+      },
+      {
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "created_by": "demo-analyst",
+        "id": "9e489c98-7af1-599a-84b4-83d07e6edecf",
+        "sha256": "d0f2ebe235ab1da3ea821f494f5faf4a92728842ac875e79f8543b04c0296463",
+        "snapshot": {
+          "case": {
+            "alerts": [
+              {
+                "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+                "confidence": 65,
+                "correlation_reason": "Same host workstation-07; within 15-minute case activity window.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d"
+                ],
+                "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent.",
+                "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
+                "host": "workstation-07",
+                "id": "d36b13d3-6d2f-5c5d-bf4d-4f975ece5f46",
+                "rule_id": "00000000-0000-0000-0000-000000000004",
+                "severity": "medium",
+                "techniques": [
+                  "T1053.005"
+                ],
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "title": "Scheduled task creation",
+                "user": "forge\\morgan"
+              },
+              {
+                "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+                "confidence": 75,
+                "correlation_reason": "New case: no open host/user match within 15 minutes.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "38983512-9654-570b-a6ac-3e5489b333bc"
+                ],
+                "explanation": "PowerShell process uses an encoded-command or download/decode marker; intent requires review.",
+                "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
+                "host": "workstation-07",
+                "id": "4ecdad83-10d0-5869-96bf-e308c6b3db8d",
+                "rule_id": "00000000-0000-0000-0000-000000000002",
+                "severity": "high",
+                "techniques": [
+                  "T1059.001"
+                ],
+                "timestamp": "2026-11-15T09:02:00.000000+00:00",
+                "title": "Suspicious PowerShell arguments",
+                "user": "forge\\morgan"
+              },
+              {
+                "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+                "confidence": 45,
+                "correlation_reason": "Same host workstation-07; within 15-minute case activity window.",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "event_ids": [
+                  "e894b23a-faf7-5f9a-9eef-2870b7dfd4e9"
+                ],
+                "explanation": "Connection to a globally routable IP on a configured uncommon port. Port alone does not establish C2.",
+                "group_key": "dba47b705b4ba0ace03e285e46c3352e78fe47bdf0ff7d4d2b4a84f42132cede",
+                "host": "workstation-07",
+                "id": "d06dd856-3382-534f-9e60-5aa2ec47d92f",
+                "rule_id": "00000000-0000-0000-0000-000000000007",
+                "severity": "medium",
+                "techniques": [
+                  "T1571"
+                ],
+                "timestamp": "2026-11-15T09:05:00.000000+00:00",
+                "title": "Outbound connection on an uncommon port",
+                "user": null
+              }
+            ],
+            "assignee": null,
+            "checklist": {},
+            "evidence": [],
+            "first_seen": "2026-11-15T09:00:00.000000+00:00",
+            "hosts": [
+              "workstation-07"
+            ],
+            "id": "b0144c75-aee2-5814-a98d-d652efb98634",
+            "last_seen": "2026-11-15T09:05:00.000000+00:00",
+            "notes": [
+              {
+                "author": "demo-analyst",
+                "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+                "created_at": "2026-11-15T09:10:00.000000+00:00",
+                "id": "1533a874-c7b2-5dcc-a053-5687db883a18",
+                "text": "Synthetic training investigation: correlate the source events, validate the command context and review the rule's false-positive considerations before escalating."
+              }
+            ],
+            "responses": [],
+            "risk": 79,
+            "status": "open",
+            "timeline": [
+              {
+                "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {},
+                "fingerprint": "c01b1883eee9f6730e57864445ad37951eabf45f2dfe4756a233063a73d69d41",
+                "host": "workstation-07",
+                "id": "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "C:\\Windows\\System32\\schtasks.exe",
+                "sensor": "fixture",
+                "source": "synthetic",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "forge\\morgan"
+              },
+              {
+                "command": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": "1001",
+                "fields": {
+                  "event_id": 1
+                },
+                "fingerprint": "158932f2e76ecc9ac39e4788f92af5b0e52010c57651e0550a9305c603370fa8",
+                "host": "workstation-07",
+                "id": "38983512-9654-570b-a6ac-3e5489b333bc",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "sensor": "sysmon-01",
+                "source": "sysmon",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:02:00.000000+00:00",
+                "user": "forge\\morgan"
+              },
+              {
+                "command": null,
+                "dst_ip": "1.1.1.1",
+                "dst_port": 4444,
+                "external_id": "Cdemo01",
+                "fields": {
+                  "conn_state": null,
+                  "destination_scope": "public",
+                  "orig_bytes": 620,
+                  "proto": "tcp",
+                  "service": null
+                },
+                "fingerprint": "9effa08098bff9540f875248a86ae1e8424169aa2b8b8a64e2c03745c881fa7c",
+                "host": "workstation-07",
+                "id": "e894b23a-faf7-5f9a-9eef-2870b7dfd4e9",
+                "kind": "network",
+                "outcome": "unknown",
+                "parent": null,
+                "process": null,
+                "sensor": "zeek-01",
+                "source": "zeek",
+                "src_ip": "10.0.0.7",
+                "timestamp": "2026-11-15T09:05:00.000000+00:00",
+                "user": null
+              }
+            ],
+            "title": "Suspicious PowerShell arguments \u00b7 workstation-07",
+            "users": [
+              "forge\\morgan"
+            ]
+          },
+          "events": [
+            {
+              "data": {
+                "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": null,
+                "fields": {},
+                "host": "workstation-07",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "C:\\Windows\\System32\\schtasks.exe",
+                "sensor": "fixture",
+                "source": "synthetic",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:00:00.000000+00:00",
+                "user": "forge\\morgan"
+              },
+              "fingerprint": "c01b1883eee9f6730e57864445ad37951eabf45f2dfe4756a233063a73d69d41",
+              "host": "workstation-07",
+              "id": "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d",
+              "kind": "process",
+              "raw": {
+                "host": null,
+                "payload": {
+                  "command": "schtasks /create /tn LabTask /tr notepad.exe /sc onlogon",
+                  "host": "workstation-07",
+                  "kind": "process",
+                  "process": "C:\\Windows\\System32\\schtasks.exe",
+                  "timestamp": "2026-11-15T09:00:00Z",
+                  "user": "forge\\morgan"
+                },
+                "sensor": "fixture",
+                "source": "synthetic",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "synthetic",
+              "src_ip": null,
+              "timestamp": "2026-11-15T09:00:00.000000+00:00",
+              "user": "forge\\morgan"
+            },
+            {
+              "data": {
+                "command": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+                "dst_ip": null,
+                "dst_port": null,
+                "external_id": "1001",
+                "fields": {
+                  "event_id": 1
+                },
+                "host": "workstation-07",
+                "kind": "process",
+                "outcome": "unknown",
+                "parent": null,
+                "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "sensor": "sysmon-01",
+                "source": "sysmon",
+                "src_ip": null,
+                "timestamp": "2026-11-15T09:02:00.000000+00:00",
+                "user": "forge\\morgan"
+              },
+              "fingerprint": "158932f2e76ecc9ac39e4788f92af5b0e52010c57651e0550a9305c603370fa8",
+              "host": "workstation-07",
+              "id": "38983512-9654-570b-a6ac-3e5489b333bc",
+              "kind": "process",
+              "raw": {
+                "host": null,
+                "payload": {
+                  "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAGQAZQBtAG8A",
+                  "Computer": "workstation-07",
+                  "EventID": 1,
+                  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                  "RecordID": "1001",
+                  "User": "forge\\morgan",
+                  "UtcTime": "2026-11-15 09:02:00"
+                },
+                "sensor": "sysmon-01",
+                "source": "sysmon",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "sysmon",
+              "src_ip": null,
+              "timestamp": "2026-11-15T09:02:00.000000+00:00",
+              "user": "forge\\morgan"
+            },
+            {
+              "data": {
+                "command": null,
+                "dst_ip": "1.1.1.1",
+                "dst_port": 4444,
+                "external_id": "Cdemo01",
+                "fields": {
+                  "conn_state": null,
+                  "destination_scope": "public",
+                  "orig_bytes": 620,
+                  "proto": "tcp",
+                  "service": null
+                },
+                "host": "workstation-07",
+                "kind": "network",
+                "outcome": "unknown",
+                "parent": null,
+                "process": null,
+                "sensor": "zeek-01",
+                "source": "zeek",
+                "src_ip": "10.0.0.7",
+                "timestamp": "2026-11-15T09:05:00.000000+00:00",
+                "user": null
+              },
+              "fingerprint": "9effa08098bff9540f875248a86ae1e8424169aa2b8b8a64e2c03745c881fa7c",
+              "host": "workstation-07",
+              "id": "e894b23a-faf7-5f9a-9eef-2870b7dfd4e9",
+              "kind": "network",
+              "raw": {
+                "host": "workstation-07",
+                "payload": {
+                  "id.orig_h": "10.0.0.7",
+                  "id.resp_h": "1.1.1.1",
+                  "id.resp_p": 4444,
+                  "orig_bytes": 620,
+                  "proto": "tcp",
+                  "ts": 1794733500,
+                  "uid": "Cdemo01"
+                },
+                "sensor": "zeek-01",
+                "source": "zeek",
+                "timestamp": null
+              },
+              "received_at": "2026-11-15T09:10:00.000000+00:00",
+              "source": "zeek",
+              "src_ip": "10.0.0.7",
+              "timestamp": "2026-11-15T09:05:00.000000+00:00",
+              "user": null
+            }
+          ],
+          "preserved_at": "2026-11-15T09:10:00.000000+00:00",
+          "schema_version": 1
+        }
+      }
+    ],
+    "iocs": [],
+    "notes": [
+      {
+        "author": "demo-analyst",
+        "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "id": "4928edee-4fa0-5179-835e-b4866f060ca2",
+        "text": "Synthetic training investigation: correlate the source events, validate the command context and review the rule's false-positive considerations before escalating."
+      },
+      {
+        "author": "demo-analyst",
+        "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
+        "created_at": "2026-11-15T09:10:00.000000+00:00",
+        "id": "1533a874-c7b2-5dcc-a053-5687db883a18",
+        "text": "Synthetic training investigation: correlate the source events, validate the command context and review the rule's false-positive considerations before escalating."
+      }
+    ],
+    "responses": []
+  }
+}

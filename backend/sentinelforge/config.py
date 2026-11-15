@@ -16,6 +16,7 @@ class Identity(BaseModel):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="SF_", env_file=".env", extra="ignore")
     local_mode: bool = False
+    public_demo: bool = False
     database_url: str = "sqlite:///./sentinelforge.db"
     identities: list[Identity] = Field(default_factory=list)
     rules_path: Path = ROOT / "rules"
@@ -26,7 +27,13 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def check_identities(self):
-        if not self.identities and not self.local_mode:
+        if self.public_demo and (
+            self.local_mode or self.identities or self.database_url != "sqlite:///:memory:"
+        ):
+            raise ValueError(
+                "Public demo requires an isolated in-memory database, no identities and no local mode"
+            )
+        if not self.identities and not self.local_mode and not self.public_demo:
             raise ValueError("SF_IDENTITIES must contain at least one identity; run scripts/setup.py")
         if any(i.name == "__local__" for i in self.identities):
             raise ValueError("__local__ is a reserved identity name")

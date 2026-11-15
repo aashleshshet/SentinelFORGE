@@ -125,6 +125,17 @@ pre {
   white-space: nowrap;
   border: 0;
 }
+.demo-notice {
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.demo-notice a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
 .rail {
   width: 62px;
   position: fixed;

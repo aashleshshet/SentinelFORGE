@@ -2,6 +2,8 @@
 
 Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 
+Public Vercel demo addition: **60 backend tests passed, 95% statement coverage**, including cross-instance stable IDs, credential/environment isolation, immutable SQLite enforcement, evidence integrity and rejection of all nine mutation routes. The dedicated public browser test passed locally with no sign-in, filters, evidence download and a 390px overflow assertion. Hosted verification is recorded in docs/VERCEL.md when complete. The historical full local-workspace validation below remains applicable to its original commit.
+
 | Check | Observed result |
 |---|---|
 | Python API/adapter/rule/correlation/security suite | 47 passed; 94% statement coverage |

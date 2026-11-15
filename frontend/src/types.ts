@@ -3,6 +3,7 @@ export type Principal = {
   name: string;
   role: "admin" | "analyst" | "viewer";
   local?: boolean;
+  demo?: boolean;
 };
 export type Event = {
   id: string;

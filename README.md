@@ -38,6 +38,8 @@ For a two-person approval/RBAC demonstration or PostgreSQL deployment, use authe
 
 ## Authenticated Docker Compose deployment
 
+For the hosted read-only portfolio version, see [Vercel deployment](docs/VERCEL.md). It uses bundled synthetic telemetry and requires no sign-in. Local mode above supports the full editing workflow.
+
 Requirements: Docker Engine with Compose v2, Git, and Python 3.12+. A small Nginx gateway publishes the dashboard on loopback only. The API and PostgreSQL stay on an internal Compose network.
 
 ```sh
