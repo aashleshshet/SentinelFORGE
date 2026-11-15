@@ -4,7 +4,9 @@
 
 Built for SOC and detection-engineering portfolios: Python 3.12 / FastAPI / SQLAlchemy / PostgreSQL, with a React / TypeScript / Tailwind dashboard. MIT licensed. This is an experimental single-tenant platform, not an enterprise SIEM or a substitute for a reviewed incident-response process.
 
-**[Open the public demo](https://sentinelforge-theta.vercel.app)** — no sign-in; read-only synthetic telemetry. Use the local setup below for the full investigation workflow.
+**[Open the public demo](https://sentinelforge-theta.vercel.app)** — no sign-in; read-only synthetic telemetry. **[How It Works](https://sentinelforge-theta.vercel.app/how-it-works)** walks through the real workflow. Use the local setup below for the full investigation workspace.
+
+See the [modernization and validation report](docs/MODERNIZATION.md) for the midnight glass interface, accessible guide and release evidence.
 
 ![SentinelForge dashboard showing synthetic lab telemetry](docs/screenshots/desktop.png)
 

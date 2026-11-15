@@ -1,3 +1,5 @@
+> Historical record of the original interface. The authorized midnight glass modernization supersedes its visual direction; see [DESIGN.md](../../DESIGN.md) and [MODERNIZATION.md](../MODERNIZATION.md).
+
 disposition: ship
 
 Main-session fallback review, 2026-11-15. Independent reviewer unavailable due to an account usage limit. The Impeccable engine, quality card and concept-seed verification were unavailable; this is a review against the user brief, persisted direction and rendered application, not a claim of complete automated skill validation. Code-led build; no approved visual comp.

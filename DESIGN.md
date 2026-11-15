@@ -1,97 +1,42 @@
----
-name: SentinelForge
-description: Evidence-led security operations, designed for sustained investigation.
-colors:
-  ground: '#171719'
-  surface: '#131217'
-  raised: '#212023'
-  border: '#2b2a2e'
-  control: '#47464c'
-  text: '#f2f2f3'
-  muted: '#a3a3ac'
-  accent: '#79a9df'
-  critical: '#f48495'
-  high: '#e9b17a'
-  medium: '#d7c18b'
-  positive: '#78c9a4'
-typography:
-  title:
-    fontFamily: Public Sans, sans-serif
-    fontSize: 26px
-    fontWeight: 600
-    lineHeight: 1.3
-    letterSpacing: '-0.02em'
-  body:
-    fontFamily: Public Sans, sans-serif
-    fontSize: 13px
-    fontWeight: 400
-    lineHeight: 1.65
-  data:
-    fontFamily: IBM Plex Mono, monospace
-    fontSize: 12px
-    fontWeight: 400
-    lineHeight: 1.5
-  label:
-    fontFamily: Public Sans, sans-serif
-    fontSize: 11px
-    fontWeight: 400
-    lineHeight: 1.5
-rounded:
-  panel: 6px
-  control: 5px
-spacing:
-  inline: 8px
-  panel: 16px
-  section: 24px
-components:
-  button-primary:
-    backgroundColor: '{colors.text}'
-    textColor: '{colors.ground}'
-    rounded: '{rounded.control}'
-    height: 35px
-    padding: 0 14px
-  panel:
-    backgroundColor: '{colors.surface}'
-    rounded: '{rounded.panel}'
-    padding: 16px
----
+# SentinelForge design system
 
-## Overview
+A midnight work surface for evidence-led investigation. The November 2026 modernization replaces the original charcoal rail with layered navy materials, pill controls and a readable workspace sidebar. Preserve the real API, severity meanings and analyst workflows.
 
-A quiet, dark operating surface. The analyst should recognize the queue, find exact evidence and record a decision without visual distraction. Product identity comes from the shield/stack mark, measured numeric typography and technique-count strips.
+## Tokens and typography
 
-## Colors
+`frontend/src/modern.css` owns shared material tokens; `style.css` retains established evidence/table layouts and `guide.css` owns the lazy-loaded guide layout.
 
-Charcoal separates work areas by small tone changes. Blue identifies selections and ATT&CK count marks. Severity colors encode critical, high, medium and low signals with text labels; color is never the sole status cue. Body text and muted metadata remain readable against the surfaces.
+| Token | Value |
+|---|---|
+| Canvas / surface / raised | `#080D19` / `#101A2C` / `#17243A` |
+| Text / secondary / accent | `#F2F6FC` / `#B4C2D8` / `#8CCBFF` |
+| Boundary / control boundary | `#2B3B53` / `#647995` |
+| Glass | 88% navy, 16px blur, 135% saturation, 21% pale-blue edge |
+| Control / panel radius | 999px / 16–20px |
+| Motion | 120 / 180 / 240ms; cubic-bezier(.2,.8,.2,1) |
 
-## Typography
+Self-hosted Public Sans provides interface text; IBM Plex Mono identifies timestamps, IDs and measured counts. Body text is 14px, guide prose 14–16px, metadata 11–12px. Large headings and counts establish hierarchy without changing the meaning of the underlying data. Color-coded severity always includes a text label.
 
-Public Sans carries interface language. IBM Plex Mono is reserved for identifiers, timestamps, commands and measurements. Large counts are regular weight; there is one page heading. Most metadata is compact at 11–12px, with task text at 13px. This density is deliberate for an analyst workstation; mobile content stacks instead of shrinking.
+## Material and components
 
-## Layout
+Use glass for navigation and modal chrome. Use opaque panels and evidence surfaces for sustained reading; never add a backdrop filter per row or nested scrolling layer. Fine edges, inset highlights and restrained blue/violet reflections add depth. Opaque surfaces are the base fallback, with blur enabled only through `@supports`; reduced transparency and forced colors have explicit treatments.
 
-A 62px desktop rail provides five destinations with accessible names. A compact bar names the product, local scope and active identity. Main gutters are 32px, with 24px gaps. At 1,100px the overview stacks. At 760px the rail becomes a labeled bottom navigation bar; case controls and timelines become a single column. Tables have contained horizontal overflow where needed, rather than widening the page.
+`components/glass.tsx` centralizes native Button, Input, Panel, Navbar, Sidebar, Table and Modal primitives. Existing semantic selects and details provide dropdowns and accordions. No extra UI or motion library is required. Native dialog behavior supplies inert background/Escape/focus restoration, with explicit first/last keyboard wrapping for consistent platform behavior.
 
-## Elevation & Depth
+## Navigation and layout
 
-Flat surfaces and quiet rules separate information. No glow, gradient, ornamental blur or floating decorative elements. No card shadows.
+Desktop uses a 224px labeled sidebar that collapses to 80px. Tablet uses the compact rail; mobile uses a named, keyboard-accessible modal menu. Controls generally target 44px; compact data links retain readable spacing. Tables scroll within their work panels, not across the page. Safe-area spacing protects mobile dialogs and footers.
 
-## Shapes
+Five workspace destinations use validated `?view=` URLs. `/how-it-works` is a lazy-loaded route with its own built HTML entry and metadata. Internal navigation preserves in-memory authentication. Back/forward clears stale filters and case selection. The public header shows guide navigation; real local or authenticated identity and sign-out controls remain mode-dependent. No fake user profile is shown.
 
-Small panel/control corners soften dense structures. The user identity alone is circular. Selection uses a narrow line. Technical records and timelines remain rectangular and orderly.
+## Motion and accessibility
 
-## Components
+Use short transform/opacity entrances, press feedback, chart entrances and progressive dialog transitions. Skeleton motion ends after three iterations. No perpetual ambient animation, parallax, animated blur or auto-moving evidence. Reduced motion removes nonessential transitions and animations.
 
-Primary actions use a pale fill; secondary controls use borders. Every icon-only control has an accessible label. Focus rings are visible; reduced-motion preferences disable transitions. Filter bars sit over their affected list. Empty, error, loading and disabled states retain clear wording. Errors preserve the last successful data with a stale-data notice.
+Provide visible focus, semantic headings, labels, skip links, disclosure states, tab arrow/Home/End navigation and modal focus wrapping. Validate actual composited colors with axe and inspect rendered screenshots. Automated checks are not a WCAG certification or a replacement for manual assistive-technology testing.
 
-The ATT&CK signal strip opens a technique-filtered alert list. Cases expose UTC chronology, exact evidence, authored rationale and separate simulated-response approval. Checkbox feedback updates immediately, then reconciles with the API or rolls back on failure.
+## Product truth
 
-## Do's and Don'ts
+All dashboard counts and timestamps come from the API. The guide diagram is explicitly an illustration. The public demo is a fixed synthetic snapshot, not a live feed. Local editing, API role checks, simulated responses and evidence integrity limits stay explicit. Do not invent AI, reputation services, native EVTX ingestion, real endpoint actions, signed custody or compliance claims.
 
-- Do derive counts and timestamps from the API.
-- Do use semantic labels next to status colors.
-- Do distinguish observed signals from compromise conclusions.
-- Do keep data typography tabular and columns aligned.
-- Don't invent live integrations, traffic histories or efficacy claims.
-- Don't add decorative imagery, animations, gradients or neon glows.
-- Don't put implementation details in the analyst's task flow unless they explain a decision or a genuine limit.
+The repository skill in `.agents/skills/sentinelforge-design-system` captures these conventions for future changes. See `docs/MODERNIZATION.md` for implementation and verification evidence.

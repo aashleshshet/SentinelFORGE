@@ -13,7 +13,7 @@ Production deployment `dpl_8z2ZWXWbpsaouyX53AgMGKMnk6JX` reached READY for code 
 - All three [GitHub CI jobs](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43722177935) passed for the same code: backend/PostgreSQL, authenticated browser workflow and Docker Compose deployment.
 - The scoped Vercel runtime scan returned no error/fatal records during the post-deployment verification window. This is a point-in-time check, not continuous monitoring or a production security review.
 
-This final live-link and verification update changes documentation only.
+For the subsequent interface/guide release, see [the modernization release record](MODERNIZATION.md#release-record). The entries above describe the original public-demo deployment.
 
 ## Data and isolation
 
@@ -42,7 +42,11 @@ python -m uvicorn app:app --host 127.0.0.1 --port 8002
 In another terminal:
 
 ```sh
-SF_PUBLIC_DEMO=1 SF_BASE_URL=http://127.0.0.1:8002 pnpm --dir frontend exec playwright test public-demo.spec.ts
+SF_PUBLIC_DEMO=1 SF_BASE_URL=http://127.0.0.1:8002 pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts
 ```
 
 To refresh the demo after changing fixtures or rules, run `python scripts/build_public_demo.py`, review its diff, then commit the new snapshot. A stale source digest fails closed at startup. Never generate this file from a real operator database.
+
+## Guide routing and frontend headers
+
+Vite builds `how-it-works/index.html` with page-specific metadata. Exact service-scoped rewrites serve it at `/how-it-works` and `/how-it-works/`; unknown API and asset routes are not converted into HTML. FastAPI serves the same fixed route locally. Public ingress sets CSP, nosniff, frame denial, no-referrer and restricted browser permissions for static frontend responses as well as the API. The policy preserves the existing style-only inline exception for chart widths, with scripts restricted to the same origin.

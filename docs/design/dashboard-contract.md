@@ -1,3 +1,5 @@
+> Historical record of the original interface. The authorized midnight glass modernization supersedes its visual direction; see [DESIGN.md](../../DESIGN.md) and [MODERNIZATION.md](../MODERNIZATION.md).
+
 # Dashboard direction contract
 Mode: Operate. The brief supplies product, audience, platform and dark-first design; no material product clarification was needed.
 THESIS: The analyst's first question is which signal deserves investigation. Lead with a working alert queue and its telemetry provenance.

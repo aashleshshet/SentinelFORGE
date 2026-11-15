@@ -1,0 +1,4 @@
+interface:
+  display_name: "SentinelForge Design System"
+  short_description: "Midnight glass UI with security invariants"
+  default_prompt: "Use $sentinelforge-design-system to improve this SentinelForge interface while preserving its API, authentication and evidence workflows."
