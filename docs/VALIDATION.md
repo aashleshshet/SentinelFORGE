@@ -27,6 +27,7 @@ Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 - Adapter parsing failures are handled before persistence; internal detection/database exceptions propagate and roll back the transaction.
 - Docker rejected a temporary-filesystem option parsed as a second mount because a comma-separated YAML scalar was unquoted. The mount is now one quoted string.
 - The API was healthy inside its container but inaccessible from the host while attached only to an internal network. A separate loopback-bound gateway now forwards to one fixed API upstream. The API and PostgreSQL remain exclusively on the internal network. Automatic approval review rejected attaching the API itself to an external-capable bridge; that change was removed.
+- The unprivileged gateway requires every module's temporary directory under writable `/tmp`, following [Nginx's unprivileged configuration guidance](https://github.com/nginx/docker-nginx-unprivileged#troubleshooting-tips). Its readiness probe explicitly performs a GET through the gateway to the API.
 
 One dependency emits a Starlette warning that its httpx-based TestClient path is deprecated. It does not fail the suite; migration to the upstream replacement is planned after compatibility review. The repository does not suppress the warning.
 
