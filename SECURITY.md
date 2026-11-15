@@ -16,7 +16,7 @@ The user-requested `python scripts/run_local.py` workflow intentionally requires
 - In-memory IP limiter (120 API requests/minute), bounded to 10,000 IP entries, direct peer IP rather than untrusted forwarded headers. Appropriate for one local process, not distributed rate enforcement.
 - Structured request logs include generated request ID, method, status, and duration; omit tokens, body, query strings and notes. Audit records retain actor and operation without copying note text.
 - React escapes evidence and notes; CSP restricts scripts/assets to the same origin. No third-party fonts, analytics, network enrichment or telemetry upload.
-- Non-root, read-only API container; private database network, no DB host port; runtime dependencies separately pinned.
+- Non-root, read-only API and gateway containers; the API and database join only an internal network and publish no host ports. The gateway alone joins an edge bridge, exposes loopback and forwards to the fixed API upstream. It has no application/database secrets, but its own outbound network capability remains a distinct trust boundary. Runtime dependencies are separately pinned.
 
 ## Known security limitations
 

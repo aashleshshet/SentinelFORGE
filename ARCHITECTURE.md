@@ -78,6 +78,8 @@ SSH rules use event time, accept out-of-order arrivals, require five matching ev
 
 ## Deployment boundaries
 
-The React build is served by FastAPI on the same origin. Tokens are bearer headers; there are no cross-origin credential cookies. PostgreSQL has no published host port. The API runs as UID 10001, read-only, with dropped capabilities, no privilege escalation, constrained memory/PIDs and a temporary `/tmp` filesystem. The Compose network is internal. Frontend fonts are bundled locally.
+The React build is served by FastAPI on the same origin. Tokens are bearer headers; there are no cross-origin credential cookies. PostgreSQL and the API join only the internal `private` network and publish no host ports. A separate unprivileged Nginx gateway joins the `edge` bridge and `private` network, publishing only `127.0.0.1:8000`. Its fixed upstream is `api:8000`; it has no API identities, database credentials or generic forwarding/CONNECT facility. The API retains network isolation from external destinations. The gateway itself has outbound network capability and is a separate trust boundary.
+
+The API runs as UID 10001 and the gateway as UID 101; both have read-only filesystems, dropped capabilities, no privilege escalation, constrained memory/PIDs and temporary `/tmp` storage. The gateway disables request access logs to avoid logging telemetry query data; the API retains structured request metadata logs. Frontend fonts are bundled locally. See [Docker Compose networking](https://docs.docker.com/compose/how-tos/networking/) for internal-network semantics.
 
 Schema v1 uses SQLAlchemy metadata creation for a new database. There are no automatic destructive migrations. Back up before changes; a migration framework, retention policy and least-privilege migration/runtime DB role split are planned. See [threat model](docs/THREAT_MODEL.md) before any exposed deployment.

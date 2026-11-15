@@ -38,7 +38,7 @@ For a two-person approval/RBAC demonstration or PostgreSQL deployment, use authe
 
 ## Authenticated Docker Compose deployment
 
-Requirements: Docker Engine with Compose v2, Git, and Python 3.12+. The API binds to loopback only. PostgreSQL is private to the Compose network.
+Requirements: Docker Engine with Compose v2, Git, and Python 3.12+. A small Nginx gateway publishes the dashboard on loopback only. The API and PostgreSQL stay on an internal Compose network.
 
 ```sh
 git clone https://github.com/aashleshshet/SentinelFORGE.git
@@ -95,7 +95,7 @@ The current toy corpus deliberately includes failures: **7 TP, 2 FP, 7 TN, 2 FN*
 
 ## Replay your own telemetry
 
-Create a JSON array of envelopes or an object with an `events` array. Set `SF_TOKEN` to the collector token without placing it in shell history (for example, use your shell's hidden-input prompt), then run:
+Create a JSON array of envelopes or an object with an `events` array. In the token-free local dashboard, open **Telemetry → Import JSON** to upload it directly. For the authenticated command-line replay tool, set `SF_TOKEN` to the collector token without placing it in shell history (for example, use your shell's hidden-input prompt), then run:
 
 ```sh
 python scripts/replay.py data/demo.json
