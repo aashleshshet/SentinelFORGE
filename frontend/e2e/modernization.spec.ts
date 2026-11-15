@@ -221,6 +221,11 @@ test("WCAG automated checks cover dashboard views, investigation, guide and dial
     .getByRole("button", { name: "UID-zero account creation", exact: true })
     .click();
   await page.getByRole("heading", { name: "Investigation timeline" }).waitFor();
+  await page.evaluate(() =>
+    Promise.all(
+      document.getAnimations().map((animation) => animation.finished),
+    ),
+  );
   expect(
     (
       await new AxeBuilder({ page })
@@ -230,6 +235,12 @@ test("WCAG automated checks cover dashboard views, investigation, guide and dial
   ).toEqual([]);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("button", { name: "Open navigation" }).click();
+  await expect(page.getByRole("dialog")).toHaveCSS("opacity", "1");
+  await page.evaluate(() =>
+    Promise.all(
+      document.getAnimations().map((animation) => animation.finished),
+    ),
+  );
   expect(
     (
       await new AxeBuilder({ page })
