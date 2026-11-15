@@ -2,6 +2,14 @@
 
 Recorded 2026-11-15 (Asia/Kolkata). All input telemetry is synthetic.
 
+## Modernization release
+
+Commit [`5d1fed0`](https://github.com/aashleshshet/SentinelFORGE/commit/5d1fed097244fd5b32572e4f7e9d2cd983474716) passed all three jobs in [CI run 43728447649](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43728447649), including PostgreSQL contracts and the full Docker Compose deployment. Local validation recorded 61 Python tests with 94.92% statement coverage. All 11 browser tests pass in CI: five authenticated and six public-demo/guide tests. The six public tests also pass on the deployed application code.
+
+The production TypeScript/Vite build, Ruff, Prettier, snapshot reproducibility and dependency audits pass. Automated accessibility checks cover all five views, case detail, the guide and mobile dialog; responsive checks include 320px, keyboard navigation, focus restoration, reduced motion and forced colors. Two real defects found during validation were corrected: delayed guide styles shifted the page, and the contrast test sampled an animating dialog. See the [modernization report](MODERNIZATION.md) for exact asset sizes, production-domain lab measurements, screenshots, security findings, deployment evidence and remaining limitations.
+
+## Historical public-demo and local-workspace validation
+
 Public Vercel demo addition: **60 backend tests passed, 95% statement coverage**, including cross-instance stable IDs, credential/environment isolation, immutable SQLite enforcement, evidence integrity and rejection of all nine mutation routes. The dedicated public browser test passed locally and on the production Vercel domain with no sign-in, filters, evidence download and a 390px overflow assertion. All three CI jobs passed for the demo code. See [hosted verification](VERCEL.md#recorded-verification). The historical full local-workspace validation below remains applicable to its original commit.
 
 | Check | Observed result |

@@ -35,7 +35,7 @@ The guide includes the requested hero; a factual introduction; four implemented 
 | Guide/routing | `frontend/src/HowItWorks.tsx`, `frontend/src/guide.css`, `frontend/how-it-works/index.html`, `frontend/vite.config.ts`, `backend/sentinelforge/api.py` |
 | Tests/tooling | `frontend/e2e/modernization.spec.ts`, `frontend/e2e/workflow.spec.ts`, `tests/test_frontend_routes.py`, `frontend/package.json`, `frontend/pnpm-lock.yaml`, `.github/workflows/ci.yml` |
 | Hosting | `vercel.json`, `.vercelignore` |
-| Documentation/evidence | `README.md`, `docs/VERCEL.md`, `docs/MODERNIZATION.md`, `docs/SECURITY_REVIEW.md`, `docs/design/*`, updated `docs/screenshots/*` |
+| Documentation/evidence | `README.md`, `docs/VERCEL.md`, `docs/VALIDATION.md`, `docs/MODERNIZATION.md`, `docs/SECURITY_REVIEW.md`, `docs/design/*`, updated `docs/screenshots/*` |
 
 ## Security outcome
 
@@ -45,11 +45,13 @@ See [the targeted review](SECURITY_REVIEW.md) for evidence, severity and residua
 
 Axe's WCAG 2 A/AA, 2.1 AA and 2.2 AA tags are checked on all five workspace views, case detail, the guide and mobile dialog. Keyboard tests cover step navigation, FAQ disclosure, dialog focus wrapping/Escape/restoration, navigation and authentication retention. Screenshots cover 1440, 768, 390 and 320px, plus reduced motion/opaque and forced-color states. A 200% CSS-zoom check and horizontal overflow assertions pass. Native controls and semantic markup remain the foundation. These checks are not a complete manual screen-reader audit or WCAG certification.
 
-Baseline compressed assets: dashboard JavaScript 79,489 bytes and CSS 7,510 bytes. The modernization adds about 2.3 KB compressed to initial JavaScript; guide code (~7.5 KB compressed) and guide CSS (~3.2 KB) load only on that route. Initial CSS grows to about 10.7 KB compressed for shared material, responsiveness and fallbacks. Fonts remain self-hosted; no raster artwork or remote font requests were added. Motion is finite and uses transforms/opacity; no per-row blur.
+Baseline gzip-compressed assets: dashboard JavaScript 79,489 bytes and CSS 7,510 bytes. Final initial JavaScript is 81,711 bytes (+2,222 bytes) and CSS is 10,584 bytes. Guide JavaScript (7,523 bytes) and guide CSS (2,977 bytes) load only on that route. Fonts remain self-hosted; no raster artwork or remote font requests were added. Motion is finite and uses transforms/opacity; no per-row blur.
 
 The initial release check caught a 0.238 guide layout shift on real network/CI timing: navigation and loading styles were bundled with lazy page CSS. Those styles now ship with the initial shell, and a delayed-asset regression test checks stable header geometry. The CLS <0.1 gate remains enforced; measurements are saved even on failure.
 
-One earlier local Chromium sample after fonts settled measured dashboard LCP 52ms / CLS 0.0409 and guide LCP 64ms / CLS 0.000011. These are unthrottled local lab observations, not mobile field performance, INP, a percentile, or a Lighthouse score. The browser test records fresh measurements to `work/modernization/lab-metrics.json`; network/device conditions will change results.
+The production-domain Chromium sample at 1440×1000 measured dashboard LCP 536ms / CLS 0.0409 and guide LCP 440ms / CLS 0.000011. These are two unthrottled browser lab observations, not mobile field performance, INP, a percentile, or a Lighthouse score. The browser test records measurements to `work/modernization/lab-metrics.json`; network/device conditions will change results. The final guide was also visually inspected in the native in-app browser.
+
+CI exposed a separate test-timing issue when axe sampled dialog contrast partway through the entrance fade. The test now waits for full opacity and completed animations before evaluating contrast. The contrast rule remains enabled, and the corrected suite passes.
 
 ## Validation
 
@@ -58,12 +60,28 @@ One earlier local Chromium sample after fonts settled measured dashboard LCP 52m
 - 61 Python tests pass; measured backend coverage is 94.92% (85% gate).
 - Authenticated browser tests cover replay, case updates/notes/checklists, evidence export, simulation requests, viewer restrictions, filters, responsive layouts, guide/session/sign-out behavior and invalid/duplicate JSON imports.
 - Public browser tests cover no sign-in, absent Demo Visitor, actual evidence export, denied mutation, guide deep links/history and all interactive steps, architecture, FAQ, mobile menus, reduced motion, responsive layouts, axe and lab metrics.
+- All 11 browser tests pass in CI: five authenticated workspace tests and six public-demo/modernization tests. The six public tests also passed against the production domain in 32.8 seconds on the final application code.
 - Public snapshot reproducibility check passes; Python/frontend audits report zero known advisories.
 - Existing Starlette TestClient/httpx deprecation and Node color-environment warnings are non-failing. No suppressed application error is counted as a pass.
 
 ## Release record
 
-The implementation is released to the existing `aashleshshet/SentinelFORGE` main branch and `sentinelforge` Vercel project. Exact commit, CI run and hosted verification results are recorded below after release. No force push, environment credential change or database migration is required.
+The implementation is pushed to the existing `aashleshshet/SentinelFORGE` main branch and deployed to the `sentinelforge` Vercel project. No force push, environment credential change or database migration was required.
+
+| Commit | Change |
+|---|---|
+| `c29c053` | Public-demo, guide and accessibility CI coverage |
+| `49b9fc8` | Workspace modernization, interactive guide and regression tests |
+| `da8a3f6` | Static frontend security headers and Vercel guide routing |
+| `1ab65f7` | Design skill, documentation, security review and screenshots |
+| `53efec0` | Stable guide chrome while lazy assets load |
+| `5d1fed0` | Accessibility test waits for the dialog entrance transition |
+
+The final tested code/test commit is [`5d1fed097244fd5b32572e4f7e9d2cd983474716`](https://github.com/aashleshshet/SentinelFORGE/commit/5d1fed097244fd5b32572e4f7e9d2cd983474716). All three jobs passed in [GitHub Actions run 43728447649](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43728447649): backend/PostgreSQL, browser and complete Docker Compose deployment. Vercel production deployment `dpl_3aVX1DSkZoHdNKeLR8mRcS6BsndN` reached READY for that exact commit. This release-record update changes documentation only.
+
+The live [workspace](https://sentinelforge-theta.vercel.app) and [guide](https://sentinelforge-theta.vercel.app/how-it-works) return HTTP 200 and the expected security headers. Missing API and asset paths return 404. The public identity remains a synthetic, read-only viewer; mutation requests return 403. The six-test production run was performed on `53efec0`, which has identical application code to `5d1fed0`; the latter changes only test synchronization. Scoped Vercel runtime checks during verification returned no error/fatal records. These are point-in-time observations, not continuous monitoring.
+
+The editable token-free local instance remains available at `http://127.0.0.1:8000`. The public Vercel instance needs no sign-in and does not accept private telemetry.
 
 ## Remaining limitations and next steps
 
