@@ -106,6 +106,7 @@ test("responsive reflow, mobile dialog focus, reduced motion and opaque fallback
         ),
       ).toBeTruthy();
       await page.screenshot({
+        animations: "disabled",
         path: resolve(
           captures,
           `${route === "/" ? "dashboard" : "guide"}-${width}.png`,
@@ -157,6 +158,7 @@ test("responsive reflow, mobile dialog focus, reduced motion and opaque fallback
   });
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.screenshot({
+    animations: "disabled",
     path: resolve(captures, "guide-opaque-reduced-motion.png"),
     fullPage: true,
   });
@@ -165,6 +167,7 @@ test("responsive reflow, mobile dialog focus, reduced motion and opaque fallback
     page.getByRole("button", { name: "Explore the workspace" }),
   ).toBeVisible();
   await page.screenshot({
+    animations: "disabled",
     path: resolve(captures, "guide-forced-colors.png"),
     fullPage: true,
   });
@@ -236,7 +239,7 @@ test("WCAG automated checks cover dashboard views, investigation, guide and dial
   ).toEqual([]);
 });
 
-test("records local lab rendering metrics without inventing field scores", async ({
+test("records browser lab metrics without inventing field scores", async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -267,19 +270,47 @@ test("records local lab rendering metrics without inventing field scores", async
       navigation: performance.getEntriesByType("navigation")[0].toJSON(),
     }));
     runs.push({ route, ...metrics });
-    expect(metrics.cls).toBeLessThan(0.1);
   }
   mkdirSync(captures, { recursive: true });
   writeFileSync(
     resolve(captures, "lab-metrics.json"),
     JSON.stringify(
       {
-        context:
-          "Chromium on local machine; unthrottled, two route samples, not field data or a Lighthouse score",
+        context: `Chromium browser lab; target ${process.env.SF_BASE_URL || "http://127.0.0.1:8000"}; unthrottled, two route samples, not field data or a Lighthouse score`,
         runs,
       },
       null,
       2,
     ),
   );
+  for (const run of runs)
+    expect(run.cls, `${run.route} layout shift`).toBeLessThan(0.1);
+});
+
+test("guide chrome is stable while its lazy assets are delayed", async ({
+  page,
+}) => {
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route("**/assets/HowItWorks-*.js", async (route) => {
+    await gate;
+    await route.continue();
+  });
+  try {
+    await page.goto("/how-it-works", { waitUntil: "domcontentloaded" });
+    const header = page.locator(".guide-navbar");
+    await expect(header).toBeVisible();
+    await expect(page.getByText("Opening the field guide…")).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    const before = await header.boundingBox();
+    release();
+    await page.locator(".guide-hero").waitFor();
+    const after = await header.boundingBox();
+    expect(after?.height).toBe(before?.height);
+    expect(after?.y).toBe(before?.y);
+  } finally {
+    release();
+  }
 });

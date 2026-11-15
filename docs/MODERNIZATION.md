@@ -45,9 +45,11 @@ See [the targeted review](SECURITY_REVIEW.md) for evidence, severity and residua
 
 Axe's WCAG 2 A/AA, 2.1 AA and 2.2 AA tags are checked on all five workspace views, case detail, the guide and mobile dialog. Keyboard tests cover step navigation, FAQ disclosure, dialog focus wrapping/Escape/restoration, navigation and authentication retention. Screenshots cover 1440, 768, 390 and 320px, plus reduced motion/opaque and forced-color states. A 200% CSS-zoom check and horizontal overflow assertions pass. Native controls and semantic markup remain the foundation. These checks are not a complete manual screen-reader audit or WCAG certification.
 
-Baseline compressed assets: dashboard JavaScript 79,489 bytes and CSS 7,510 bytes. The modernization adds about 2.3 KB compressed to initial JavaScript; guide code (~7.5 KB compressed) and guide CSS (~3.2 KB) load only on that route. Initial CSS grows to about 10.5 KB compressed for shared material, responsiveness and fallbacks. Fonts remain self-hosted; no raster artwork or remote font requests were added. Motion is finite and uses transforms/opacity; no per-row blur.
+Baseline compressed assets: dashboard JavaScript 79,489 bytes and CSS 7,510 bytes. The modernization adds about 2.3 KB compressed to initial JavaScript; guide code (~7.5 KB compressed) and guide CSS (~3.2 KB) load only on that route. Initial CSS grows to about 10.7 KB compressed for shared material, responsiveness and fallbacks. Fonts remain self-hosted; no raster artwork or remote font requests were added. Motion is finite and uses transforms/opacity; no per-row blur.
 
-One local Chromium sample after fonts settled measured dashboard LCP 52ms / CLS 0.0409 and guide LCP 64ms / CLS 0.000011. These are unthrottled local lab observations, not mobile field performance, INP, a percentile, or a Lighthouse score. The browser test records fresh measurements to `work/modernization/lab-metrics.json`; network/device conditions will change results.
+The initial release check caught a 0.238 guide layout shift on real network/CI timing: navigation and loading styles were bundled with lazy page CSS. Those styles now ship with the initial shell, and a delayed-asset regression test checks stable header geometry. The CLS <0.1 gate remains enforced; measurements are saved even on failure.
+
+One earlier local Chromium sample after fonts settled measured dashboard LCP 52ms / CLS 0.0409 and guide LCP 64ms / CLS 0.000011. These are unthrottled local lab observations, not mobile field performance, INP, a percentile, or a Lighthouse score. The browser test records fresh measurements to `work/modernization/lab-metrics.json`; network/device conditions will change results.
 
 ## Validation
 

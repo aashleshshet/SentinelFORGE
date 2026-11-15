@@ -939,3 +939,66 @@ pre {
     transition: none;
   }
 }
+
+/* Chrome and loading geometry must ship before the lazy guide CSS. */
+.guide-shell {
+  min-height: 100vh;
+}
+.guide-navbar {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px max(32px, calc((100% - 1280px) / 2));
+  border-width: 0 0 1px;
+}
+.guide-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.guide-navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.guide-navbar .guide-link {
+  border-color: transparent;
+  background: none;
+  color: var(--muted);
+}
+.route-loading {
+  padding: 80px 32px;
+  max-width: 1280px;
+  margin: auto;
+}
+@media (max-width: 760px) {
+  .guide-navbar {
+    min-height: 76px;
+    padding: 16px;
+    gap: 12px;
+  }
+  .guide-brand {
+    font-size: 14px;
+    gap: 8px;
+  }
+  .guide-brand svg {
+    width: 23px;
+  }
+  .guide-navbar .guide-link {
+    display: none;
+  }
+  .guide-navbar .primary {
+    padding: 10px 12px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  .guide-navbar .primary svg {
+    display: none;
+  }
+}
