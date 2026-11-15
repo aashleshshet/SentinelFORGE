@@ -22,10 +22,12 @@ FUTURE = "2026-11-17T10:00:00.000000+00:00"
 
 
 @pytest.fixture
-def context_client():
+def context_client(tmp_path):
     clock = [STAMP]
     app = create_app(
-        configuration(os.environ.get("SF_TEST_DATABASE_URL", "sqlite:///:memory:")),
+        configuration(
+            os.environ.get("SF_TEST_DATABASE_URL", "sqlite:///:memory:"), frontend_path=tmp_path / "no-ui"
+        ),
         clock=lambda: clock[0],
     )
     Base.metadata.drop_all(app.state.engine)
@@ -304,8 +306,9 @@ def test_versioned_intelligence_is_immutable_and_strict(context_client):
         == 409
     )
     assert (
-        client.patch(f"/api/context/indicators/{good['id']}", json=body, headers=headers()).status_code == 405
+        client.patch(f"/api/context/indicators/{good['id']}", json=body, headers=headers()).status_code == 404
     )
+    assert client.get("/api/context/indicators", headers=headers()).json()["items"] == [good]
     for changes in [
         {"kind": "sha256"},
         {"purpose": "unknown"},
