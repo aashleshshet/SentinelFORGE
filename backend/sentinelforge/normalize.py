@@ -33,7 +33,10 @@ def normalize(envelope: Envelope) -> Normalized:
             ssh = re.search(
                 r"(Failed|Accepted) (?:password|publickey) for (?:invalid user )?(\S+) from (\S+)", line
             )
-            sudo = re.search(r"sudo(?:\[\d+\])?:\s*(\S+)\s*:.*USER=(\S+)\s*;.*COMMAND=(.+)", line)
+            sudo = re.search(
+                r"(?:^|\s)sudo(?:\[\d+\])?:\s*(\S+)\s*:\s*(.*?)\bUSER=(\S+)\s*;.*?\bCOMMAND=(.+)",
+                line,
+            )
             if ssh:
                 base.update(
                     kind="authentication",
@@ -43,13 +46,26 @@ def normalize(envelope: Envelope) -> Normalized:
                     fields={"service": "sshd"},
                 )
             elif sudo:
+                # sudo's accepted policy log has only metadata before USER;
+                # rejected/error logs prepend a reason after the submitting user.
+                # An accepted record proves authorization, not command completion.
+                prefix_fields = sudo[2].strip()
+                reason = prefix_fields.split(";", 1)[0].strip()
+                accepted = re.fullmatch(r"(?:(?:TTY|CHROOT|PWD|HOST)=[^;]*;\s*)*", prefix_fields)
+                denied = re.fullmatch(
+                    r"user NOT in sudoers|user NOT authorized on host|command not allowed|"
+                    r"\d+ incorrect password attempts?|a password is required|"
+                    r"sorry, you are not allowed to set the following environment variables(?::.*)?",
+                    reason,
+                )
+                authorization = "accepted" if accepted else "denied" if denied else "unknown"
                 base.update(
                     kind="privilege",
                     user=sudo[1],
                     process="sudo",
-                    command=sudo[3],
-                    outcome="success",
-                    fields={"target_user": sudo[2]},
+                    command=sudo[4],
+                    outcome="success" if accepted else "failure" if denied else "unknown",
+                    fields={"target_user": sudo[3], "sudo_authorization": authorization},
                 )
             else:
                 raise ValueError("unsupported auth message; expected SSH authentication or sudo COMMAND")
@@ -78,6 +94,11 @@ def normalize(envelope: Envelope) -> Normalized:
                     command=data.get("CommandLine"),
                     parent=data.get("ParentImage"),
                 )
+                original = data.get("OriginalFileName")
+                if original is not None:
+                    if not isinstance(original, str) or len(original) > 255:
+                        raise ValueError("invalid OriginalFileName observation")
+                    base["fields"]["original_file_name"] = original
             elif event_id == 3:
                 base.update(
                     kind="network",
@@ -157,6 +178,7 @@ def normalize(envelope: Envelope) -> Normalized:
                             "Image": ed.get("image"),
                             "CommandLine": ed.get("commandLine"),
                             "ParentImage": ed.get("parentImage"),
+                            "OriginalFileName": ed.get("originalFileName"),
                             "User": ed.get("user"),
                             "SourceIp": ed.get("sourceIp"),
                             "DestinationIp": ed.get("destinationIp"),

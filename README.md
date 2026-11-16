@@ -10,11 +10,13 @@ See the [modernization and validation report](docs/MODERNIZATION.md) for the mid
 
 ![SentinelForge dashboard showing synthetic lab telemetry](docs/screenshots/desktop.png)
 
+The public demo includes a detailed **[What It Is](https://sentinelforge-theta.vercel.app/what-it-is)** tab, a cyberpunk palette and interaction recovery improvements. See [UI refinement and validation](docs/UI_REFINEMENT.md). Commit `1195a46` was deployed directly at the user’s request; the source PR remains a draft and is unmerged.
+
 ## What you can do
 
 1. Ingest Linux authentication, assembled auditd, Sysmon JSON, Wazuh alert JSON, Zeek conn.log JSON, and synthetic events.
 2. Normalize timestamps and attribution, reject invalid records, and deduplicate exact content replays.
-3. Run seven tested rules using a documented Sigma subset; attach official MITRE ATT&CK metadata and exact event evidence.
+3. Run nine experimental rules using a documented Sigma subset; attach official MITRE ATT&CK metadata and exact event evidence.
 4. Correlate alerts by host or non-generic user in a 15-minute activity window; inspect the grouping reason and risk calculation.
 5. Assign/escalate/close cases, add notes and checklists, preserve a SHA-256-verified snapshot, and export a JSON incident report.
 6. Request simulated isolation with a separate administrator's approval. No endpoint commands are ever executed.
@@ -97,7 +99,11 @@ pip-audit -r requirements.lock
 pnpm --dir frontend audit --audit-level high
 ```
 
-The current toy corpus deliberately includes failures: **7 TP, 2 FP, 7 TN, 2 FN**; precision **77.8%**, recall **77.8%**, false-positive rate **22.2%**. These are scenario-level synthetic results, not real-world efficacy estimates. See [evaluation methodology and measured latency/throughput](docs/EVALUATION.md), [raw evaluation results](docs/evaluation-results.json), and [benchmark results](docs/benchmark-results.json).
+The preserved legacy toy corpus deliberately includes failures: **7 TP, 2 FP, 7 TN, 2 FN**; precision **77.8%**, recall **77.8%**, false-positive rate **22.2%**. These are scenario-level synthetic results, not real-world efficacy estimates. See [evaluation methodology and measured latency/throughput](docs/EVALUATION.md), [raw evaluation results](docs/evaluation-results.json), and [benchmark results](docs/benchmark-results.json).
+
+The [evidence-led improvement report](docs/DETECTION_IMPROVEMENT.md) records separately frozen synthetic datasets, scoped administrative approvals and two context-supported rules. On its 16-case holdout the candidate measures 83.33% precision, 62.50% recall, 75.00% accuracy and 12.50% FPR: **the requested targets remain unmet**. These co-designed synthetic cases are not independent deployment validation. The strict CI target gate remains failing.
+
+The subsequent [command accuracy upgrade](docs/ACCURACY_UPGRADE.md) fixes option/value confusion in PowerShell, scheduled tasks, UID-zero and sudo evidence. On a new 40-case synthetic challenge holdout, accuracy rises **70% → 87.5%**, precision **64.29% → 85.71%**, and false alerts fall **10 → 3**, with recall unchanged at 90%. All 120 new rule contracts and 260 Python tests pass. This is narrow synthetic evidence, not operational accuracy; the original metrics and failing acceptance gate remain unchanged. The upgrade is live in the [public synthetic demo](https://sentinelforge-theta.vercel.app) at source `0aa1103`; all 10 hosted public browser tests pass. The source PR remains draft and unmerged; see the [verified release record](docs/ACCURACY_UPGRADE.md#public-production-release).
 
 ## Replay your own telemetry
 
@@ -134,13 +140,13 @@ For the approval flow, sign in as `analyst`, request a simulation, then sign in 
 | Capability | Status |
 |---|---|
 | Six ingestion formats, normalization, UTC validation, deduplication | Implemented; adapter fixtures and API tests |
-| Seven detections with exact evidence and ATT&CK mapping | Implemented; experimental, synthetic validation only |
+| Nine detections with exact evidence and ATT&CK mapping | Implemented; experimental, synthetic validation only |
 | Sigma workflow | Bounded dictionary/boolean subset; custom SSH aggregation extension |
 | Explainable correlation, risk, notes, assignment, escalation, checklist | Implemented |
 | Responsive dashboard, search, source/severity/technique filters | Implemented; real API data, 10-second polling |
 | Immutable-by-API evidence snapshots and JSON report export | Implemented; SHA-256 integrity, not WORM or signed custody |
 | Local IP IOC lookup | Implemented; no third-party egress |
-| MITRE STIX data | Bundled seven-technique subset; explicit operator refresh script |
+| MITRE STIX data | Bundled eight-technique subset; explicit operator refresh script |
 | Auth, RBAC, request limits, structured logs, hardened API container | Implemented for a local single-tenant lab |
 | Wazuh server/agents, live log tailers, auditd assembly, XML/EVTX parsing | Planned; only import formats are implemented |
 | Full Sigma/pySigma compiler and Sigma correlation specification | Planned |

@@ -51,3 +51,22 @@ An event has `{id, timestamp, received_at, source, sensor, host, user, kind, out
 An alert has `{id, case_id, rule_id, title, severity, confidence, timestamp, created_at, host, user, group_key, techniques, event_ids, explanation, correlation_reason}`. `event_ids` identify the actual evidence. Cases expose `{id, title, status, assignee, first_seen, last_seen, hosts, users, risk, checklist}`. Unknown case fields are rejected on mutation.
 
 The API allows case status corrections, including reopening a closed case. Closing a case excludes it from future correlation. The simulation state machine is stricter: pending → simulated once, with a different approving admin. Local mode is one identity; two-person simulation approval is demonstrated in authenticated mode.
+
+## Scoped detection context
+
+Context management is administrator-only, including token-free loopback's shared `__local__` administrator. It has no public-demo write path. These records do not change roles or authenticate new users.
+
+| Method / path | Role | Contract |
+|---|---|---|
+| POST `/context/bindings` | Admin | `{principal, source, sensor, host, expires_at, reason}`; principal must already be configured for ingestion; 201 |
+| POST `/context/approvals` | Admin | `{binding_id, rule_id, user, command_sha256, valid_from, valid_until, expires_at, reason}`; only rule UUID suffixes 2/4, one exact action, <=24-hour window; 201; duplicate action/window 409 |
+| POST `/context/indicators` | Admin | `{kind: "ip"|"sha256", value, purpose: "https-c2"|"powershell-script", version, provenance, valid_from, valid_until, expires_at, reason}`; immutable version; duplicate version 409 |
+| GET `/context/{bindings,approvals,indicators}` | Admin | Paginated `{total,items}`; no token values |
+| POST `/context/{bindings,approvals,indicators}/{id}/revoke` | Admin | Audited revocation; repeated revocation is idempotent |
+| GET `/context/suppressions` | Analyst/admin | Paginated suppression audit records including original event ID, rule, reason, approval/binding snapshot and digest |
+
+All timestamps require timezone-aware input. Event-time windows are half-open `[valid_from, valid_until)`; processing expiration is strict (`now < expires_at`). Syntactically valid expired records are retained as inert configuration with an audit status; malformed records return 422. An approval hashes the exact normalized command's UTF-8 bytes, including case and spacing. One use is consumed atomically with ingestion; transaction rollback restores it. Exact event replay does not consume another grant, and event-provided `approved` values are ignored.
+
+A duplicate normally returns its original event ID and no alerts. A bound principal's first redelivery of an event previously seen from an unbound identity can evaluate rules 8/9 against that principal's context. It still counts as a duplicate event, may return `alert_ids`/increment `alerts_created`, and creates an audited evaluation receipt. It neither reruns ordinary rules nor retroactively suppresses an earlier alert. Subsequent delivery by that bound identity does not rerun enrichment. This closes cross-principal deduplication preemption; it is not a general historical reanalysis API.
+
+The existing `/iocs` lookup database is separate: it has no version/expiry and is not automatically trusted by detection. Context intelligence must be intentionally imported through the new administrator boundary. Provenance URLs are descriptive text; the service never fetches them.

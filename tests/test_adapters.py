@@ -77,3 +77,23 @@ def test_source_attribution_cannot_be_overridden(client):
     client.post("/api/ingest", json={"events": [event]}, headers=headers())
     stored = client.get("/api/events", headers=headers()).json()["items"][0]
     assert stored["source"] == "synthetic" and stored["sensor"] == "trusted-envelope"
+
+
+def test_sysmon_original_filename_observation_is_not_script_hash():
+    event = normalize(
+        Envelope(
+            source="sysmon",
+            sensor="s",
+            payload={
+                "EventID": 1,
+                "Computer": "win-01",
+                "UtcTime": "2026-11-15 09:00:00",
+                "Image": r"C:\Temp\renamed.exe",
+                "OriginalFileName": "PowerShell.EXE",
+                "CommandLine": "renamed.exe -File job.ps1",
+                "Hashes": "SHA256=" + "a" * 64,
+            },
+        )
+    )
+    assert event.fields["original_file_name"] == "PowerShell.EXE"
+    assert "script_sha256" not in event.fields

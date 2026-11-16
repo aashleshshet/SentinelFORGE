@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge evidence-context experiment",
+  "version": "2.0.0",
+  "partition": "robustness",
+  "evaluation_time": "2026-11-19T12:00:00Z",
+  "provenance": "Hand-authored synthetic scenarios; no captured external or deployment telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in each scenario reason. No label or scenario metadata is submitted as telemetry. Context is separately configured through authenticated operator APIs. Ambiguous intent-only cases are retained as difficult examples.",
+  "independence": "Scenario/template is the unit. Variants within a partition are correlated regression evidence, not independent population observations. Validation and holdout were authored during implementation; neither is representative external validation.",
+  "selection_plan": {
+    "scenarios": 4,
+    "positive": 2,
+    "negative": 2,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "robustness-naive-time-rejection",
+      "origin_template": "naive-time-rejection",
+      "session_id": "robustness-session-01",
+      "suspicious": true,
+      "reason": "A suspicious record with an ambiguous timestamp must be an ingestion ERROR, not FN/TN",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-robustness-01",
+          "payload": {
+            "host": "robustness-node-01",
+            "timestamp": "2026-11-19T09:00:00",
+            "kind": "process",
+            "user": "lab\\operator-robustness",
+            "external_id": "session-robustness-01-event-1",
+            "command": "powershell -enc SQBFAFgA",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "robustness-malformed-sysmon-object",
+      "origin_template": "malformed-sysmon-object",
+      "session_id": "robustness-session-02",
+      "suspicious": false,
+      "reason": "Malformed sensor shape must fail evaluation integrity regardless of benign assigned intent",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "malformed-sysmon",
+          "payload": {
+            "Event": null
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "robustness-invalid-address-rejection",
+      "origin_template": "invalid-address-rejection",
+      "session_id": "robustness-session-03",
+      "suspicious": true,
+      "reason": "Invalid address cannot silently become a benign prediction",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-robustness-03",
+          "payload": {
+            "host": "robustness-node-03",
+            "timestamp": "2026-11-19T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-robustness",
+            "external_id": "session-robustness-03-event-1",
+            "dst_ip": "not-an-ip",
+            "dst_port": 443
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "robustness-unknown-normalized-field",
+      "origin_template": "unknown-normalized-field",
+      "session_id": "robustness-session-04",
+      "suspicious": false,
+      "reason": "Unsupported normalized field must remain a reported rejection",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-robustness-04",
+          "payload": {
+            "host": "robustness-node-04",
+            "timestamp": "2026-11-19T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-robustness",
+            "external_id": "session-robustness-04-event-1",
+            "command": "id",
+            "process": "/usr/bin/id",
+            "unsupported_top_level": true
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

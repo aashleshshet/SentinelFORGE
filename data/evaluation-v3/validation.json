@@ -1,0 +1,1155 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge command semantics challenge",
+  "version": "3.0.0",
+  "partition": "validation",
+  "evaluation_time": "2026-11-16T12:00:00Z",
+  "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+  "provenance": "Separately authored synthetic scenarios, never captured operational telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in reason; expected_rule_ids describe prespecified semantic contracts and need not agree with intent. Labels never enter telemetry.",
+  "independence": "All partitions authored and frozen before v3 detector evaluation. Shared rule domains, constructor code and engineer authorship create correlation; this is not blinded, independent operational validation.",
+  "selection_plan": {
+    "scenarios": 40,
+    "positive": 20,
+    "negative": 20,
+    "unobservable_positive": 2,
+    "authorized_alertable_negative": 3,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "v3-validation-encoded-after-format",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-01",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution follows consumed format option values.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-01",
+          "payload": {
+            "host": "v3-validation-01.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -InputFormat Text -OutputFormat XML -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHYAYQBsAC0AZgBvAHIAbQBhAHQAJwA=",
+            "external_id": "v3-validation-01"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-encoded-after-policy",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-02",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution; policy value must be consumed before ec.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-02",
+          "payload": {
+            "host": "v3-validation-02.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ExecutionPolicy RemoteSigned -ec VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHYAYQBsAC0AcABvAGwAaQBjAHkAJwA=",
+            "external_id": "v3-validation-02"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-encoded-after-window",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-03",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution after a valid window-style value.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-03",
+          "payload": {
+            "host": "v3-validation-03.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -WindowStyle Minimized -e VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHYAYQBsAC0AdwBpAG4AZABvAHcAJwA=",
+            "external_id": "v3-validation-03"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-encoded-after-endpoint",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-04",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution inside a named session endpoint.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-04",
+          "payload": {
+            "host": "v3-validation-04.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ConfigurationName AnalystEndpoint -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHYAYQBsAC0AZQBuAGQAcABvAGkAbgB0ACcA",
+            "external_id": "v3-validation-04"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-encoded-after-pipe",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-05",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution after a separate pipe-name value.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-05",
+          "payload": {
+            "host": "v3-validation-05.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -CustomPipeName diagnostics -ec VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAHYAYQBsAC0AcABpAHAAZQAnAA==",
+            "external_id": "v3-validation-05"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-system",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-06",
+      "suspicious": true,
+      "reason": "Assigned unauthorized SYSTEM scheduled action.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-06",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-06.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC HOURLY /RU SYSTEM /TN \"Cache Refresh\" /TR \"C:\\Stage\\cache.exe\"",
+            "RecordID": "v3-validation-06"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-interactive",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-07",
+      "suspicious": true,
+      "reason": "Assigned unauthorized interactive scheduled action.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-07",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-07.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC DAILY /IT /TN \"Desktop Bridge\" /TR \"C:\\Stage\\bridge.exe\"",
+            "RecordID": "v3-validation-07"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-highest",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-08",
+      "suspicious": true,
+      "reason": "Assigned unauthorized high-privilege startup task.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-08",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-08.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC ONSTART /RL HIGHEST /TN \"Start Helper\" /TR \"C:\\Stage\\start.exe\"",
+            "RecordID": "v3-validation-08"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-zero-padded-long",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-09",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt; decimal zero with leading zeros is still zero.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-09",
+          "payload": {
+            "host": "v3-validation-09.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -o --uid 00 val_bridge",
+            "external_id": "v3-validation-09"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-zero-padded-short",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-10",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt; attached zero-valued argument.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-10",
+          "payload": {
+            "host": "v3-validation-10.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -o -u000 val_agent",
+            "external_id": "v3-validation-10"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-after-comment",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-11",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root-equivalent account after unrelated consumed options.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-11",
+          "payload": {
+            "host": "v3-validation-11.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -c \"service migration\" -N -o -u 0 val_migrate",
+            "external_id": "v3-validation-11"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-quoted",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-12",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell; balanced executable quoting is lexical, not a path change.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-12",
+          "payload": "2026-11-16T09:00:00Z v3-validation-12.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=\"/bin/bash\" -l"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-usr-sh",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-13",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell using the usr-bin path.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-13",
+          "payload": "2026-11-16T09:00:00Z v3-validation-13.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/sh -c 'id -u'"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-zsh-login",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-14",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root login-style shell.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-14",
+          "payload": "2026-11-16T09:00:00Z v3-validation-14.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/bin/zsh -l"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-office-short-policy",
+      "origin_template": "validation-office-abbreviations",
+      "session_id": "v3-validation-session-15",
+      "suspicious": true,
+      "reason": "Assigned malicious document child uses supported short policy and file options.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-15",
+          "payload": {
+            "host": "v3-validation-15.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ep Bypass -f \"C:\\Stage\\attachment.ps1\"",
+            "external_id": "v3-validation-15",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-office-short-window",
+      "origin_template": "validation-office-abbreviations",
+      "session_id": "v3-validation-session-16",
+      "suspicious": true,
+      "reason": "Assigned malicious mail client child uses short hidden-window and file options.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-16",
+          "payload": {
+            "host": "v3-validation-16.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -w Hidden -f \"C:\\Stage\\contacts.ps1\"",
+            "external_id": "v3-validation-16",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-indicator-start",
+      "origin_template": "validation-context-inclusive-start",
+      "session_id": "v3-validation-session-17",
+      "suspicious": true,
+      "reason": "Assigned malicious script at the inclusive start of a versioned intelligence window.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-17",
+          "payload": {
+            "host": "v3-validation-17.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Stage\\load.ps1\"",
+            "external_id": "v3-validation-17",
+            "fields": {
+              "script_path": "C:\\Stage\\load.ps1",
+              "script_sha256": "d7518ea99dd501e69f4dc04f751623ebd2020916cc56ae9d3feeae6d658a0016"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-validation-sensor-17",
+            "host": "v3-validation-17.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "d7518ea99dd501e69f4dc04f751623ebd2020916cc56ae9d3feeae6d658a0016",
+            "purpose": "powershell-script",
+            "version": "v3-validation-indicator-start",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T09:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-validation-path-case",
+      "origin_template": "validation-context-lexical-path",
+      "session_id": "v3-validation-session-18",
+      "suspicious": true,
+      "reason": "Assigned malicious script; Windows observed path differs only in letter case.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-18",
+          "payload": {
+            "host": "v3-validation-18.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\STAGE\\Launch.PS1\"",
+            "external_id": "v3-validation-18",
+            "fields": {
+              "script_path": "c:\\stage\\launch.ps1",
+              "script_sha256": "ff90aad6c76430cb2600aa4ff381ad2ca8b856798896e87dd6fe416aaed1fd7e"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-validation-sensor-18",
+            "host": "v3-validation-18.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "ff90aad6c76430cb2600aa4ff381ad2ca8b856798896e87dd6fe416aaed1fd7e",
+            "purpose": "powershell-script",
+            "version": "v3-validation-path-case",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-validation-ordinary-inline-intent",
+      "origin_template": "validation-unobservable-program",
+      "session_id": "v3-validation-session-19",
+      "suspicious": true,
+      "reason": "Assigned malicious reconnaissance uses an ordinary command; evidence has no supported malicious predicate.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-19",
+          "payload": {
+            "host": "v3-validation-19.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"Get-ChildItem C:\\Projects\"",
+            "external_id": "v3-validation-19"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-implicit-script-intent",
+      "origin_template": "validation-unobservable-program",
+      "session_id": "v3-validation-session-20",
+      "suspicious": true,
+      "reason": "Assigned malicious script content is unobserved; implicit file invocation has no scoped content evidence.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-20",
+          "payload": {
+            "host": "v3-validation-20.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe \"C:\\Ops\\inventory.ps1\"",
+            "external_id": "v3-validation-20"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-settings-file-value",
+      "origin_template": "validation-engine-attached-data",
+      "session_id": "v3-validation-session-21",
+      "suspicious": false,
+      "reason": "Authorized settings filename includes option-like text; it is not an engine option.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-21",
+          "payload": {
+            "host": "v3-validation-21.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -SettingsFile \"C:\\Ops\\-EncodedCommand.json\" -Command \"Get-Date\"",
+            "external_id": "v3-validation-21"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-working-directory-value",
+      "origin_template": "validation-engine-attached-data",
+      "session_id": "v3-validation-session-22",
+      "suspicious": false,
+      "reason": "Authorized working directory contains an encoded-option spelling as path text.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-22",
+          "payload": {
+            "host": "v3-validation-22.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -WorkingDirectory \"C:\\Ops\\-enc\" -Command \"Get-Location\"",
+            "external_id": "v3-validation-22"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-inline-encoded-text",
+      "origin_template": "validation-command-boundary",
+      "session_id": "v3-validation-session-23",
+      "suspicious": false,
+      "reason": "Authorized command prints an engine-option name; it does not request encoded execution.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-23",
+          "payload": {
+            "host": "v3-validation-23.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"Write-Output '-EncodedCommand'\"",
+            "external_id": "v3-validation-23"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-inline-ec-text",
+      "origin_template": "validation-command-boundary",
+      "session_id": "v3-validation-session-24",
+      "suspicious": false,
+      "reason": "Authorized command prints an abbreviated option as literal data.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-24",
+          "payload": {
+            "host": "v3-validation-24.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"Write-Output '-ec report-token'\"",
+            "external_id": "v3-validation-24"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-delete-name",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-25",
+      "suspicious": false,
+      "reason": "Authorized deletion of an existing task whose name contains a verb-like token.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-25",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-25.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Delete /TN \"old /create helper\" /F",
+            "RecordID": "v3-validation-25"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-end-name",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-26",
+      "suspicious": false,
+      "reason": "Authorized termination of an existing task; create is only in the name.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-26",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-26.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /End /TN \"daily /create extract\"",
+            "RecordID": "v3-validation-26"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-task-change-quoted-value",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-27",
+      "suspicious": false,
+      "reason": "Authorized action update contains a complete-looking nested create fragment as data.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-27",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-27.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Change /TN \"Current\" /TR \"C:\\Ops\\worker.exe /create /sc daily\" /ENABLE",
+            "RecordID": "v3-validation-27"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-password-token",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-28",
+      "suspicious": false,
+      "reason": "Authorized account; zero-looking token is a password option value, not UID.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-28",
+          "payload": {
+            "host": "v3-validation-28.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -p \"-u0\" -u 2201 val_user",
+            "external_id": "v3-validation-28"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-home-token",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-29",
+      "suspicious": false,
+      "reason": "Authorized account with an option-like path segment and nonzero UID.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-29",
+          "payload": {
+            "host": "v3-validation-29.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -d \"/srv/-u0\" --uid 2202 val_home",
+            "external_id": "v3-validation-29"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-uid-end-options",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-30",
+      "suspicious": false,
+      "reason": "Authorized nonzero account; end-of-options terminates interpretation.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-30",
+          "payload": {
+            "host": "v3-validation-30.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -u 2203 -- val_u0",
+            "external_id": "v3-validation-30"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-test-shell",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-31",
+      "suspicious": false,
+      "reason": "Authorized executable check invokes test, not the shell being checked.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-31",
+          "payload": "2026-11-16T09:00:00Z v3-validation-31.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/test -x /usr/bin/bash"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-file-shell",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-32",
+      "suspicious": false,
+      "reason": "Authorized file classification invokes file; shell path is an operand.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-32",
+          "payload": "2026-11-16T09:00:00Z v3-validation-32.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/file /bin/sh"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-sudo-editor-shell",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-33",
+      "suspicious": false,
+      "reason": "Authorized text editing of a similarly named path is not shell execution.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-33",
+          "payload": "2026-11-16T09:00:00Z v3-validation-33.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/vi /etc/skel/bin/zsh"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-indicator-end",
+      "origin_template": "validation-context-half-open",
+      "session_id": "v3-validation-session-34",
+      "suspicious": false,
+      "reason": "Authorized historical replay occurs exactly at indicator end; half-open window excludes it.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-34",
+          "payload": {
+            "host": "v3-validation-34.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\retired.ps1\"",
+            "external_id": "v3-validation-34",
+            "fields": {
+              "script_path": "C:\\Ops\\retired.ps1",
+              "script_sha256": "7c1d58204c187a96001d609eed525e332da44f6902868d2d6b9e4445fa93da31"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-validation-sensor-34",
+            "host": "v3-validation-34.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "7c1d58204c187a96001d609eed525e332da44f6902868d2d6b9e4445fa93da31",
+            "purpose": "powershell-script",
+            "version": "v3-validation-indicator-end",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-16T09:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-validation-indicator-expired",
+      "origin_template": "validation-context-half-open",
+      "session_id": "v3-validation-session-35",
+      "suspicious": false,
+      "reason": "Authorized retrospective sample; intelligence expires exactly at processing time.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-35",
+          "payload": {
+            "host": "v3-validation-35.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\archive.ps1\"",
+            "external_id": "v3-validation-35",
+            "fields": {
+              "script_path": "C:\\Ops\\archive.ps1",
+              "script_sha256": "9d341b50a33d84c33746287339b2ba4be4e5a8a58bec0f4b6ecb2d6d5fabf80b"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-validation-sensor-35",
+            "host": "v3-validation-35.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "9d341b50a33d84c33746287339b2ba4be4e5a8a58bec0f4b6ecb2d6d5fabf80b",
+            "purpose": "powershell-script",
+            "version": "v3-validation-indicator-expired",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-16T12:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-validation-wrong-sensor",
+      "origin_template": "validation-context-identity",
+      "session_id": "v3-validation-session-36",
+      "suspicious": false,
+      "reason": "Authorized sensor test; collector binding names another sensor.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-36",
+          "payload": {
+            "host": "v3-validation-36.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\sensor-test.ps1\"",
+            "external_id": "v3-validation-36",
+            "fields": {
+              "script_path": "C:\\Ops\\sensor-test.ps1",
+              "script_sha256": "3f48be462072445507b5257857cbad1e5103c73d4ff92f2845ab4bb053aa02c1"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "other-sensor",
+            "host": "v3-validation-36.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "3f48be462072445507b5257857cbad1e5103c73d4ff92f2845ab4bb053aa02c1",
+            "purpose": "powershell-script",
+            "version": "v3-validation-wrong-sensor",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-validation-office-pipe-bypass",
+      "origin_template": "validation-office-data-value",
+      "session_id": "v3-validation-session-37",
+      "suspicious": false,
+      "reason": "Authorized Office automation; bypass-looking text is wholly inside the pipe name.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-37",
+          "payload": {
+            "host": "v3-validation-37.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -CustomPipeName \"-ExecutionPolicy Bypass\" -File \"C:\\Ops\\compose.ps1\"",
+            "external_id": "v3-validation-37",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-authorized-encoded",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-38",
+      "suspicious": false,
+      "reason": "Authorized diagnostic execution uses encoding without a scoped approval; heuristic remains alertable.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-validation-sensor-38",
+          "payload": {
+            "host": "v3-validation-38.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-validation",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoLogo -ec VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGEAdQB0AGgAbwByAGkAegBlAGQALQB2AGEAbAAtAGQAaQBhAGcAbgBvAHMAdABpAGMAcwAnAA==",
+            "external_id": "v3-validation-38"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-authorized-task",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-39",
+      "suspicious": false,
+      "reason": "Authorized administrative task without a scoped action approval still meets the create predicate.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-validation-sensor-39",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-validation-39.lab.invalid",
+            "User": "lab\\analyst-validation",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC MONTHLY /TN \"Inventory Reconcile\" /TR \"C:\\Ops\\reconcile.exe\"",
+            "RecordID": "v3-validation-39"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-validation-authorized-sudo",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-40",
+      "suspicious": false,
+      "reason": "Authorized emergency root-shell diagnostics; no user authorization baseline is modeled.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-validation-sensor-40",
+          "payload": "2026-11-16T09:00:00Z v3-validation-40.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/bin/bash -c 'systemctl status cron'"
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

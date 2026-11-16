@@ -1,0 +1,23 @@
+{
+  "version": "3.0.0",
+  "frozen_date": "2026-11-16",
+  "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+  "freeze_policy": "All partitions frozen together before any v3 outcome. No overwrite option; corrections require a new version and preserved original artifacts.",
+  "files": {
+    "development.json": "d6ea5b920a176920014c51c36ec18af7f863a2f2c493e2611226aea42f8c321f",
+    "validation.json": "932d1f44e4ef94c3471089ca2521c71ef4296dddca9da78275f3670a4c0b74e3",
+    "holdout.json": "220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d"
+  },
+  "builder_sha256": "c6df3849cdd918d893f5f506e929bf3fca48ff13ee3831125ebfa4bd37617b2c",
+  "plan_sha256": "3c4f1f565a14b36c6d65c8477edda52be06aa762e1aa4c691ff523bf0511a20a",
+  "selection_plan": {
+    "partitions": 3,
+    "per_partition": 40,
+    "positive_per_partition": 20,
+    "negative_per_partition": 20,
+    "total_scenarios": 120
+  },
+  "detector_executed_during_authoring": false,
+  "scope": "Five selected command/context rule domains; no claim about complete rule coverage or field efficacy",
+  "access_order": "Freeze all; development for tuning; validation for selection; freeze candidate; holdout once for report. Any reuse is development evidence thereafter."
+}

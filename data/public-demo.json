@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_sha256": "7d4b05373197816f737aa251af607a9459c2a72bbeb451011919deeb146f3c8e",
+  "source_sha256": "60073066c7d93d2fc65f227d5c9f45e423c1033db81e7995647d8ecff0794d18",
   "synthetic": true,
   "tables": {
     "alerts": [
@@ -37,7 +37,7 @@
         "event_ids": [
           "38983512-9654-570b-a6ac-3e5489b333bc"
         ],
-        "explanation": "PowerShell process uses an encoded-command or download/decode marker; intent requires review.",
+        "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (30 bytes; SHA256 4565f15cde9b63a032d9f9320c91eb3faa2096aa2f2bba486d1b1b87653a0b84); never executed.",
         "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
         "host": "workstation-07",
         "id": "4ecdad83-10d0-5869-96bf-e308c6b3db8d",
@@ -79,7 +79,7 @@
         "event_ids": [
           "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d"
         ],
-        "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent.",
+        "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent.",
         "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
         "host": "workstation-07",
         "id": "d36b13d3-6d2f-5c5d-bf4d-4f975ece5f46",
@@ -121,7 +121,7 @@
         "event_ids": [
           "9cafdd80-eab4-56c1-9736-aa4d154d4495"
         ],
-        "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties.",
+        "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties.",
         "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
         "host": "edge-01",
         "id": "f48c719c-2326-5c1a-8e61-9967aa35ddb3",
@@ -131,7 +131,7 @@
           "T1548.003"
         ],
         "timestamp": "2026-11-15T09:04:00.000000+00:00",
-        "title": "Interactive root shell through sudo",
+        "title": "Root shell through sudo",
         "user": "analyst"
       },
       {
@@ -183,7 +183,7 @@
         "case_id": "84c750d2-aaff-5e7c-8bcb-cf51841536f1",
         "created_at": "2026-11-15T09:10:00.000000+00:00",
         "detail": {
-          "sha256": "bdfc2813a385d6a0574441386ad19dd91d01dc4792aa4afdb0e79a2beb74ab75"
+          "sha256": "bb7cf372d8e1b8d52c5c5d3b48381bf3620feb393c27d3e3d73aaad9ee71d099"
         },
         "id": "5a2700b3-cecc-5e6e-a8f2-ac08011aebcd"
       },
@@ -201,7 +201,7 @@
         "case_id": "b0144c75-aee2-5814-a98d-d652efb98634",
         "created_at": "2026-11-15T09:10:00.000000+00:00",
         "detail": {
-          "sha256": "d0f2ebe235ab1da3ea821f494f5faf4a92728842ac875e79f8543b04c0296463"
+          "sha256": "d2ab98d21bc87bb0cc388a8d61d0f02b9c0db3f7cad786c27e84b7456cd6beaf"
         },
         "id": "6c71cf9e-b20f-593b-ab90-671e4cfcd3e1"
       }
@@ -241,6 +241,9 @@
         ]
       }
     ],
+    "collector_bindings": [],
+    "context_receipts": [],
+    "detection_approvals": [],
     "events": [
       {
         "data": {
@@ -601,6 +604,7 @@
           "dst_port": null,
           "external_id": null,
           "fields": {
+            "sudo_authorization": "accepted",
             "target_user": "root"
           },
           "host": "edge-01",
@@ -614,7 +618,7 @@
           "timestamp": "2026-11-15T09:04:00.000000+00:00",
           "user": "analyst"
         },
-        "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+        "fingerprint": "2b02aaaf52479019265c516641f689ffa1cb863fcfaab1a5f877a3a2d0938673",
         "host": "edge-01",
         "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
         "kind": "privilege",
@@ -851,6 +855,7 @@
           "dst_port": null,
           "external_id": null,
           "fields": {
+            "sudo_authorization": "accepted",
             "target_user": "root"
           },
           "host": "edge-01",
@@ -864,7 +869,7 @@
           "timestamp": "2026-11-15T09:04:00.000000+00:00",
           "user": "analyst"
         },
-        "fingerprint": "17cffcce040a0bb1b3ca093e7d0efecebf183f1466265a12f5942c90ab08be41",
+        "fingerprint": "f68e5dbd235a31be591bb5dbde4126f4760df306b5c5a9e7eb28be2637cc8d92",
         "host": "edge-01",
         "id": "72736670-4f92-571f-8cf2-2be7b9d01394",
         "kind": "privilege",
@@ -994,7 +999,7 @@
         "created_at": "2026-11-15T09:10:00.000000+00:00",
         "created_by": "demo-analyst",
         "id": "2b8fe60b-3894-57b3-8855-bfac0412fcb6",
-        "sha256": "bdfc2813a385d6a0574441386ad19dd91d01dc4792aa4afdb0e79a2beb74ab75",
+        "sha256": "bb7cf372d8e1b8d52c5c5d3b48381bf3620feb393c27d3e3d73aaad9ee71d099",
         "snapshot": {
           "case": {
             "alerts": [
@@ -1073,7 +1078,7 @@
                 "event_ids": [
                   "9cafdd80-eab4-56c1-9736-aa4d154d4495"
                 ],
-                "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties.",
+                "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties.",
                 "group_key": "061e1e70d1fb286ee91a3d4f47592f69505b29739681ecc50f8bec04c5d1b962",
                 "host": "edge-01",
                 "id": "f48c719c-2326-5c1a-8e61-9967aa35ddb3",
@@ -1083,7 +1088,7 @@
                   "T1548.003"
                 ],
                 "timestamp": "2026-11-15T09:04:00.000000+00:00",
-                "title": "Interactive root shell through sudo",
+                "title": "Root shell through sudo",
                 "user": "analyst"
               }
             ],
@@ -1261,9 +1266,10 @@
                 "dst_port": null,
                 "external_id": null,
                 "fields": {
+                  "sudo_authorization": "accepted",
                   "target_user": "root"
                 },
-                "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+                "fingerprint": "2b02aaaf52479019265c516641f689ffa1cb863fcfaab1a5f877a3a2d0938673",
                 "host": "edge-01",
                 "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
                 "kind": "privilege",
@@ -1556,6 +1562,7 @@
                 "dst_port": null,
                 "external_id": null,
                 "fields": {
+                  "sudo_authorization": "accepted",
                   "target_user": "root"
                 },
                 "host": "edge-01",
@@ -1569,7 +1576,7 @@
                 "timestamp": "2026-11-15T09:04:00.000000+00:00",
                 "user": "analyst"
               },
-              "fingerprint": "988b8f4193eb13d4e703dc45a8d7c94d0533ca77f90251d1e63005a9f5c4ce3b",
+              "fingerprint": "2b02aaaf52479019265c516641f689ffa1cb863fcfaab1a5f877a3a2d0938673",
               "host": "edge-01",
               "id": "9cafdd80-eab4-56c1-9736-aa4d154d4495",
               "kind": "privilege",
@@ -1596,7 +1603,7 @@
         "created_at": "2026-11-15T09:10:00.000000+00:00",
         "created_by": "demo-analyst",
         "id": "9e489c98-7af1-599a-84b4-83d07e6edecf",
-        "sha256": "d0f2ebe235ab1da3ea821f494f5faf4a92728842ac875e79f8543b04c0296463",
+        "sha256": "d2ab98d21bc87bb0cc388a8d61d0f02b9c0db3f7cad786c27e84b7456cd6beaf",
         "snapshot": {
           "case": {
             "alerts": [
@@ -1608,7 +1615,7 @@
                 "event_ids": [
                   "b0cc2a3e-0932-5f07-b62c-5adde18c9d7d"
                 ],
-                "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent.",
+                "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent.",
                 "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
                 "host": "workstation-07",
                 "id": "d36b13d3-6d2f-5c5d-bf4d-4f975ece5f46",
@@ -1629,7 +1636,7 @@
                 "event_ids": [
                   "38983512-9654-570b-a6ac-3e5489b333bc"
                 ],
-                "explanation": "PowerShell process uses an encoded-command or download/decode marker; intent requires review.",
+                "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (30 bytes; SHA256 4565f15cde9b63a032d9f9320c91eb3faa2096aa2f2bba486d1b1b87653a0b84); never executed.",
                 "group_key": "6e9f343514b8b9bb256e0c34c8abee70ff56a20b1bbcdee0b970456f0fbced55",
                 "host": "workstation-07",
                 "id": "4ecdad83-10d0-5869-96bf-e308c6b3db8d",
@@ -1917,6 +1924,7 @@
         "text": "Synthetic training investigation: correlate the source events, validate the command context and review the rule's false-positive considerations before escalating."
       }
     ],
-    "responses": []
+    "responses": [],
+    "threat_indicators": []
   }
 }

@@ -1,0 +1,808 @@
+{
+  "comparison": "Archived baseline detector on the frozen event inputs; operator context unsupported by historical backend",
+  "source_revision": "78b7bd5c7e17f95993772204d7eaf66a6eec424f",
+  "dataset": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation-v2/robustness.json",
+  "dataset_sha256": "def314a66bcb7585b7c9d0510ecc6b9f967f81f9ee779f4c461a0db2bfa07555",
+  "source_file_sha256": {
+    "backend/sentinelforge/__init__.py": "62777a4b57ec2fad33c0f8058ebafd43c713dd2a6ef3cbd83b50b53edc05ab5f",
+    "backend/sentinelforge/api.py": "586c4d50c906fd1374336e3a41ef81a87e6c0507bd5c1fc3f8dbe737e35ccc3b",
+    "backend/sentinelforge/config.py": "0864396cf77f81ae40054008d75c5dee524b0670818304ad68df3584080839f3",
+    "backend/sentinelforge/db.py": "6f099ad2669505db6371efc2b0fbcd0e5bbad4aa982a45cd5d4663d047cc7f21",
+    "backend/sentinelforge/engine.py": "3221ebdd77c1c598341ccefa9ed3f800f3811fc0913c6cb9c4b24f56cffb5a43",
+    "backend/sentinelforge/main.py": "626acc1bd498d4f2ec8a77a0720608b1212f29c16c514c7f71247e1242415fb8",
+    "backend/sentinelforge/normalize.py": "f798cc214f1c5c4b88b7ddb509ea0db53432a67aa0b0059773524aa166b5c734",
+    "backend/sentinelforge/public_demo.py": "5df477d987202d636a7fa41d861b07f6f9d5a706845a6b7808dec4954d589a44",
+    "backend/sentinelforge/rules.py": "aa199d2b6ed4ee42acc9c43c07c6e945e2dbd60142588ad0f3c8cd52e8a880db",
+    "backend/sentinelforge/schemas.py": "1b73207d4a2e1dee9f49542b4a0c927d61d218e9712c39498188b89c7702697b",
+    "rules/account-uid-zero.yml": "5bd5146dee3a2af7ff3d245f8c82bbc3947b6adc85d58329a4ad2c3ca817a2ee",
+    "rules/outbound-port.yml": "7b88466083dde83116895fa6b1613d2cafbdd8ad1b64724e3118c9bcb5424fe8",
+    "rules/powershell-encoded.yml": "a37e85a4778827baa2108c21b3ae08c45050b1c54d090fa5e04a8e3813d16203",
+    "rules/scheduled-task.yml": "1aa227e1e824cd84031fc2dc7741aa037eb02a2dd3432cdb74b01fc6418ac737",
+    "rules/shell-unusual.yml": "6599449b319c7221dad41e103f0a186ea9b73e028d769141e1ac58026b7ec284",
+    "rules/ssh-brute-force.yml": "00769c3941b378f112a70948a1a8ce0470a997410b14afa219b44785c82a4de2",
+    "rules/sudo-shell.yml": "bae082af4da5bff1ae993fff794c9f0010f128bd2e5a0aabd5cfd39e4cf59957",
+    "requirements.lock": "e96e9dca6ab2b1b581795b7a826ebcf5b9168d05e39aabd4d3ffdda17ba2fd11"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-27.3-arm64-arm-64bit",
+    "machine": "arm64",
+    "database": "SQLite in memory",
+    "sqlite": "3.53.1",
+    "packages": {
+      "fastapi": "0.163.0",
+      "sqlalchemy": "2.1.8",
+      "pydantic": "2.14.3",
+      "httpx": "0.28.1",
+      "PyYAML": "6.0.3"
+    }
+  },
+  "active_rule_count": 7,
+  "valid": false,
+  "confusion_matrix": {
+    "TP": 0,
+    "FP": 0,
+    "TN": 0,
+    "FN": 0
+  },
+  "denominators": {
+    "total": 4,
+    "positive": 2,
+    "negative": 2,
+    "predicted_positive": 0,
+    "classified": 0,
+    "errors": 4
+  },
+  "prevalence": 0.5,
+  "classification_coverage": 0.0,
+  "precision": null,
+  "recall": null,
+  "accuracy": null,
+  "false_positive_rate": null,
+  "uncertainty": {
+    "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+    "intervals": {
+      "precision": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 0,
+        "trials": 0,
+        "lower": null,
+        "upper": null,
+        "unavailable_reason": "unclassified/error observations"
+      },
+      "recall": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 0,
+        "trials": 2,
+        "lower": null,
+        "upper": null,
+        "unavailable_reason": "unclassified/error observations"
+      },
+      "accuracy": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 0,
+        "trials": 4,
+        "lower": null,
+        "upper": null,
+        "unavailable_reason": "unclassified/error observations"
+      },
+      "false_positive_rate": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 0,
+        "trials": 2,
+        "lower": null,
+        "upper": null,
+        "unavailable_reason": "unclassified/error observations"
+      }
+    }
+  },
+  "targets": {
+    "passed": false,
+    "checks": {
+      "precision": {
+        "value": null,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "recall": {
+        "value": null,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "accuracy": {
+        "value": null,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "false_positive_rate": {
+        "value": null,
+        "operator": "<",
+        "threshold": 0.05,
+        "passed": false
+      }
+    },
+    "basis": "Unrounded point estimates; separate from uncertainty and external validity"
+  },
+  "input_audit": {
+    "input_key": "Canonical submitted event sequence and operator context, excluding scenario metadata",
+    "duplicate_groups": [],
+    "contradictions": [],
+    "minimum_unavoidable_errors": 0,
+    "accuracy_upper_bound": 1.0,
+    "assumptions": "Deterministic detector, identical initial state and fixed processing clock; upper bound only"
+  },
+  "by_source": {
+    "synthetic": {
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 3,
+        "positive": 2,
+        "negative": 1,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 3
+      },
+      "prevalence": 0.6666666666666666,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 2,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 3,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 1,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "sysmon": {
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 1,
+        "positive": 0,
+        "negative": 1,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 1
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 1,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 1,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    }
+  },
+  "by_rule": {
+    "00000000-0000-0000-0000-000000000005": {
+      "title": "UID-zero account creation",
+      "slug": "account-uid-zero",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000007": {
+      "title": "Outbound connection on an uncommon port",
+      "slug": "outbound-port",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000002": {
+      "title": "Suspicious PowerShell arguments",
+      "slug": "powershell-encoded",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 1,
+        "negative": 3,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.25,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 1,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 3,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000004": {
+      "title": "Scheduled task creation",
+      "slug": "scheduled-task",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000003": {
+      "title": "Shell with a TCP redirection",
+      "slug": "shell-unusual",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000001": {
+      "title": "SSH password guessing",
+      "slug": "ssh-brute-force",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000006": {
+      "title": "Interactive root shell through sudo",
+      "slug": "sudo-shell",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 0,
+        "negative": 4,
+        "predicted_positive": 0,
+        "classified": 0,
+        "errors": 4
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 0.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": null,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 4,
+            "lower": null,
+            "upper": null,
+            "unavailable_reason": "unclassified/error observations"
+          }
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "robustness-naive-time-rejection",
+      "label": true,
+      "alerted": null,
+      "classification": "ERROR",
+      "errors": [
+        "Rejected 1 records"
+      ],
+      "alerts": [],
+      "alert_count": 0,
+      "emitted_rule_ids": [],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "sources": [
+        "synthetic"
+      ],
+      "operator_context_supported": false,
+      "operator_context_present": false,
+      "ingestion": {
+        "accepted": 0,
+        "duplicates": 0,
+        "rejected": 1
+      }
+    },
+    {
+      "id": "robustness-malformed-sysmon-object",
+      "label": false,
+      "alerted": null,
+      "classification": "ERROR",
+      "errors": [
+        "Rejected 1 records"
+      ],
+      "alerts": [],
+      "alert_count": 0,
+      "emitted_rule_ids": [],
+      "expected_rule_ids": [],
+      "sources": [
+        "sysmon"
+      ],
+      "operator_context_supported": false,
+      "operator_context_present": false,
+      "ingestion": {
+        "accepted": 0,
+        "duplicates": 0,
+        "rejected": 1
+      }
+    },
+    {
+      "id": "robustness-invalid-address-rejection",
+      "label": true,
+      "alerted": null,
+      "classification": "ERROR",
+      "errors": [
+        "Rejected 1 records"
+      ],
+      "alerts": [],
+      "alert_count": 0,
+      "emitted_rule_ids": [],
+      "expected_rule_ids": [],
+      "sources": [
+        "synthetic"
+      ],
+      "operator_context_supported": false,
+      "operator_context_present": false,
+      "ingestion": {
+        "accepted": 0,
+        "duplicates": 0,
+        "rejected": 1
+      }
+    },
+    {
+      "id": "robustness-unknown-normalized-field",
+      "label": false,
+      "alerted": null,
+      "classification": "ERROR",
+      "errors": [
+        "Rejected 1 records"
+      ],
+      "alerts": [],
+      "alert_count": 0,
+      "emitted_rule_ids": [],
+      "expected_rule_ids": [],
+      "sources": [
+        "synthetic"
+      ],
+      "operator_context_supported": false,
+      "operator_context_present": false,
+      "ingestion": {
+        "accepted": 0,
+        "duplicates": 0,
+        "rejected": 1
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic co-designed inputs, not independent deployment validation",
+    "Additional operator context is a new capability and is not available in this historical reference",
+    "No scenario metadata or labels enter detector requests"
+  ]
+}

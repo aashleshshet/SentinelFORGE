@@ -1,0 +1,47 @@
+..............................FF                                         [100%]
+=================================== FAILURES ===================================
+___________ test_unbound_first_delivery_cannot_preempt_bound_context ___________
+
+context_client = (<starlette.testclient.TestClient object at 0x10dd67770>, ['2026-11-16T10:00:00.000000+00:00'])
+
+    def test_unbound_first_delivery_cannot_preempt_bound_context(context_client):
+        client, _ = context_client
+        binding(client)
+        indicator(client)
+        traffic = event(kind='network', command=None, process=None, dst_ip='8.8.4.4', dst_port=443)
+        assert ingest(client, traffic, actor='lead')['alerts_created'] == 0
+        second = ingest(client, traffic)
+        assert second['duplicates'] == 1 and second['accepted'] == 0
+>       assert second['alerts_created'] == 1
+E       assert 0 == 1
+
+tests/test_context.py:443: AssertionError
+__________ test_reposting_same_approval_does_not_issue_a_second_grant __________
+
+context_client = (<starlette.testclient.TestClient object at 0x10d9db470>, ['2026-11-16T10:00:00.000000+00:00'])
+
+    def test_reposting_same_approval_does_not_issue_a_second_grant(context_client):
+        client, _ = context_client
+        bound = binding(client)
+        grant = approval(client, bound)
+        assert ingest(client, event())['alerts_created'] == 0
+        body = {key: grant[key] for key in ['binding_id', 'rule_id', 'user', 'command_sha256',
+            'valid_from', 'valid_until', 'expires_at', 'reason']}
+>       assert client.post('/api/context/approvals', json=body, headers=headers()).status_code == 409
+E       AssertionError: assert 201 == 409
+E        +  where 201 = <Response [201 Created]>.status_code
+E        +    where <Response [201 Created]> = post('/api/context/approvals', json={'binding_id': '91071031-ad7b-4418-a6bf-3b808762e6d7', 'rule_id': '00000000-0000-0000-0000-000000000002', 'user': 'corp\\operator', 'command_sha256': '59ba040ff036864a9148105d8ab0db87453ba872174716fa640de4a086853ceb', ...}, headers={'Authorization': 'Bearer lead-test-only-token-not-for-deployment-test-only-token-not-for-deployment-'})
+E        +      where post = <starlette.testclient.TestClient object at 0x10d9db470>.post
+E        +      and   {'Authorization': 'Bearer lead-test-only-token-not-for-deployment-test-only-token-not-for-deployment-'} = headers()
+
+tests/test_context.py:456: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_context.py::test_unbound_first_delivery_cannot_preempt_bound_context
+FAILED tests/test_context.py::test_reposting_same_approval_does_not_issue_a_second_grant
+2 failed, 30 passed, 1 warning in 0.92s

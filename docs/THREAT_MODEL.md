@@ -24,3 +24,13 @@ Scope: a single-tenant local lab with untrusted imported telemetry, a React brow
 Raw and normalized telemetry, notes and reports may contain sensitive data. There is no built-in redaction, automatic retention or deletion API. The operator controls filesystem/volume access and must define a retention policy before real collection. Local mode is intended for this synthetic demonstration on a trusted computer. Authenticated mode should receive a TLS proxy, OIDC/MFA, signed collectors, least-privilege DB roles, backups, external audit and load testing before wider deployment.
 
 MITRE updates are an explicit command to one fixed HTTPS source; they send no telemetry. VirusTotal/AbuseIPDB are not wired. No hidden network enrichment occurs during ingestion, investigation or IOC lookup.
+
+## Detection context additions
+
+Administrator enrollment binds a preconfigured ingestion identity to a source/sensor/host, with expiration and reason. Suppression additionally binds observed user, exact command digest, one of two approvable rules, bounded event-time window and one use. Only the actual authenticated principal can match the enrollment; event claims cannot grant an exemption. Writes and approval consumption use the existing serialized transaction boundary, including PostgreSQL advisory locking. Duplicate approval requests cannot extend a consumed grant. Suppression and enrichment retain immutable-by-API context snapshots/digests in audit; a database administrator can still alter them.
+
+This is operator-verified enrollment, **not cryptographic sensor or human identity attestation**. An enrolled collector can lie within its assigned scope; a privileged administrator can import misleading intelligence or authorize a malicious exact action. Narrow actions, short windows, expiry, provenance and audit reduce ambiguity but cannot remove that trust. Reason/provenance text is not independently authenticated. Static bearer-token and shared-loopback limitations remain.
+
+An unbound sender's earlier copy cannot block a bound collector's first contextual evaluation: redelivery preserves event deduplication and records a per-principal context receipt. Existing alerts are not erased. Later indicator updates do not trigger automatic historical reanalysis; that is a documented coverage limit.
+
+Four additive tables (`collector_bindings`, `detection_approvals`, `threat_indicators`, `context_receipts`) are created by the existing startup schema setup. No existing column is rewritten. Back up local databases before adopting schema changes; production migration/rollback orchestration remains outside this lab. The public snapshot contains empty context tables and the public middleware rejects every context mutation before body processing.

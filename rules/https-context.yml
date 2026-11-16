@@ -1,0 +1,37 @@
+title: Port 443 destination matches active scoped intelligence
+id: 00000000-0000-0000-0000-000000000009
+status: experimental
+description: An enrolled collector observed a connection to port 443 and an exact
+  destination in active, provenance-bearing operator intelligence. Port 443 does not
+  prove HTTPS or C2; protocol semantics are not inspected.
+author: SentinelForge contributors
+date: '2026-11-15'
+logsource:
+  category: normalized
+  product: sentinelforge
+detection:
+  selection:
+    kind: network
+    fields.sf_https_indicator: true
+  condition: selection
+level: high
+tags:
+- attack.t1071.001
+falsepositives:
+- Stale or incorrect threat intelligence
+- Shared hosting
+- Authorized security lab traffic
+x-sentinelforge:
+  slug: https-context
+  confidence: 80
+  required_telemetry:
+  - dst_ip
+  - dst_port
+  - source
+  - sensor
+  - host
+  - operator intelligence
+  validation: synthetic-fixtures
+  explanation: An enrolled collector observed a connection to port 443 and an exact
+    destination in active, provenance-bearing operator intelligence. Port 443 does
+    not prove HTTPS or C2; protocol semantics are not inspected.

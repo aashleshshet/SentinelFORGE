@@ -4,8 +4,11 @@ from datetime import datetime, timedelta
 
 from sqlalchemy import select
 
-from .db import Alert, Case, Event
-from .schemas import utc
+from .context import context_for_event, suppress_approved
+from .db import Alert, Audit, Case, Event
+from .linux_evidence import sudo_shell_command
+from .process_evidence import process_evidence, scheduled_task_create, uid_zero_argument
+from .schemas import now, utc
 
 RISK = {"low": 20, "medium": 40, "high": 65, "critical": 85}
 GENERIC_USERS = {"root", "administrator", "system", "unknown", "0", "4294967295", "-1"}
@@ -55,10 +58,28 @@ def correlate(session, event, rule):
     return case, reason
 
 
-def detect(session, event, rules):
+def detect(session, event, rules, *, principal=None, stamp=None):
+    stamp = utc(stamp or now())
+    context = context_for_event(session, event, principal, stamp)
+    process = process_evidence(event.data, context["script_indicator"])
+    # Reserved booleans are computed in a temporary match view. Forged input
+    # fields never control them, and raw/normalized evidence remains untouched.
+    matching = event.data | {
+        "fields": event.data.get("fields", {})
+        | {
+            "sf_powershell_encoded": process["powershell_encoded"],
+            "sf_powershell_file_suspicious": process["powershell_file_suspicious"],
+            "sf_https_indicator": context["https_indicator"] is not None,
+            "sf_uid_zero": uid_zero_argument(event.data),
+            "sf_scheduled_task_create": scheduled_task_create(event.data),
+            "sf_sudo_shell": sudo_shell_command(event.data),
+        }
+    }
     emitted = []
     for rule in rules:
-        if not rule.matches(event.data):
+        if not rule.matches(matching):
+            continue
+        if suppress_approved(session, event, rule, principal, stamp, context):
             continue
         evidence = [event]
         group = digest([event.host, event.src_ip])
@@ -102,6 +123,28 @@ def detect(session, event, rules):
                 continue
         anchor = max(e.timestamp for e in evidence)
         case, reason = correlate(session, event, rule)
+        explanation = (
+            f"{len(evidence)} SSH failures in 300 seconds from {event.src_ip}."
+            if aggregate
+            else rule.extension["explanation"]
+        )
+        if rule.id in {"00000000-0000-0000-0000-000000000002", "00000000-0000-0000-0000-000000000008"}:
+            explanation += " " + " ".join(process["details"])
+        intel = (
+            context["https_indicator"]
+            if rule.id == "00000000-0000-0000-0000-000000000009"
+            else (
+                context["script_indicator"]
+                if rule.id == "00000000-0000-0000-0000-000000000008" and process["script_indicator_matched"]
+                else None
+            )
+        )
+        if intel:
+            explanation += (
+                f" Indicator {intel['id']}; version {intel['version']}; provenance {intel['provenance']}; "
+                f"binding {context['binding_id']}; valid [{intel['valid_from']}, {intel['valid_until']}); "
+                f"expires {intel['expires_at']}."
+            )
         alert = Alert(
             case_id=case.id,
             rule_id=rule.id,
@@ -114,15 +157,28 @@ def detect(session, event, rules):
             group_key=group,
             techniques=rule.techniques,
             event_ids=[e.id for e in evidence],
-            explanation=(
-                f"{len(evidence)} SSH failures in 300 seconds from {event.src_ip}."
-                if aggregate
-                else rule.extension["explanation"]
-            ),
+            explanation=explanation[:2000],
             correlation_reason=reason,
         )
         session.add(alert)
         session.flush()
+        if intel:
+            session.add(
+                Audit(
+                    actor=principal,
+                    action="detection.enriched",
+                    case_id=case.id,
+                    created_at=stamp,
+                    detail={
+                        "event_id": event.id,
+                        "alert_id": alert.id,
+                        "rule_id": rule.id,
+                        "binding_id": context["binding_id"],
+                        "indicator": intel,
+                        "context_sha256": digest(intel),
+                    },
+                )
+            )
         alerts = session.scalars(select(Alert).where(Alert.case_id == case.id)).all()
         techniques = {t for a in alerts for t in a.techniques}
         case.risk = min(

@@ -1,0 +1,683 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge evidence-context experiment",
+  "version": "2.0.0",
+  "partition": "holdout",
+  "evaluation_time": "2026-11-18T12:00:00Z",
+  "provenance": "Hand-authored synthetic scenarios; no captured external or deployment telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in each scenario reason. No label or scenario metadata is submitted as telemetry. Context is separately configured through authenticated operator APIs. Ambiguous intent-only cases are retained as difficult examples.",
+  "independence": "Scenario/template is the unit. Variants within a partition are correlated regression evidence, not independent population observations. Validation and holdout were authored during implementation; neither is representative external validation.",
+  "selection_plan": {
+    "scenarios": 16,
+    "positive": 8,
+    "negative": 8,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "holdout-pwsh-literal-encoding",
+      "origin_template": "pwsh-literal-encoding",
+      "session_id": "holdout-session-01",
+      "suspicious": true,
+      "reason": "Unapproved encoded PowerShell Core operation",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "sensor-holdout-01",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-18T09:00:00Z",
+            "Computer": "holdout-node-01",
+            "User": "lab\\operator-holdout",
+            "Image": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "CommandLine": "pwsh.exe -NoLogo -EncodedCommand \"RwBlAHQALQBQAHIAbwBjAGUAcwBzAA==\"",
+            "RecordID": "session-holdout-01-event-1"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-spreadsheet-file-short-switch",
+      "origin_template": "spreadsheet-file-short-switch",
+      "session_id": "holdout-session-02",
+      "suspicious": true,
+      "reason": "Spreadsheet child launches a quoted file through the short file option with bypass",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-02",
+          "payload": {
+            "host": "holdout-node-02",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-02-event-1",
+            "parent": "C:\\Program Files\\Microsoft Office\\EXCEL.EXE",
+            "command": "powershell -f \"E:\\Shared Files\\startup.ps1\" -ExecutionPolicy Bypass",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-digest-target-path-equivalence",
+      "origin_template": "digest-target-path-equivalence",
+      "session_id": "holdout-session-03",
+      "suspicious": true,
+      "reason": "Observed script digest matches after case and slash normalization of the target",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-03",
+          "payload": {
+            "host": "holdout-node-03",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-03-event-1",
+            "fields": {
+              "script_path": "e:/tools/STARTUP.ps1",
+              "script_sha256": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9"
+            },
+            "command": "pwsh -File \"E:\\Tools\\startup.ps1\"",
+            "process": "/opt/microsoft/powershell/7/pwsh"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-03",
+            "host": "holdout-node-03",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9",
+            "purpose": "powershell-script",
+            "version": "synthetic-research-holdout-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:holdout:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T10:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-indicator-inclusive-event-end",
+      "origin_template": "indicator-inclusive-event-end",
+      "session_id": "holdout-session-04",
+      "suspicious": true,
+      "reason": "Current synthetic IP evidence is valid at the event-time window end",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000009"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-04",
+          "payload": {
+            "host": "holdout-node-04",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-04-event-1",
+            "dst_ip": "8.8.8.8",
+            "dst_port": 443,
+            "fields": {
+              "proto": "tcp",
+              "conn_state": "SF",
+              "orig_bytes": 4096
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-04",
+            "host": "holdout-node-04",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "ip",
+            "value": "8.8.8.8",
+            "purpose": "https-c2",
+            "version": "synthetic-research-holdout-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:holdout:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T09:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-approval-not-yet-valid",
+      "origin_template": "approval-not-yet-valid",
+      "session_id": "holdout-session-05",
+      "suspicious": true,
+      "reason": "Action precedes its approval window even though command and host match",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-05",
+          "payload": {
+            "host": "holdout-node-05",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-05-event-1",
+            "command": "schtasks /create /tn StartupReentry /tr reentry.exe /sc onlogon",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-05",
+            "host": "holdout-node-05",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-holdout",
+            "command_sha256": "2af7fe1a45dda306ce8a3b9e12a855e979fd5a2b15bf7337a6eeb87ac033c506",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-18T09:00:01Z",
+            "valid_until": "2026-11-18T10:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-untrusted-approval-fields",
+      "origin_template": "untrusted-approval-fields",
+      "session_id": "holdout-session-06",
+      "suspicious": true,
+      "reason": "Telemetry-provided approval text cannot authorize suppression",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-06",
+          "payload": {
+            "host": "holdout-node-06",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-06-event-1",
+            "fields": {
+              "approved": true,
+              "approval_reason": "looks legitimate",
+              "original_file_name": "powershell.exe"
+            },
+            "command": "powershell -ENC SQBFAFgA",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-uid-equals-option",
+      "origin_template": "uid-equals-option",
+      "session_id": "holdout-session-07",
+      "suspicious": true,
+      "reason": "Root-equivalent account requested using a valid equals argument form",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-07",
+          "payload": {
+            "host": "holdout-node-07",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-07-event-1",
+            "command": "useradd -o --uid=0 replacement",
+            "process": "/usr/sbin/useradd"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-unobserved-https-command-channel",
+      "origin_template": "unobserved-https-command-channel",
+      "session_id": "holdout-session-08",
+      "suspicious": true,
+      "reason": "Assigned malicious HTTPS intent without threat intelligence or behavioral proof remains an observable-context gap",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-08",
+          "payload": {
+            "host": "holdout-node-08",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-08-event-1",
+            "dst_ip": "9.9.9.10",
+            "dst_port": 443,
+            "process": "C:\\Users\\Public\\agent.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-service-owned-hidden-report",
+      "origin_template": "service-owned-hidden-report",
+      "session_id": "holdout-session-09",
+      "suspicious": false,
+      "reason": "Service automation hides a window but lacks the suspicious Office ancestry conjunction",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-09",
+          "payload": {
+            "host": "holdout-node-09",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-09-event-1",
+            "parent": "C:\\Windows\\System32\\services.exe",
+            "command": "pwsh -File \"E:\\Ops\\month-end.ps1\" -WindowStyle Hidden",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-approved-action-end-window",
+      "origin_template": "approved-action-end-window",
+      "session_id": "holdout-session-10",
+      "suspicious": false,
+      "reason": "Exact administrative action is valid at the approval event-time window end",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-10",
+          "payload": {
+            "host": "holdout-node-10",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-10-event-1",
+            "command": "powershell -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAG8AcABzAA==",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-10",
+            "host": "holdout-node-10",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000002",
+            "user": "lab\\operator-holdout",
+            "command_sha256": "e71732394a35afc861243c7b2db9c6a0b65dd9f62f6e3e5ff15e7225968e4aab",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T09:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-approved-event-idempotent-retry",
+      "origin_template": "approved-event-idempotent-retry",
+      "session_id": "holdout-session-11",
+      "suspicious": false,
+      "reason": "Repeated delivery of the same approved event is a duplicate, not a second use",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-11",
+          "payload": {
+            "host": "holdout-node-11",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-11-event-1",
+            "command": "schtasks /create /tn HealthPulse /tr monitor.exe /sc hourly",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-11",
+          "payload": {
+            "host": "holdout-node-11",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-11-event-1",
+            "command": "schtasks /create /tn HealthPulse /tr monitor.exe /sc hourly",
+            "process": "C:\\Windows\\System32\\schtasks.exe"
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-11",
+            "host": "holdout-node-11",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "approvals": [
+          {
+            "binding_key": "observed-sensor",
+            "rule_id": "00000000-0000-0000-0000-000000000004",
+            "user": "lab\\operator-holdout",
+            "command_sha256": "3f8ad8238653061a242f6a10db9fa15e17999ea5c568b4b46481bdb5dcbe2a11",
+            "reason": "Operator reviewed this exact synthetic administrative action",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T10:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-intelligence-address-near-match",
+      "origin_template": "intelligence-address-near-match",
+      "session_id": "holdout-session-12",
+      "suspicious": false,
+      "reason": "Nearby IP address is not an exact intelligence match",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-12",
+          "payload": {
+            "host": "holdout-node-12",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "network",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-12-event-1",
+            "dst_ip": "1.1.1.2",
+            "dst_port": 443,
+            "fields": {
+              "service": "https",
+              "orig_bytes": 1200
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "observed-sensor",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "sensor-holdout-12",
+            "host": "holdout-node-12",
+            "reason": "Synthetic operator enrollment; authenticated collector attribution only",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "ip",
+            "value": "1.1.1.3",
+            "purpose": "https-c2",
+            "version": "synthetic-research-holdout-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:holdout:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T10:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-unbound-digest-claim",
+      "origin_template": "unbound-digest-claim",
+      "session_id": "holdout-session-13",
+      "suspicious": false,
+      "reason": "Collector claim lacks an enrolled identity/sensor/host binding; hash annotation is not trusted enrichment",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-13",
+          "payload": {
+            "host": "holdout-node-13",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-13-event-1",
+            "fields": {
+              "script_path": "C:\\Ops\\inventory-delta.ps1",
+              "script_sha256": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9"
+            },
+            "command": "powershell -File C:\\Ops\\inventory-delta.ps1",
+            "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          }
+        }
+      ],
+      "context": {
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "09b724843d8001d415b0c0d5743bc9d7d5335433f13d498dead3875425950fe9",
+            "purpose": "powershell-script",
+            "version": "synthetic-research-holdout-v1",
+            "provenance": "urn:sentinelforge:synthetic-experiment:holdout:v1",
+            "reason": "Synthetic threat intelligence fixture; not an assertion about a real host",
+            "valid_from": "2026-11-18T08:00:00Z",
+            "valid_until": "2026-11-18T10:00:00Z",
+            "expires_at": "2026-11-18T23:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "holdout-editor-source-control",
+      "origin_template": "editor-source-control",
+      "session_id": "holdout-session-14",
+      "suspicious": false,
+      "reason": "Editor checks repository status without monitored persistence or execution signals",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-14",
+          "payload": {
+            "host": "holdout-node-14",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-14-event-1",
+            "parent": "/usr/bin/code",
+            "command": "/usr/bin/git status --porcelain=v1",
+            "process": "/usr/bin/git"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-nonprivileged-build-account",
+      "origin_template": "nonprivileged-build-account",
+      "session_id": "holdout-session-15",
+      "suspicious": false,
+      "reason": "Provisioning a non-root build account",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-15",
+          "payload": {
+            "host": "holdout-node-15",
+            "timestamp": "2026-11-18T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\operator-holdout",
+            "external_id": "session-holdout-15-event-1",
+            "command": "useradd --uid 2000 --create-home builder",
+            "process": "/usr/sbin/useradd"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "holdout-ssh-beyond-threshold-window",
+      "origin_template": "ssh-beyond-threshold-window",
+      "session_id": "holdout-session-16",
+      "suspicious": false,
+      "reason": "Benign stale-credential retries span 301 seconds and never form the five-event 300-second cluster",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-16",
+          "payload": {
+            "host": "holdout-node-16",
+            "timestamp": "2026-11-18T09:00:00+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-holdout",
+            "external_id": "retry-0",
+            "outcome": "failure",
+            "src_ip": "192.0.2.120",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-16",
+          "payload": {
+            "host": "holdout-node-16",
+            "timestamp": "2026-11-18T09:01:20+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-holdout",
+            "external_id": "retry-1",
+            "outcome": "failure",
+            "src_ip": "192.0.2.120",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-16",
+          "payload": {
+            "host": "holdout-node-16",
+            "timestamp": "2026-11-18T09:02:40+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-holdout",
+            "external_id": "retry-2",
+            "outcome": "failure",
+            "src_ip": "192.0.2.120",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-16",
+          "payload": {
+            "host": "holdout-node-16",
+            "timestamp": "2026-11-18T09:04:00+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-holdout",
+            "external_id": "retry-3",
+            "outcome": "failure",
+            "src_ip": "192.0.2.120",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        },
+        {
+          "source": "synthetic",
+          "sensor": "sensor-holdout-16",
+          "payload": {
+            "host": "holdout-node-16",
+            "timestamp": "2026-11-18T09:05:01+00:00",
+            "kind": "authentication",
+            "user": "lab\\operator-holdout",
+            "external_id": "retry-4",
+            "outcome": "failure",
+            "src_ip": "192.0.2.120",
+            "fields": {
+              "service": "sshd"
+            }
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

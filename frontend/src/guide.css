@@ -37,7 +37,7 @@
   font-weight: 500;
 }
 .guide h1 span {
-  color: #a8c9e8;
+  color: var(--text);
 }
 .hero-intro {
   font-size: 16px;
@@ -59,11 +59,11 @@
 }
 .hero-diagram {
   padding: 28px;
-  border: 1px solid #455b7a;
+  border: 1px solid var(--border);
   border-radius: 28px;
   background:
-    radial-gradient(ellipse at 50% 40%, rgb(70 125 180 / 24%), transparent 65%),
-    linear-gradient(135deg, #1b2b45, #101a2c 60%, #20203c);
+    radial-gradient(ellipse at 50% 40%, rgb(33 194 202 / 10%), transparent 65%),
+    linear-gradient(135deg, #131b25, #10121d 60%, #25152c);
   box-shadow:
     inset 0 1px 0 rgb(217 235 255 / 16%),
     0 24px 90px rgb(0 0 0 / 18%);
@@ -85,10 +85,10 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1px solid #506785;
+  border: 1px solid var(--control);
   border-radius: 14px;
   padding: 16px;
-  background: #1d2e46;
+  background: var(--raised);
 }
 .diagram-source > svg {
   color: var(--accent);
@@ -105,7 +105,7 @@
 .diagram-connector {
   height: 28px;
   width: 1px;
-  background: #6b91b7;
+  background: var(--accent-secondary);
   margin: auto;
 }
 .diagram-core {
@@ -113,13 +113,13 @@
   flex-direction: column;
   align-items: center;
   padding: 26px;
-  border: 1px solid #4d7396;
-  background: linear-gradient(120deg, #243f5d, #192b46);
+  border: 1px solid var(--accent);
+  background: linear-gradient(120deg, #143238, #1c2032);
   border-radius: 18px;
   box-shadow: inset 0 1px 0 rgb(217 235 255 / 15%);
 }
 .core-symbol {
-  color: #b6e5ff;
+  color: var(--accent);
   margin-bottom: 12px;
 }
 .diagram-core strong {
@@ -143,10 +143,10 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid #455b7a;
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 9px;
-  background: #19253b;
+  background: var(--raised);
 }
 .diagram-output svg {
   color: var(--accent);
@@ -234,7 +234,7 @@
   display: inline-flex;
   padding: 4px;
   border-radius: var(--radius-control);
-  background: #0b1525;
+  background: var(--ground);
   border: 1px solid var(--control);
 }
 .mode-switch button {
@@ -248,8 +248,8 @@
   white-space: nowrap;
 }
 .mode-switch button[aria-pressed="true"] {
-  background: #284564;
-  border-color: #6c91b5;
+  background: var(--accent-soft);
+  border-color: var(--accent);
   color: var(--text);
 }
 .workflow-layout {
@@ -285,8 +285,8 @@
   visibility: hidden;
 }
 .step-tabs button[aria-selected="true"] {
-  background: linear-gradient(100deg, #234667, #192c46);
-  border-color: #5d82a7;
+  background: var(--accent-soft);
+  border-color: var(--accent);
   color: var(--text);
 }
 .step-tabs button[aria-selected="true"] > svg {
@@ -294,7 +294,7 @@
   color: var(--accent);
 }
 .step-tabs button:hover {
-  background-color: #1b2e48;
+  background-color: var(--raised);
 }
 .step-panel {
   padding: 36px;
@@ -329,15 +329,15 @@
 .step-path li {
   flex: 1;
   padding: 14px;
-  border: 1px solid #3d5876;
+  border: 1px solid var(--control);
   border-radius: 12px;
   font-size: 12px;
-  color: #cbe4ff;
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: #172b43;
+  background: #141b28;
 }
 .step-path li:not(:last-child)::after {
   content: "→";
@@ -391,7 +391,7 @@
   margin-top: 28px;
 }
 .architecture {
-  background: #0c1626;
+  background: var(--ground);
   border: 1px solid var(--glass-edge);
   border-radius: 20px;
   padding: 24px;
@@ -407,8 +407,8 @@
 .architecture-nodes button {
   width: 100%;
   border-radius: 14px;
-  border: 1px solid #405b7b;
-  background: #14243a;
+  border: 1px solid var(--control);
+  background: var(--surface);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -417,11 +417,11 @@
   position: relative;
 }
 .architecture-nodes button[aria-expanded="true"] {
-  background: #244466;
-  border-color: #8ccbff;
+  background: var(--accent-soft);
+  border-color: #61f5f5;
 }
 .architecture-nodes button > svg {
-  color: #afd8ff;
+  color: var(--accent);
 }
 .architecture-nodes li:not(:last-child) button::after {
   content: "→";
@@ -451,7 +451,7 @@
 }
 .architecture-detail .mono {
   font-size: 11px !important;
-  color: #c1dbf5 !important;
+  color: var(--accent-secondary) !important;
 }
 .security-section {
   display: grid;
@@ -536,7 +536,8 @@
   justify-content: space-between;
   gap: 36px;
   background:
-    radial-gradient(ellipse at top right, #26395c, transparent 70%), #132139;
+    radial-gradient(ellipse at top right, #33203c, transparent 70%),
+    var(--surface);
 }
 .guide-cta p:not(.eyebrow) {
   color: var(--muted);

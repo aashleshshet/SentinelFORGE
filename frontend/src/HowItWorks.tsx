@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -30,7 +30,7 @@ const features = [
   {
     icon: Radar,
     title: "Understand every signal",
-    text: "Seven experimental rules identify specific behaviors. Each alert carries its rationale, source events and MITRE ATT&CK references.",
+    text: "Nine experimental rules identify specific behaviors. Each alert carries its rationale, source events and MITRE ATT&CK references.",
     view: "rules",
   },
   {
@@ -102,7 +102,7 @@ const steps: {
     local:
       "Detection runs during ingestion; there is no separate analysis button. An admin can also use Replay demo to run bundled synthetic events through the same pipeline.",
     outcome:
-      "Matching events produce explainable alerts. The seven rules cover narrow behaviors rather than complete ATT&CK techniques.",
+      "Matching events produce explainable alerts. The nine rules cover narrow behaviors rather than complete ATT&CK techniques.",
     tip: "No alerts can mean no rule matched. Check Telemetry and Detection rules before assuming ingestion failed. A signal alone does not establish malicious intent.",
     view: "alerts",
     action: "Review alert queue",
@@ -180,7 +180,7 @@ const architecture = [
     icon: Radar,
     title: "Detection",
     detail:
-      "Seven Python detection rules evaluate specific event behaviors. YAML metadata supplies severity, limitations and pinned ATT&CK technique references.",
+      "Nine Python detection rules evaluate specific event behaviors. YAML metadata supplies severity, limitations and pinned ATT&CK technique references.",
     code: "Event fields → rule condition → alert with evidence",
   },
   {
@@ -234,6 +234,12 @@ export default function HowItWorks({
 }: {
   navigate: (view: View) => void;
 }) {
+  useEffect(() => {
+    document.getElementById("main-content")?.focus({ preventScroll: true });
+    if (window.location.hash) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    }
+  }, []);
   const [step, setStep] = useState(0);
   const [local, setLocal] = useState(false);
   const [node, setNode] = useState<number | null>(0);

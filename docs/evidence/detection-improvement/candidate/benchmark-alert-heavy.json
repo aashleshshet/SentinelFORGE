@@ -1,0 +1,44 @@
+{
+  "environment": {
+    "python": "3.12.14",
+    "os": "Darwin",
+    "machine": "arm64",
+    "database": "SQLite file, WAL"
+  },
+  "source_revision": "e0f0901341c1c693c2ff7460a1658814820a5e28",
+  "rule_sha256": "df4fa3ff84475475cce82b66459e5a8d6e65881671c0b0775d03a2cf77f553b7",
+  "active_rules": 9,
+  "workload": "Unique alert-heavy process events, batches of 100, 100 hosts, one client, commit per batch",
+  "operator_context": "No bindings/indicators provisioned; includes enrollment lookup overhead, not populated enrichment cost",
+  "scope": "In-process HTTP + validation + normalization + detection + DB; excludes network, live sensors, observation delay and MTTD",
+  "median_events_per_second": 999.72,
+  "runs": [
+    {
+      "events": 1000,
+      "alerts": 1000,
+      "cases": 100,
+      "seconds": 1.0098,
+      "events_per_second": 990.33,
+      "batch_latency_ms_median": 98.211,
+      "batch_latency_ms_max": 111.362
+    },
+    {
+      "events": 1000,
+      "alerts": 1000,
+      "cases": 100,
+      "seconds": 0.9895,
+      "events_per_second": 1010.63,
+      "batch_latency_ms_median": 97.932,
+      "batch_latency_ms_max": 108.054
+    },
+    {
+      "events": 1000,
+      "alerts": 1000,
+      "cases": 100,
+      "seconds": 1.0003,
+      "events_per_second": 999.72,
+      "batch_latency_ms_median": 97.864,
+      "batch_latency_ms_max": 113.065
+    }
+  ]
+}

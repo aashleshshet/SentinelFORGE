@@ -1,6 +1,6 @@
 # ATT&CK coverage
 
-The bundled `data/attack.json` contains seven original active MITRE STIX attack-pattern objects, with source URL and source-content SHA-256. The runtime reads names, technique IDs, links and tactics from that subset. Run `python scripts/update_attack.py` to explicitly refresh from MITRE, then review and commit changes. No event data is sent during the download.
+The bundled `data/attack.json` contains eight original active MITRE STIX attack-pattern objects, with source URL and source-content SHA-256. The runtime reads names, technique IDs, links and tactics from that subset. Run `python scripts/update_attack.py` to explicitly refresh from MITRE, then review and commit changes. No event data is sent during the download.
 
 | Technique | Signal evidence in this project | Validation status |
 |---|---|---|
@@ -15,3 +15,5 @@ The bundled `data/attack.json` contains seven original active MITRE STIX attack-
 These are behavioral associations to ATT&CK, not claims of full technique coverage. Seven observed technique IDs do not mean seven complete techniques have been detected. The dashboard heat strip counts alerts tagged with each technique; it is neither a coverage percentage over all ATT&CK nor an adversary attribution score. Several techniques have multiple tactics; the dashboard shows the first bundled tactic for compact display while the API returns the complete list.
 
 No malware-family, campaign, actor, exploit, privilege-success or exfiltration claim is inferred solely from these signals. Distinguish what was observed, what the rule inferred and what further evidence would establish intent.
+
+The contextual file rule also maps to T1059.001. The scoped port-443 intelligence association maps to T1071.001 (Web Protocols) as an investigation hypothesis, not proof of protocol content or complete technique coverage. The refreshed official MITRE subset contains eight techniques; the unchanged public demo still emits seven original technique signals.

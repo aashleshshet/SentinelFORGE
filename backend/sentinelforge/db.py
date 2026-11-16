@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from sqlalchemy import JSON, ForeignKey, Index, Integer, String, create_engine, event
+from sqlalchemy import JSON, ForeignKey, Index, Integer, String, UniqueConstraint, create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from sqlalchemy.pool import StaticPool
 
@@ -110,6 +110,71 @@ class IOC(Base):
     value: Mapped[str] = mapped_column(String(255), primary_key=True)
     label: Mapped[str] = mapped_column(String(255))
     source: Mapped[str] = mapped_column(String(255))
+
+
+class CollectorBinding(Base):
+    __tablename__ = "collector_bindings"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    principal: Mapped[str] = mapped_column(String(80), index=True)
+    source: Mapped[str] = mapped_column(String(32))
+    sensor: Mapped[str] = mapped_column(String(128))
+    host: Mapped[str] = mapped_column(String(255))
+    reason: Mapped[str] = mapped_column(String(1000))
+    expires_at: Mapped[str] = mapped_column(String(40))
+    created_at: Mapped[str] = mapped_column(String(40), default=now)
+    created_by: Mapped[str] = mapped_column(String(80))
+    revoked_at: Mapped[str | None] = mapped_column(String(40))
+    revoked_by: Mapped[str | None] = mapped_column(String(80))
+
+
+class DetectionApproval(Base):
+    __tablename__ = "detection_approvals"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    binding_id: Mapped[str] = mapped_column(ForeignKey("collector_bindings.id"), index=True)
+    rule_id: Mapped[str] = mapped_column(String(64))
+    user: Mapped[str] = mapped_column(String(255))
+    command_sha256: Mapped[str] = mapped_column(String(64))
+    valid_from: Mapped[str] = mapped_column(String(40))
+    valid_until: Mapped[str] = mapped_column(String(40))
+    expires_at: Mapped[str] = mapped_column(String(40))
+    reason: Mapped[str] = mapped_column(String(1000))
+    created_at: Mapped[str] = mapped_column(String(40), default=now)
+    created_by: Mapped[str] = mapped_column(String(80))
+    used_event_id: Mapped[str | None] = mapped_column(ForeignKey("events.id"))
+    used_at: Mapped[str | None] = mapped_column(String(40))
+    revoked_at: Mapped[str | None] = mapped_column(String(40))
+    revoked_by: Mapped[str | None] = mapped_column(String(80))
+    __table_args__ = (
+        UniqueConstraint("binding_id", "rule_id", "user", "command_sha256", "valid_from", "valid_until"),
+    )
+
+
+class ContextReceipt(Base):
+    """An attributed contextual evaluation, separate from exact event deduplication."""
+
+    __tablename__ = "context_receipts"
+    event_id: Mapped[str] = mapped_column(ForeignKey("events.id"), primary_key=True)
+    principal: Mapped[str] = mapped_column(String(80), primary_key=True)
+    evaluated_at: Mapped[str] = mapped_column(String(40))
+
+
+class ThreatIndicator(Base):
+    __tablename__ = "threat_indicators"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    kind: Mapped[str] = mapped_column(String(16))
+    value: Mapped[str] = mapped_column(String(255), index=True)
+    purpose: Mapped[str] = mapped_column(String(32))
+    version: Mapped[str] = mapped_column(String(128))
+    provenance: Mapped[str] = mapped_column(String(1000))
+    reason: Mapped[str] = mapped_column(String(1000))
+    valid_from: Mapped[str] = mapped_column(String(40))
+    valid_until: Mapped[str] = mapped_column(String(40))
+    expires_at: Mapped[str] = mapped_column(String(40))
+    created_at: Mapped[str] = mapped_column(String(40), default=now)
+    created_by: Mapped[str] = mapped_column(String(80))
+    revoked_at: Mapped[str | None] = mapped_column(String(40))
+    revoked_by: Mapped[str | None] = mapped_column(String(80))
+    __table_args__ = (UniqueConstraint("kind", "value", "purpose", "version"),)
 
 
 def database(url: str):

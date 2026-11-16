@@ -1,0 +1,42 @@
+{
+  "method": "Cross-partition template/session/host equality; exact structure with attribution and timestamps removed; structural token-bigram Jaccard >=0.80 candidates. Candidate list is retained for review, not automatically called independent.",
+  "cross_partition_exact_structure": [],
+  "cross_partition_near_candidates": [
+    {
+      "partitions": [
+        "validation",
+        "holdout"
+      ],
+      "scenarios": [
+        "validation-ssh-late-boundary-cluster",
+        "holdout-ssh-beyond-threshold-window"
+      ],
+      "jaccard_token_bigram_similarity": 0.84
+    }
+  ],
+  "cross_partition_template_collisions": [],
+  "cross_partition_session_collisions": [],
+  "cross_partition_host_collisions": [],
+  "partition_counts": {
+    "development": {
+      "scenarios": 24,
+      "positive": 12,
+      "negative": 12
+    },
+    "validation": {
+      "scenarios": 16,
+      "positive": 8,
+      "negative": 8
+    },
+    "holdout": {
+      "scenarios": 16,
+      "positive": 8,
+      "negative": 8
+    },
+    "robustness": {
+      "scenarios": 4,
+      "positive": 2,
+      "negative": 2
+    }
+  }
+}

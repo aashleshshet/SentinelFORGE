@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "frozen_at": "2026-11-15T19:24:26.141710+00:00",
+  "base_revision": "78b7bd5c7e17f95993772204d7eaf66a6eec424f",
+  "files": {
+    "development.json": "19252e3323b7471f2c927432574bf1062bf63cb8fbfdad901702e5d8bb18ac2e",
+    "validation.json": "fd651120f0541e21fed07926cca7146c3298344b8a826c2e536caa7f627c1fb6",
+    "holdout.json": "dfb89ba946b305c65d1117ab9ee9900340b94e02da3ebf7cd0446ad5c588b7ff",
+    "robustness.json": "def314a66bcb7585b7c9d0510ecc6b9f967f81f9ee779f4c461a0db2bfa07555"
+  },
+  "acceptance_dataset": "holdout.json",
+  "freeze_policy": "Frozen before candidate detector tuning/evaluation. If holdout informs any fix, retire it as development evidence and freeze a new version. Never adjust labels, remove failures or add easy cases to repair a target.",
+  "scope": "Synthetic development-time evidence; no claim of independent deployment validation or population efficacy",
+  "near_duplicate_policy": "All >=0.80 candidates are published for manual review; unresolved candidate leakage invalidates an independent-holdout interpretation."
+}

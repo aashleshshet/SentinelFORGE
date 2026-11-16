@@ -1,0 +1,2872 @@
+{
+  "schema_version": 2,
+  "dataset": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation-v3/validation.json",
+  "dataset_metadata": {
+    "schema_version": 1,
+    "name": "SentinelForge command semantics challenge",
+    "version": "3.0.0",
+    "partition": "validation",
+    "evaluation_time": "2026-11-16T12:00:00Z",
+    "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+    "provenance": "Separately authored synthetic scenarios, never captured operational telemetry",
+    "labeling_criteria": "Assigned action intent is explicit in reason; expected_rule_ids describe prespecified semantic contracts and need not agree with intent. Labels never enter telemetry.",
+    "independence": "All partitions authored and frozen before v3 detector evaluation. Shared rule domains, constructor code and engineer authorship create correlation; this is not blinded, independent operational validation.",
+    "selection_plan": {
+      "scenarios": 40,
+      "positive": 20,
+      "negative": 20,
+      "unobservable_positive": 2,
+      "authorized_alertable_negative": 3,
+      "chosen_before_target_results": true
+    }
+  },
+  "unit": "Scenario; any emitted alert predicts suspicious. No label or scenario metadata is sent to detection.",
+  "valid": true,
+  "errors": [],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-27.3-arm64-arm-64bit",
+    "machine": "arm64",
+    "database": "SQLite in memory",
+    "sqlite": "3.53.1",
+    "packages": {
+      "fastapi": "0.163.0",
+      "sqlalchemy": "2.1.8",
+      "pydantic": "2.14.3",
+      "httpx": "0.28.1",
+      "PyYAML": "6.0.3"
+    }
+  },
+  "provenance": {
+    "source_revision": {
+      "commit": "88bcda800bb877cd1e354301e7b727953157d962",
+      "working_tree_dirty": false
+    },
+    "dataset_sha256": "932d1f44e4ef94c3471089ca2521c71ef4296dddca9da78275f3670a4c0b74e3",
+    "dataset_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation-v3/validation.json",
+    "source_file_sha256": {
+      "backend/sentinelforge/__init__.py": "62777a4b57ec2fad33c0f8058ebafd43c713dd2a6ef3cbd83b50b53edc05ab5f",
+      "backend/sentinelforge/api.py": "f1d081964fcb0688407b2517c2556d30537e98f8c804973daae20ad148a9c1cd",
+      "backend/sentinelforge/config.py": "0864396cf77f81ae40054008d75c5dee524b0670818304ad68df3584080839f3",
+      "backend/sentinelforge/context.py": "ea94f7a3ceec93c537fdbada07932739c6c96308d67f73e86ae05d3db1c2bd51",
+      "backend/sentinelforge/db.py": "0167f9e70f75f13b09b15c5cfe5c38e7ee5b4ff87bd06cd0f40395b33078b88c",
+      "backend/sentinelforge/engine.py": "e03924ae6abe96e9225626b56caf06b9b1c6018473a1167e5f673e18fbe2a2ed",
+      "backend/sentinelforge/main.py": "626acc1bd498d4f2ec8a77a0720608b1212f29c16c514c7f71247e1242415fb8",
+      "backend/sentinelforge/normalize.py": "8f49d8e85aa89082be41e48fec1c9afdfc8b820d984ad765dff01e5e8b783bb7",
+      "backend/sentinelforge/process_evidence.py": "7da51819c979ca7ad3920ff060f1690942de9763b41a269d408357aac452c702",
+      "backend/sentinelforge/public_demo.py": "5df477d987202d636a7fa41d861b07f6f9d5a706845a6b7808dec4954d589a44",
+      "backend/sentinelforge/rules.py": "cb5354b055aa3565f68f4a1db5f37c0d45cb6b96e7d150e3dcb396bc0cfb5535",
+      "backend/sentinelforge/schemas.py": "1b73207d4a2e1dee9f49542b4a0c927d61d218e9712c39498188b89c7702697b",
+      "scripts/benchmark.py": "dd0a342f3364b8c0a3d056c44aef737a0b42c7e43b149db773219aeb94470717",
+      "scripts/build_evaluation_corpus.py": "7cf25db11efb487b212fbced80963d960ef014a2174a982246f5f1e832359eeb",
+      "scripts/build_fixtures.py": "b9482f9d9f8bdcc63b72e9308723c55ae28d6b44dac40cfe04a289eec179b13a",
+      "scripts/build_public_demo.py": "b9cf97399670cbfdb9c8a8518dec67d73ae2be8554439590fa4ab98fd21c054a",
+      "scripts/compare_baseline.py": "b739cdd93afd817f83dadda71221f4f9095fce29781c9c64941f7a707bc40bda",
+      "scripts/evaluate.py": "c548b91df07cd3aa047e52d5ba83977161accd9e600c55e3d0eb81b6471a97cb",
+      "scripts/evaluation_metrics.py": "9e193e769ee9fb39f14d06222f7c9980a27270fccd7665d107b6e227a98a5d0f",
+      "scripts/export_openapi.py": "17de0188c442ab12727926bbf213f86685c9805ff742523e41ff8e8979b02cf1",
+      "scripts/replay.py": "70d1b2978c6465e7a2b1fb5a308f7beb50185acd0df8f5bc81999d5278ed5b89",
+      "scripts/run_local.py": "6e83adc1b6bb743b95f476ab24f9a1a6335615d12a6ce9e31197b705c516a512",
+      "scripts/setup.py": "bee161ba708fcdfc0a52fb7b2024b8b40237c6030a9cb9b2f1f0ff25371d61ce",
+      "scripts/smoke.py": "12008dbd668dc093abf7e634b90ebd7aac379d2d7f5d841644664a3ebf48b406",
+      "scripts/update_attack.py": "1b4f3d74945c6d78c1b3fb540c18466ab6849423ec322be382400098267a59b9",
+      "scripts/verify_evidence.py": "f33ea7255559105b1f9a2c91730bfb2964c61baf502fa3a5e806e5c0364cbfeb",
+      "rules/account-uid-zero.yml": "1e18274481c3b5f29385a8ec018196d58475db29467f703cf7302652309e2fa8",
+      "rules/https-context.yml": "72e4c71a094a396fbaac0fa667f2cc527a62cc5cc9bdf46ef071e39a072846c6",
+      "rules/outbound-port.yml": "7b88466083dde83116895fa6b1613d2cafbdd8ad1b64724e3118c9bcb5424fe8",
+      "rules/powershell-encoded.yml": "141524dc254770b52471ce3ecf2883289176c4cfdf868aefa4b0a983e2faca00",
+      "rules/powershell-file-context.yml": "406ef063e41f220e56a61620db8e5168024ad90b5a805de9991aa4efbbb802db",
+      "rules/scheduled-task.yml": "1aa227e1e824cd84031fc2dc7741aa037eb02a2dd3432cdb74b01fc6418ac737",
+      "rules/shell-unusual.yml": "6599449b319c7221dad41e103f0a186ea9b73e028d769141e1ac58026b7ec284",
+      "rules/ssh-brute-force.yml": "00769c3941b378f112a70948a1a8ce0470a997410b14afa219b44785c82a4de2",
+      "rules/sudo-shell.yml": "bae082af4da5bff1ae993fff794c9f0010f128bd2e5a0aabd5cfd39e4cf59957",
+      "requirements.lock": "e96e9dca6ab2b1b581795b7a826ebcf5b9168d05e39aabd4d3ffdda17ba2fd11",
+      "requirements-runtime.lock": "0107863a89c874936801f1e65548f490d0777ee2cf95e8795c7f1322566b3df8",
+      "pyproject.toml": "e2a741cf95426d344d1e99d25d3459bf87f3ad1dc25f939b21c5bd1738a18f85"
+    },
+    "source_tree_sha256": "4093e46053b8993308a580eeeba2a32f2a5a1f353fad6fd5890a8086a55e66f0",
+    "effective_configuration": {
+      "local_mode": false,
+      "public_demo": false,
+      "database_url": "sqlite:///:memory:",
+      "rules_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/work/accuracy-upgrade/reference/rules",
+      "attack_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/work/accuracy-upgrade/reference/data/attack.json",
+      "frontend_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/work/accuracy-upgrade/reference/frontend/dist",
+      "rate_limit": 100000,
+      "max_body_bytes": 1048576,
+      "identities": [
+        {
+          "name": "evaluation",
+          "role": "admin"
+        }
+      ]
+    },
+    "configuration_sha256": "120b26c3680e55adc19b28a014b286bdc182ef0d9b124ce8f461346f73dc4f86",
+    "processing_time": "2026-11-16T12:00:00.000000+00:00",
+    "clock_policy": "One explicitly recorded UTC time for every scenario; never selected from a label"
+  },
+  "dataset_manifest": {
+    "path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation-v3/manifest.json",
+    "sha256": "6d3d6866409bad432ac3c5fc1c10a89fb0755903b5b83ce5acba86c1f974f6bf",
+    "metadata": {
+      "version": "3.0.0",
+      "frozen_date": "2026-11-16",
+      "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+      "freeze_policy": "All partitions frozen together before any v3 outcome. No overwrite option; corrections require a new version and preserved original artifacts.",
+      "files": {
+        "development.json": "d6ea5b920a176920014c51c36ec18af7f863a2f2c493e2611226aea42f8c321f",
+        "validation.json": "932d1f44e4ef94c3471089ca2521c71ef4296dddca9da78275f3670a4c0b74e3",
+        "holdout.json": "220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d"
+      },
+      "builder_sha256": "c6df3849cdd918d893f5f506e929bf3fca48ff13ee3831125ebfa4bd37617b2c",
+      "plan_sha256": "3c4f1f565a14b36c6d65c8477edda52be06aa762e1aa4c691ff523bf0511a20a",
+      "selection_plan": {
+        "partitions": 3,
+        "per_partition": 40,
+        "positive_per_partition": 20,
+        "negative_per_partition": 20,
+        "total_scenarios": 120
+      },
+      "detector_executed_during_authoring": false,
+      "scope": "Five selected command/context rule domains; no claim about complete rule coverage or field efficacy",
+      "access_order": "Freeze all; development for tuning; validation for selection; freeze candidate; holdout once for report. Any reuse is development evidence thereafter."
+    },
+    "dataset_hash_matches": true,
+    "release_acceptance_designated": false
+  },
+  "active_rule_count": 9,
+  "confusion_matrix": {
+    "TP": 18,
+    "FP": 9,
+    "TN": 11,
+    "FN": 2
+  },
+  "denominators": {
+    "total": 40,
+    "positive": 20,
+    "negative": 20,
+    "predicted_positive": 27,
+    "classified": 40,
+    "errors": 0
+  },
+  "prevalence": 0.5,
+  "classification_coverage": 1.0,
+  "precision": 0.6666666666666666,
+  "recall": 0.9,
+  "accuracy": 0.725,
+  "false_positive_rate": 0.45,
+  "uncertainty": {
+    "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+    "intervals": {
+      "precision": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 18,
+        "trials": 27,
+        "lower": 0.47824760507320074,
+        "upper": 0.8135673850128435
+      },
+      "recall": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 18,
+        "trials": 20,
+        "lower": 0.6989663547715128,
+        "upper": 0.9721335187862319
+      },
+      "accuracy": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 29,
+        "trials": 40,
+        "lower": 0.5716504419378943,
+        "upper": 0.8389198375233267
+      },
+      "false_positive_rate": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 9,
+        "trials": 20,
+        "lower": 0.2581978582556243,
+        "upper": 0.6579146575496577
+      }
+    }
+  },
+  "targets": {
+    "passed": false,
+    "checks": {
+      "precision": {
+        "value": 0.6666666666666666,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "recall": {
+        "value": 0.9,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "accuracy": {
+        "value": 0.725,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "false_positive_rate": {
+        "value": 0.45,
+        "operator": "<",
+        "threshold": 0.05,
+        "passed": false
+      }
+    },
+    "basis": "Unrounded point estimates; separate from uncertainty and external validity",
+    "required": false
+  },
+  "input_audit": {
+    "input_key": "Canonical submitted event sequence and operator context, excluding scenario metadata",
+    "duplicate_groups": [],
+    "contradictions": [],
+    "minimum_unavoidable_errors": 0,
+    "accuracy_upper_bound": 1.0,
+    "assumptions": "Deterministic detector, identical initial state and fixed processing clock; upper bound only"
+  },
+  "by_source": {
+    "linux_auth": {
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 4,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 7,
+        "positive": 3,
+        "negative": 4,
+        "predicted_positive": 7,
+        "classified": 7,
+        "errors": 0
+      },
+      "prevalence": 0.42857142857142855,
+      "classification_coverage": 1.0,
+      "precision": 0.42857142857142855,
+      "recall": 1.0,
+      "accuracy": 0.42857142857142855,
+      "false_positive_rate": 1.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 7,
+            "lower": 0.15821985525146975,
+            "upper": 0.7495416354723428
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 7,
+            "lower": 0.15821985525146975,
+            "upper": 0.7495416354723428
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          }
+        }
+      }
+    },
+    "synthetic": {
+      "confusion_matrix": {
+        "TP": 12,
+        "FP": 1,
+        "TN": 11,
+        "FN": 2
+      },
+      "denominators": {
+        "total": 26,
+        "positive": 14,
+        "negative": 12,
+        "predicted_positive": 13,
+        "classified": 26,
+        "errors": 0
+      },
+      "prevalence": 0.5384615384615384,
+      "classification_coverage": 1.0,
+      "precision": 0.9230769230769231,
+      "recall": 0.8571428571428571,
+      "accuracy": 0.8846153846153846,
+      "false_positive_rate": 0.08333333333333333,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 12,
+            "trials": 13,
+            "lower": 0.6668604907890041,
+            "upper": 0.9862895787574435
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 12,
+            "trials": 14,
+            "lower": 0.6005862050302965,
+            "upper": 0.9599060787285351
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 23,
+            "trials": 26,
+            "lower": 0.7102409678828635,
+            "upper": 0.9599675537638938
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 12,
+            "lower": 0.014865094404917095,
+            "upper": 0.35387991114111694
+          }
+        }
+      }
+    },
+    "sysmon": {
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 4,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 7,
+        "positive": 3,
+        "negative": 4,
+        "predicted_positive": 7,
+        "classified": 7,
+        "errors": 0
+      },
+      "prevalence": 0.42857142857142855,
+      "classification_coverage": 1.0,
+      "precision": 0.42857142857142855,
+      "recall": 1.0,
+      "accuracy": 0.42857142857142855,
+      "false_positive_rate": 1.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 7,
+            "lower": 0.15821985525146975,
+            "upper": 0.7495416354723428
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 7,
+            "lower": 0.15821985525146975,
+            "upper": 0.7495416354723428
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          }
+        }
+      }
+    }
+  },
+  "by_rule": {
+    "00000000-0000-0000-0000-000000000005": {
+      "title": "UID-zero account creation",
+      "slug": "account-uid-zero",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 3,
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 0,
+        "TN": 37,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 3,
+        "negative": 37,
+        "predicted_positive": 3,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.075,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 37,
+            "lower": 0.0,
+            "upper": 0.09405782583720251
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000009": {
+      "title": "Port 443 destination matches active scoped intelligence",
+      "slug": "https-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000007": {
+      "title": "Outbound connection on an uncommon port",
+      "slug": "outbound-port",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000002": {
+      "title": "Suspicious PowerShell arguments",
+      "slug": "powershell-encoded",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 6,
+      "confusion_matrix": {
+        "TP": 6,
+        "FP": 0,
+        "TN": 34,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 6,
+        "negative": 34,
+        "predicted_positive": 6,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.15,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 6,
+            "lower": 0.6096657120978346,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 6,
+            "lower": 0.6096657120978346,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 34,
+            "lower": 0.0,
+            "upper": 0.10151455415332376
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000008": {
+      "title": "PowerShell file execution with supporting evidence",
+      "slug": "powershell-file-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 4,
+      "confusion_matrix": {
+        "TP": 4,
+        "FP": 0,
+        "TN": 36,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 4,
+        "negative": 36,
+        "predicted_positive": 4,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.1,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 36,
+            "lower": 0.0,
+            "upper": 0.09641862859446367
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000004": {
+      "title": "Scheduled task creation",
+      "slug": "scheduled-task",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 7,
+      "confusion_matrix": {
+        "TP": 4,
+        "FP": 3,
+        "TN": 33,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 4,
+        "negative": 36,
+        "predicted_positive": 7,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.1,
+      "classification_coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "recall": 1.0,
+      "accuracy": 0.925,
+      "false_positive_rate": 0.08333333333333333,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 7,
+            "lower": 0.2504583645276572,
+            "upper": 0.8417801447485302
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 37,
+            "trials": 40,
+            "lower": 0.8013576647568946,
+            "upper": 0.9741639742254119
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 36,
+            "lower": 0.02874861133599338,
+            "upper": 0.2182669124927263
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000003": {
+      "title": "Shell with a TCP redirection",
+      "slug": "shell-unusual",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000001": {
+      "title": "SSH password guessing",
+      "slug": "ssh-brute-force",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000006": {
+      "title": "Interactive root shell through sudo",
+      "slug": "sudo-shell",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 7,
+      "confusion_matrix": {
+        "TP": 4,
+        "FP": 3,
+        "TN": 33,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 4,
+        "negative": 36,
+        "predicted_positive": 7,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.1,
+      "classification_coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "recall": 1.0,
+      "accuracy": 0.925,
+      "false_positive_rate": 0.08333333333333333,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 7,
+            "lower": 0.2504583645276572,
+            "upper": 0.8417801447485302
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 37,
+            "trials": 40,
+            "lower": 0.8013576647568946,
+            "upper": 0.9741639742254119
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 36,
+            "lower": 0.02874861133599338,
+            "upper": 0.2182669124927263
+          }
+        }
+      }
+    }
+  },
+  "rule_contracts": {
+    "evaluated": 40,
+    "matched": 34,
+    "mismatches": [
+      "v3-validation-task-delete-name",
+      "v3-validation-task-end-name",
+      "v3-validation-task-change-quoted-value",
+      "v3-validation-sudo-test-shell",
+      "v3-validation-sudo-file-shell",
+      "v3-validation-sudo-editor-shell"
+    ],
+    "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+  },
+  "totals": {
+    "alerts": 27,
+    "suppressions": 0,
+    "ingestion": {
+      "accepted": 40,
+      "duplicates": 0,
+      "rejected": 0
+    }
+  },
+  "breakdown_note": "Source groups may overlap for multi-source scenarios; rule results measure contract correctness separately from intent classification.",
+  "latency_ms": {
+    "definition": "HTTP TestClient ingestion to committed response, alerting scenarios only; excludes operator context provisioning, network transit and observation delay",
+    "median": 4.478,
+    "maximum": 48.054
+  },
+  "limitations": [
+    "Synthetic experiments, not deployment efficacy or representative prevalence",
+    "Generated variants are correlated; nominal binomial intervals are not an independence claim",
+    "Any rejected/failed scenario invalidates headline metrics; no implicit benign prediction",
+    "No population FPR below 5% is established by these point estimates"
+  ],
+  "scenarios": [
+    {
+      "id": "v3-validation-encoded-after-format",
+      "label": true,
+      "reason": "Assigned malicious encoded execution follows consumed format option values.",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-01",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "5c7cb483-df67-4f6a-86d3-7067a5d59c67",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "959b30a2-8cdb-4ec8-a972-923219aad5e8"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (50 bytes; SHA256 7b03afd274a03544b202e62e0ad3e84c8aa3fb3d3f733cfe568aa13f06e5a0d8); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "959b30a2-8cdb-4ec8-a972-923219aad5e8",
+            "alert_ids": [
+              "5c7cb483-df67-4f6a-86d3-7067a5d59c67"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 9.647,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-encoded-after-policy",
+      "label": true,
+      "reason": "Assigned malicious encoded execution; policy value must be consumed before ec.",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-02",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "d5ec3147-7892-46a4-9f3d-6403a1edf6a6",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "c357c8c5-c977-4d8b-9296-8964da41665b"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (50 bytes; SHA256 6073b99a09f323a8858c8c50c0b7425a07d06cc2fe050f79f0df98d3eb76b0e8); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "c357c8c5-c977-4d8b-9296-8964da41665b",
+            "alert_ids": [
+              "d5ec3147-7892-46a4-9f3d-6403a1edf6a6"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.475,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-encoded-after-window",
+      "label": true,
+      "reason": "Assigned malicious encoded execution after a valid window-style value.",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-03",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "e53132d8-c332-48ea-b6e3-15f81cf07d7b",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "9e8b1a45-e088-4deb-9ae2-db9edb10390f"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (50 bytes; SHA256 390e7aed0e749483f878d2b0c0c808a46d1812053f1adc8c5a820dd4fce308a6); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "9e8b1a45-e088-4deb-9ae2-db9edb10390f",
+            "alert_ids": [
+              "e53132d8-c332-48ea-b6e3-15f81cf07d7b"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.522,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-encoded-after-endpoint",
+      "label": true,
+      "reason": "Assigned malicious encoded execution inside a named session endpoint.",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-04",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "66b25f3f-cac2-4698-9001-16f234d7f644",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "e9a39ded-9164-447a-99a6-505380bebf8e"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (54 bytes; SHA256 caa708ab00cedb8ed8af1ccda15cf630ddab74fe959a7cf23363031b5a398666); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "e9a39ded-9164-447a-99a6-505380bebf8e",
+            "alert_ids": [
+              "66b25f3f-cac2-4698-9001-16f234d7f644"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.184,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-encoded-after-pipe",
+      "label": true,
+      "reason": "Assigned malicious encoded execution after a separate pipe-name value.",
+      "origin_template": "validation-engine-after-values",
+      "session_id": "v3-validation-session-05",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "1d7eaf95-41e5-40a8-a6cb-8ff2fecd35e1",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "bb4821f1-adbc-4b7c-8c6d-9488664f8845"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (46 bytes; SHA256 0fa72bf23ffaaba17a86ea69dc5d5731ab9359c83ad90af48371e1280440f9da); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "bb4821f1-adbc-4b7c-8c6d-9488664f8845",
+            "alert_ids": [
+              "1d7eaf95-41e5-40a8-a6cb-8ff2fecd35e1"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.641,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-task-system",
+      "label": true,
+      "reason": "Assigned unauthorized SYSTEM scheduled action.",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-06",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "922b9877-9f82-4af3-b2a0-11dd663faef1",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "4a75c290-9b4a-4150-93b5-1b35f07f1bae"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "4a75c290-9b4a-4150-93b5-1b35f07f1bae",
+            "alert_ids": [
+              "922b9877-9f82-4af3-b2a0-11dd663faef1"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.822,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-task-interactive",
+      "label": true,
+      "reason": "Assigned unauthorized interactive scheduled action.",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-07",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "57f99bcb-3b6a-4991-afda-58bf6eac0020",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "a9261105-c165-4730-8165-ba9049787e2c"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "a9261105-c165-4730-8165-ba9049787e2c",
+            "alert_ids": [
+              "57f99bcb-3b6a-4991-afda-58bf6eac0020"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.57,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-task-highest",
+      "label": true,
+      "reason": "Assigned unauthorized high-privilege startup task.",
+      "origin_template": "validation-create-identity",
+      "session_id": "v3-validation-session-08",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "6fffdedb-b5c2-41c2-a45d-749a612a5018",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "b85e80b1-c7a5-4915-8f25-a95a9b10dba6"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "b85e80b1-c7a5-4915-8f25-a95a9b10dba6",
+            "alert_ids": [
+              "6fffdedb-b5c2-41c2-a45d-749a612a5018"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.13,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-uid-zero-padded-long",
+      "label": true,
+      "reason": "Assigned unauthorized UID-zero attempt; decimal zero with leading zeros is still zero.",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-09",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "7ca7ab7e-7073-4271-bef7-eac0823d530b",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "70e70064-d7bc-478e-8fcd-e83dd2245aa6"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "70e70064-d7bc-478e-8fcd-e83dd2245aa6",
+            "alert_ids": [
+              "7ca7ab7e-7073-4271-bef7-eac0823d530b"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.328,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-uid-zero-padded-short",
+      "label": true,
+      "reason": "Assigned unauthorized UID-zero attempt; attached zero-valued argument.",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-10",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "ba8785c9-c5e2-4339-9496-b6827f332afd",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "c23046f6-1616-471e-8cbd-c567efce2a09"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "c23046f6-1616-471e-8cbd-c567efce2a09",
+            "alert_ids": [
+              "ba8785c9-c5e2-4339-9496-b6827f332afd"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.744,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-uid-after-comment",
+      "label": true,
+      "reason": "Assigned unauthorized root-equivalent account after unrelated consumed options.",
+      "origin_template": "validation-uid-numeric-forms",
+      "session_id": "v3-validation-session-11",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "a9fefa60-d512-42f0-b5dd-66a1f6a620de",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "83e2b036-2bd2-45e4-b9f7-9e2ade5370e0"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "83e2b036-2bd2-45e4-b9f7-9e2ade5370e0",
+            "alert_ids": [
+              "a9fefa60-d512-42f0-b5dd-66a1f6a620de"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.368,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-sudo-quoted",
+      "label": true,
+      "reason": "Assigned unauthorized root shell; balanced executable quoting is lexical, not a path change.",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-12",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "71f0a062-988e-4a54-beff-c06ec5f8633b",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "161826fa-ba06-4621-bd34-8bb45aace096"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "161826fa-ba06-4621-bd34-8bb45aace096",
+            "alert_ids": [
+              "71f0a062-988e-4a54-beff-c06ec5f8633b"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.404,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-sudo-usr-sh",
+      "label": true,
+      "reason": "Assigned unauthorized root shell using the usr-bin path.",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-13",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "2a2156a9-5332-4f9a-83d7-a98fb421a44a",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "0c27882b-8278-4a01-abce-cf785184af6f"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "0c27882b-8278-4a01-abce-cf785184af6f",
+            "alert_ids": [
+              "2a2156a9-5332-4f9a-83d7-a98fb421a44a"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.201,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-sudo-zsh-login",
+      "label": true,
+      "reason": "Assigned unauthorized root login-style shell.",
+      "origin_template": "validation-sudo-lexical",
+      "session_id": "v3-validation-session-14",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "3719553b-d580-4278-ab95-a607d04c0824",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "a9391898-1ad2-4366-8f38-16e2f6ef95ed"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "a9391898-1ad2-4366-8f38-16e2f6ef95ed",
+            "alert_ids": [
+              "3719553b-d580-4278-ab95-a607d04c0824"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.3,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-office-short-policy",
+      "label": true,
+      "reason": "Assigned malicious document child uses supported short policy and file options.",
+      "origin_template": "validation-office-abbreviations",
+      "session_id": "v3-validation-session-15",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "90c9d34a-6d19-441a-a88c-d77247891360",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "07f38663-3821-4edc-8373-8cb373e01f31"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. PowerShell file execution with Office parent and explicit bypass/hidden option; behavior requires review."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "07f38663-3821-4edc-8373-8cb373e01f31",
+            "alert_ids": [
+              "90c9d34a-6d19-441a-a88c-d77247891360"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.956,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-office-short-window",
+      "label": true,
+      "reason": "Assigned malicious mail client child uses short hidden-window and file options.",
+      "origin_template": "validation-office-abbreviations",
+      "session_id": "v3-validation-session-16",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "a91ac3d0-5685-43d6-bfdb-2799f344bec8",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "7460dfbb-8941-452e-b4ff-37c0585230c7"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. PowerShell file execution with Office parent and explicit bypass/hidden option; behavior requires review."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7460dfbb-8941-452e-b4ff-37c0585230c7",
+            "alert_ids": [
+              "a91ac3d0-5685-43d6-bfdb-2799f344bec8"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.197,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-indicator-start",
+      "label": true,
+      "reason": "Assigned malicious script at the inclusive start of a versioned intelligence window.",
+      "origin_template": "validation-context-inclusive-start",
+      "session_id": "v3-validation-session-17",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "53219b3f-8b4c-48b7-9a6c-97eb002a5445",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "7f96fbf9-fc20-4f38-9ef1-7668fe36ea02"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. Observed script path/hash matches an active operator-managed script indicator; collector attribution is required. Indicator 7af67b56-ae47-4d85-832a-0dd826b6ac15; version v3-validation-indicator-start; provenance Engineer-authored synthetic intelligence; no external reputation claim; binding e772bc4f-eb8b-4c32-bf34-20d93113905a; valid [2026-11-16T09:00:00.000000+00:00, 2026-11-17T00:00:00.000000+00:00); expires 2026-11-17T00:00:00.000000+00:00."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "e772bc4f-eb8b-4c32-bf34-20d93113905a"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "7af67b56-ae47-4d85-832a-0dd826b6ac15"
+        }
+      ],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7f96fbf9-fc20-4f38-9ef1-7668fe36ea02",
+            "alert_ids": [
+              "53219b3f-8b4c-48b7-9a6c-97eb002a5445"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.694,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-path-case",
+      "label": true,
+      "reason": "Assigned malicious script; Windows observed path differs only in letter case.",
+      "origin_template": "validation-context-lexical-path",
+      "session_id": "v3-validation-session-18",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "e8cc4c00-5af6-40e3-991f-122a07748fb1",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "f5971954-d769-40eb-9eaf-94c505c39a85"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. Observed script path/hash matches an active operator-managed script indicator; collector attribution is required. Indicator e33d42c4-cc33-470d-b505-cee991896119; version v3-validation-path-case; provenance Engineer-authored synthetic intelligence; no external reputation claim; binding 48d10c60-d04f-413c-bcd4-df06d2e971d7; valid [2026-11-16T00:00:00.000000+00:00, 2026-11-17T00:00:00.000000+00:00); expires 2026-11-17T00:00:00.000000+00:00."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "48d10c60-d04f-413c-bcd4-df06d2e971d7"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "e33d42c4-cc33-470d-b505-cee991896119"
+        }
+      ],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "f5971954-d769-40eb-9eaf-94c505c39a85",
+            "alert_ids": [
+              "e8cc4c00-5af6-40e3-991f-122a07748fb1"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.754,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-ordinary-inline-intent",
+      "label": true,
+      "reason": "Assigned malicious reconnaissance uses an ordinary command; evidence has no supported malicious predicate.",
+      "origin_template": "validation-unobservable-program",
+      "session_id": "v3-validation-session-19",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7a7ccd5e-d944-4649-bd0d-2532650e2974",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.404,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-implicit-script-intent",
+      "label": true,
+      "reason": "Assigned malicious script content is unobserved; implicit file invocation has no scoped content evidence.",
+      "origin_template": "validation-unobservable-program",
+      "session_id": "v3-validation-session-20",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "2726b05d-dd27-4e0c-a165-7bac6d565e36",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.201,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-settings-file-value",
+      "label": false,
+      "reason": "Authorized settings filename includes option-like text; it is not an engine option.",
+      "origin_template": "validation-engine-attached-data",
+      "session_id": "v3-validation-session-21",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "58805dc4-a259-43f4-9e30-e236afc5a319",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.465,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-working-directory-value",
+      "label": false,
+      "reason": "Authorized working directory contains an encoded-option spelling as path text.",
+      "origin_template": "validation-engine-attached-data",
+      "session_id": "v3-validation-session-22",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "4d3af362-dea7-4557-94b9-ff48dbd45de7",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.58,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-inline-encoded-text",
+      "label": false,
+      "reason": "Authorized command prints an engine-option name; it does not request encoded execution.",
+      "origin_template": "validation-command-boundary",
+      "session_id": "v3-validation-session-23",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "57febcff-cd20-40f2-8a86-3ce583c17d7e",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.346,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-inline-ec-text",
+      "label": false,
+      "reason": "Authorized command prints an abbreviated option as literal data.",
+      "origin_template": "validation-command-boundary",
+      "session_id": "v3-validation-session-24",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "092293d9-da50-4798-857d-47ac12202e59",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.974,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-task-delete-name",
+      "label": false,
+      "reason": "Authorized deletion of an existing task whose name contains a verb-like token.",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-25",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "fe3a5ee2-8923-4412-aa3b-e5201e557bab",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "57c720d1-ad36-4c4c-9796-d1dc7b5c0f99"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "57c720d1-ad36-4c4c-9796-d1dc7b5c0f99",
+            "alert_ids": [
+              "fe3a5ee2-8923-4412-aa3b-e5201e557bab"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.255,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-task-end-name",
+      "label": false,
+      "reason": "Authorized termination of an existing task; create is only in the name.",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-26",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "0176ea49-95ab-41fb-9deb-6271d6bb612f",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "5aabafe5-ade9-4e23-98a8-9a8d0715c192"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "5aabafe5-ade9-4e23-98a8-9a8d0715c192",
+            "alert_ids": [
+              "0176ea49-95ab-41fb-9deb-6271d6bb612f"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.646,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-task-change-quoted-value",
+      "label": false,
+      "reason": "Authorized action update contains a complete-looking nested create fragment as data.",
+      "origin_template": "validation-task-existing-operations",
+      "session_id": "v3-validation-session-27",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "6391278a-485b-427d-8406-8395758470b5",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "02ea9a5a-05fb-4a87-8b53-9e82f7f15efb"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "02ea9a5a-05fb-4a87-8b53-9e82f7f15efb",
+            "alert_ids": [
+              "6391278a-485b-427d-8406-8395758470b5"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.171,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-uid-password-token",
+      "label": false,
+      "reason": "Authorized account; zero-looking token is a password option value, not UID.",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-28",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7be3fc3b-9a03-44fa-ad88-586a17f39df9",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.539,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-uid-home-token",
+      "label": false,
+      "reason": "Authorized account with an option-like path segment and nonzero UID.",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-29",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "d3660728-1d99-4231-b823-68a9ac406f8e",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.118,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-uid-end-options",
+      "label": false,
+      "reason": "Authorized nonzero account; end-of-options terminates interpretation.",
+      "origin_template": "validation-uid-other-values",
+      "session_id": "v3-validation-session-30",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "702d2e69-ea42-4a39-9f0b-8c6b60e1bed4",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.275,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-sudo-test-shell",
+      "label": false,
+      "reason": "Authorized executable check invokes test, not the shell being checked.",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-31",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "bcb93a74-733f-4d08-b6f1-3c15ff3780b1",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "05bb43ec-786b-47c0-bdad-7ee936ad1519"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "05bb43ec-786b-47c0-bdad-7ee936ad1519",
+            "alert_ids": [
+              "bcb93a74-733f-4d08-b6f1-3c15ff3780b1"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.702,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-sudo-file-shell",
+      "label": false,
+      "reason": "Authorized file classification invokes file; shell path is an operand.",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-32",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "ee580481-5fa6-4d66-9583-5032f9245d6b",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "0120a8f0-4792-4e35-a4ac-b74916d39c4d"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "0120a8f0-4792-4e35-a4ac-b74916d39c4d",
+            "alert_ids": [
+              "ee580481-5fa6-4d66-9583-5032f9245d6b"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 48.054,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-sudo-editor-shell",
+      "label": false,
+      "reason": "Authorized text editing of a similarly named path is not shell execution.",
+      "origin_template": "validation-sudo-inspection",
+      "session_id": "v3-validation-session-33",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "6863e77a-328b-4940-91f8-3fd772adfd66",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "7545a64c-19e3-46f3-a656-ccefb5947426"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7545a64c-19e3-46f3-a656-ccefb5947426",
+            "alert_ids": [
+              "6863e77a-328b-4940-91f8-3fd772adfd66"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.312,
+      "rule_contract_match": false
+    },
+    {
+      "id": "v3-validation-indicator-end",
+      "label": false,
+      "reason": "Authorized historical replay occurs exactly at indicator end; half-open window excludes it.",
+      "origin_template": "validation-context-half-open",
+      "session_id": "v3-validation-session-34",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "6fdc47ac-1326-41f4-89ce-1513541bdad2"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "b1f087f9-6b4a-4b1e-a969-545baa8f6bdb"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "ab019522-73c2-4379-b9af-a937bc90600f",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.239,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-indicator-expired",
+      "label": false,
+      "reason": "Authorized retrospective sample; intelligence expires exactly at processing time.",
+      "origin_template": "validation-context-half-open",
+      "session_id": "v3-validation-session-35",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "189ed10a-2bf9-4fc7-81b3-e274cc6e8202"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "261c7f5f-b5ef-4a71-8fb8-c3b65034a238"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "4a9154fa-73cd-4b8e-81a8-a13bce613ee4",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.873,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-wrong-sensor",
+      "label": false,
+      "reason": "Authorized sensor test; collector binding names another sensor.",
+      "origin_template": "validation-context-identity",
+      "session_id": "v3-validation-session-36",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "30877679-96b4-45d0-9948-e8eb712e9be7"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "dd36f3e1-6f57-41dd-a197-76efaee055b9"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "646cf939-4037-45dc-b30f-1d8fd8d5afe5",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.592,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-office-pipe-bypass",
+      "label": false,
+      "reason": "Authorized Office automation; bypass-looking text is wholly inside the pipe name.",
+      "origin_template": "validation-office-data-value",
+      "session_id": "v3-validation-session-37",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "a8723d22-8b96-416b-bb6c-389bfb060fa0",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.054,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-authorized-encoded",
+      "label": false,
+      "reason": "Authorized diagnostic execution uses encoding without a scoped approval; heuristic remains alertable.",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-38",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "3e1f827b-9147-40bb-80f6-22b41f82f0da",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "5c5308a6-314b-4f69-a267-db79e6b947f6"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (82 bytes; SHA256 79c405499d2c7e0b219af49528edaa80212756ceb3bcee9804016d54f715f346); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "5c5308a6-314b-4f69-a267-db79e6b947f6",
+            "alert_ids": [
+              "3e1f827b-9147-40bb-80f6-22b41f82f0da"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.478,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-authorized-task",
+      "label": false,
+      "reason": "Authorized administrative task without a scoped action approval still meets the create predicate.",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-39",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "cd6bad6e-832d-4b58-952b-bec9dc8900d0",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "71af729a-5c61-4395-b20c-7a0bf33ea894"
+          ],
+          "explanation": "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "71af729a-5c61-4395-b20c-7a0bf33ea894",
+            "alert_ids": [
+              "cd6bad6e-832d-4b58-952b-bec9dc8900d0"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.407,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-validation-authorized-sudo",
+      "label": false,
+      "reason": "Authorized emergency root-shell diagnostics; no user authorization baseline is modeled.",
+      "origin_template": "validation-authorized-ambiguity",
+      "session_id": "v3-validation-session-40",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "8f547b79-0bb4-42b4-8da4-0d5080d1d60c",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "e78ac623-4353-4543-a7e9-7c7d2ca39896"
+          ],
+          "explanation": "A logged sudo command launches a shell as root. Compare against the user's approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "e78ac623-4353-4543-a7e9-7c7d2ca39896",
+            "alert_ids": [
+              "8f547b79-0bb4-42b4-8da4-0d5080d1d60c"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 5.163,
+      "rule_contract_match": true
+    }
+  ],
+  "command": [
+    "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+    "scripts/evaluate.py",
+    "--dataset",
+    "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation-v3/validation.json",
+    "--output",
+    "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/work/accuracy-upgrade/baseline/validation-v3.json"
+  ],
+  "exit_code": 0
+}

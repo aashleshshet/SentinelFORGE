@@ -142,7 +142,7 @@ test("responsive reflow, mobile dialog focus, reduced motion and opaque fallback
     .getByRole("button", { name: "Detection rules", exact: true })
     .click();
   await expect(dialog).not.toBeVisible();
-  await expect(page.locator(".rule-card")).toHaveCount(7);
+  await expect(page.locator(".rule-card")).toHaveCount(9);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/how-it-works");
   await page.getByRole("tabpanel").waitFor();

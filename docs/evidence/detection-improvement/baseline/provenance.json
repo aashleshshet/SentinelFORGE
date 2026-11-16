@@ -1,0 +1,63 @@
+{
+  "source_revision": "78b7bd5c7e17f95993772204d7eaf66a6eec424f",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "platform": "macOS-27.3-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "sha256": {
+    "data/evaluation.json": "555e748cea7a12c0e9690ea026c08e66660c43232643a00d8b9911d649c3aa73",
+    "scripts/build_fixtures.py": "da91e4151d9b0e334b72cc66f7762517bdc1398e34c550f7888d34fd97b6aa58",
+    "scripts/evaluate.py": "fa51109ee1f717bcb6602c240c4f88f955a81f4d68b0f1ea043822636d611655",
+    "requirements.lock": "e96e9dca6ab2b1b581795b7a826ebcf5b9168d05e39aabd4d3ffdda17ba2fd11",
+    "backend/sentinelforge/config.py": "0864396cf77f81ae40054008d75c5dee524b0670818304ad68df3584080839f3",
+    "rules/account-uid-zero.yml": "5bd5146dee3a2af7ff3d245f8c82bbc3947b6adc85d58329a4ad2c3ca817a2ee",
+    "rules/outbound-port.yml": "7b88466083dde83116895fa6b1613d2cafbdd8ad1b64724e3118c9bcb5424fe8",
+    "rules/powershell-encoded.yml": "a37e85a4778827baa2108c21b3ae08c45050b1c54d090fa5e04a8e3813d16203",
+    "rules/scheduled-task.yml": "1aa227e1e824cd84031fc2dc7741aa037eb02a2dd3432cdb74b01fc6418ac737",
+    "rules/shell-unusual.yml": "6599449b319c7221dad41e103f0a186ea9b73e028d769141e1ac58026b7ec284",
+    "rules/ssh-brute-force.yml": "00769c3941b378f112a70948a1a8ce0470a997410b14afa219b44785c82a4de2",
+    "rules/sudo-shell.yml": "bae082af4da5bff1ae993fff794c9f0010f128bd2e5a0aabd5cfd39e4cf59957"
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "--cov=sentinelforge",
+        "--cov-fail-under=85",
+        "--cov-report=xml:work/detection-improvement/baseline-coverage.xml"
+      ],
+      "exit_code": 0,
+      "seconds": 3.256229877471924,
+      "log": "docs/evidence/detection-improvement/baseline/command-1.log"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/evaluate.py",
+        "--output",
+        "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/docs/evidence/detection-improvement/baseline/evaluation.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5234770774841309,
+      "log": "docs/evidence/detection-improvement/baseline/command-2.log"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/benchmark.py",
+        "--events",
+        "1000",
+        "--runs",
+        "3",
+        "--output",
+        "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/docs/evidence/detection-improvement/baseline/benchmark.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.802595853805542,
+      "log": "docs/evidence/detection-improvement/baseline/command-3.log"
+    }
+  ]
+}

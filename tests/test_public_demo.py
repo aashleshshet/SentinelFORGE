@@ -35,7 +35,7 @@ def test_public_demo_reads_and_exports_across_instances(monkeypatch):
         assert b.get("/api/events/" + detail["timeline"][0]["id"]).status_code == 200
         assert a.get("/api/alerts?severity=critical").json()["total"] == 1
         assert a.get("/api/events?source=wazuh").json()["total"] == 1
-        assert len(a.get("/api/rules").json()["items"]) == 7
+        assert len(a.get("/api/rules").json()["items"]) == 9
     with first.state.engine.begin() as connection, pytest.raises(OperationalError, match="readonly"):
         connection.execute(text("DELETE FROM events"))
     first.state.engine.dispose()

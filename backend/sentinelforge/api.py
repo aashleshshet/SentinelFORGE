@@ -18,11 +18,27 @@ from pydantic import BaseModel, Field, ValidationError
 from sqlalchemy import func, or_, select, text
 
 from .config import ROOT, Identity, Settings
-from .db import IOC, Alert, Audit, Case, Event, Evidence, Note, ResponseAction, database, serialize
+from .context import ApprovalInput, BindingInput, IndicatorInput, active_bindings
+from .db import (
+    IOC,
+    Alert,
+    Audit,
+    Case,
+    CollectorBinding,
+    ContextReceipt,
+    DetectionApproval,
+    Event,
+    Evidence,
+    Note,
+    ResponseAction,
+    ThreatIndicator,
+    database,
+    serialize,
+)
 from .engine import detect, digest
 from .normalize import normalize
 from .rules import load_rules
-from .schemas import Batch, CasePatch, ChecklistInput, Envelope, NoteInput, ResponseInput, now
+from .schemas import Batch, CasePatch, ChecklistInput, Envelope, NoteInput, ResponseInput, now, utc
 
 logger = logging.getLogger("sentinelforge")
 
@@ -111,8 +127,10 @@ class IOCInput(BaseModel):
     source: str = Field(min_length=1, max_length=255)
 
 
-def create_app(settings: Settings | None = None):
+def create_app(settings: Settings | None = None, *, clock=None):
     settings = settings or Settings()
+    # Code-only dependency injection for explicitly dated evaluations. No HTTP/env override.
+    context_clock = clock or now
     app = FastAPI(title="SentinelForge", version="0.1.0", docs_url=None, redoc_url=None)
     app.add_middleware(Guardrails, settings=settings)
     app.state.engine, factory = database(settings.database_url)
@@ -247,8 +265,44 @@ def create_app(settings: Settings | None = None):
                     continue
                 existing = db.scalar(select(Event).where(Event.fingerprint == fingerprint))
                 if existing:
+                    # Event content stays deduplicated, but a newly authenticated bound
+                    # source must not be preempted by an unbound source's earlier copy.
+                    stamp = utc(context_clock())
+                    emitted = []
+                    if active_bindings(db, existing, actor.name, stamp) and not db.get(
+                        ContextReceipt, (existing.id, actor.name)
+                    ):
+                        prior = db.scalars(select(Alert).where(Alert.host == existing.host)).all()
+                        seen = {a.rule_id for a in prior if existing.id in a.event_ids}
+                        contextual = [
+                            r
+                            for r in rules
+                            if r.id
+                            in {
+                                "00000000-0000-0000-0000-000000000008",
+                                "00000000-0000-0000-0000-000000000009",
+                            }
+                            and r.id not in seen
+                        ]
+                        emitted = detect(db, existing, contextual, principal=actor.name, stamp=stamp)
+                        db.add(ContextReceipt(event_id=existing.id, principal=actor.name, evaluated_at=stamp))
+                        audit(
+                            db,
+                            actor,
+                            "context.bound_redelivery",
+                            event_id=existing.id,
+                            alert_ids=[a.id for a in emitted],
+                        )
                     result["duplicates"] += 1
-                    result["results"].append({"index": index, "status": "duplicate", "event_id": existing.id})
+                    result["alerts_created"] += len(emitted)
+                    result["results"].append(
+                        {
+                            "index": index,
+                            "status": "duplicate",
+                            "event_id": existing.id,
+                            "alert_ids": [a.id for a in emitted],
+                        }
+                    )
                     continue
                 event = Event(
                     fingerprint=fingerprint,
@@ -263,7 +317,13 @@ def create_app(settings: Settings | None = None):
                 )
                 db.add(event)
                 db.flush()
-                emitted = detect(db, event, rules)
+                emitted = detect(db, event, rules, principal=actor.name, stamp=utc(context_clock()))
+                if active_bindings(db, event, actor.name, utc(context_clock())):
+                    db.add(
+                        ContextReceipt(
+                            event_id=event.id, principal=actor.name, evaluated_at=utc(context_clock())
+                        )
+                    )
                 result["accepted"] += 1
                 result["alerts_created"] += len(emitted)
                 result["results"].append(
@@ -302,6 +362,147 @@ def create_app(settings: Settings | None = None):
     @app.post("/api/demo")
     def demo(db=Depends(session), actor=Depends(admin)):
         return ingest_batch(Batch.model_validate_json((ROOT / "data/demo.json").read_text()), db, actor)
+
+    def context_created(db, row, actor, action, stamp):
+        row.created_at, row.created_by = stamp, actor.name
+        db.add(row)
+        db.flush()
+        db.add(
+            Audit(
+                actor=actor.name,
+                action=action,
+                created_at=stamp,
+                detail={"context": serialize(row), "active_at_creation": row.expires_at > stamp},
+            )
+        )
+        return serialize(row)
+
+    @app.post("/api/context/bindings", status_code=201)
+    def add_binding(body: BindingInput, db=Depends(session), actor=Depends(admin)):
+        eligible = {identity.name for identity in settings.identities if identity.role in {"admin", "ingest"}}
+        if settings.local_mode:
+            eligible.add("__local__")
+        if body.principal not in eligible:
+            raise HTTPException(422, "Binding principal must be a configured ingestion identity")
+        with mutation(db):
+            return context_created(
+                db,
+                CollectorBinding(**body.model_dump()),
+                actor,
+                "context.binding.created",
+                utc(context_clock()),
+            )
+
+    @app.post("/api/context/approvals", status_code=201)
+    def add_approval(body: ApprovalInput, db=Depends(session), actor=Depends(admin)):
+        with mutation(db):
+            if not db.get(CollectorBinding, body.binding_id):
+                raise HTTPException(422, "Approval must reference an existing collector binding")
+            duplicate = db.scalar(
+                select(DetectionApproval).where(
+                    *[
+                        getattr(DetectionApproval, key) == getattr(body, key)
+                        for key in (
+                            "binding_id",
+                            "rule_id",
+                            "user",
+                            "command_sha256",
+                            "valid_from",
+                            "valid_until",
+                        )
+                    ]
+                )
+            )
+            if duplicate:
+                raise HTTPException(
+                    409, "Approval action/window already exists; retries cannot grant another use"
+                )
+            return context_created(
+                db,
+                DetectionApproval(**body.model_dump()),
+                actor,
+                "context.approval.created",
+                utc(context_clock()),
+            )
+
+    @app.post("/api/context/indicators", status_code=201)
+    def add_indicator(body: IndicatorInput, db=Depends(session), actor=Depends(admin)):
+        with mutation(db):
+            duplicate = db.scalar(
+                select(ThreatIndicator).where(
+                    ThreatIndicator.kind == body.kind,
+                    ThreatIndicator.value == body.value,
+                    ThreatIndicator.purpose == body.purpose,
+                    ThreatIndicator.version == body.version,
+                )
+            )
+            if duplicate:
+                raise HTTPException(409, "Indicator version already exists; publish a new version")
+            return context_created(
+                db,
+                ThreatIndicator(**body.model_dump()),
+                actor,
+                "context.indicator.created",
+                utc(context_clock()),
+            )
+
+    context_models = {
+        "bindings": CollectorBinding,
+        "approvals": DetectionApproval,
+        "indicators": ThreatIndicator,
+    }
+
+    @app.get("/api/context/suppressions")
+    def suppressions(
+        limit: int = Query(50, ge=1, le=200),
+        offset: int = Query(0, ge=0),
+        db=Depends(session),
+        actor=Depends(analyst),
+    ):
+        query = select(Audit).where(Audit.action == "detection.suppressed")
+        total = db.scalar(select(func.count()).select_from(query.subquery()))
+        rows = db.scalars(query.order_by(Audit.created_at, Audit.id).limit(limit).offset(offset)).all()
+        return {"total": total, "items": [serialize(row) for row in rows]}
+
+    @app.get("/api/context/{kind}")
+    def list_context(
+        kind: str,
+        limit: int = Query(50, ge=1, le=200),
+        offset: int = Query(0, ge=0),
+        db=Depends(session),
+        actor=Depends(admin),
+    ):
+        model = context_models.get(kind)
+        if model is None:
+            raise HTTPException(404, "Context type not found")
+        total = db.scalar(select(func.count()).select_from(model))
+        rows = db.scalars(
+            select(model).order_by(model.created_at, model.id).limit(limit).offset(offset)
+        ).all()
+        return {"total": total, "items": [serialize(row) for row in rows]}
+
+    @app.post("/api/context/{kind}/{context_id}/revoke")
+    def revoke_context(kind: str, context_id: str, db=Depends(session), actor=Depends(admin)):
+        model = context_models.get(kind)
+        if model is None:
+            raise HTTPException(404, "Context type not found")
+        with mutation(db):
+            row = db.get(model, context_id)
+            if row is None:
+                raise HTTPException(404, "Context record not found")
+            if row.revoked_at is not None:
+                raise HTTPException(409, "Context record is already revoked")
+            stamp = utc(context_clock())
+            row.revoked_at, row.revoked_by = stamp, actor.name
+            db.add(
+                Audit(
+                    actor=actor.name,
+                    action="context.revoked",
+                    created_at=stamp,
+                    detail={"kind": kind, "context_id": context_id},
+                )
+            )
+            return serialize(row)
 
     @app.get("/api/events")
     def events(
@@ -633,6 +834,11 @@ def create_app(settings: Settings | None = None):
         def workflow_guide():
             # A fixed public document route; never a catch-all for API/asset paths.
             return FileResponse(Path(settings.frontend_path) / "how-it-works" / "index.html")
+
+        @app.get("/what-it-is", include_in_schema=False)
+        @app.get("/what-it-is/", include_in_schema=False)
+        def product_overview():
+            return FileResponse(Path(settings.frontend_path) / "what-it-is" / "index.html")
 
         app.mount("/", StaticFiles(directory=settings.frontend_path, html=True), name="dashboard")
     return app

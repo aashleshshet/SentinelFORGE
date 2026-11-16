@@ -1,0 +1,2785 @@
+{
+  "schema_version": 2,
+  "dataset": "data/evaluation-v3/holdout.json",
+  "dataset_metadata": {
+    "schema_version": 1,
+    "name": "SentinelForge command semantics challenge",
+    "version": "3.0.0",
+    "partition": "holdout",
+    "evaluation_time": "2026-11-16T12:00:00Z",
+    "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+    "provenance": "Separately authored synthetic scenarios, never captured operational telemetry",
+    "labeling_criteria": "Assigned action intent is explicit in reason; expected_rule_ids describe prespecified semantic contracts and need not agree with intent. Labels never enter telemetry.",
+    "independence": "All partitions authored and frozen before v3 detector evaluation. Shared rule domains, constructor code and engineer authorship create correlation; this is not blinded, independent operational validation.",
+    "selection_plan": {
+      "scenarios": 40,
+      "positive": 20,
+      "negative": 20,
+      "unobservable_positive": 2,
+      "authorized_alertable_negative": 3,
+      "chosen_before_target_results": true
+    }
+  },
+  "unit": "Scenario; any emitted alert predicts suspicious. No label or scenario metadata is sent to detection.",
+  "valid": true,
+  "errors": [],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-27.3-arm64-arm-64bit",
+    "machine": "arm64",
+    "database": "SQLite in memory",
+    "sqlite": "3.53.1",
+    "packages": {
+      "fastapi": "0.163.0",
+      "sqlalchemy": "2.1.8",
+      "pydantic": "2.14.3",
+      "httpx": "0.28.1",
+      "PyYAML": "6.0.3"
+    }
+  },
+  "provenance": {
+    "source_revision": {
+      "commit": "93f7d490cea1ac65f30e50f5c4bea88a8e8a3cad",
+      "working_tree_dirty": false
+    },
+    "dataset_sha256": "220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d",
+    "dataset_path": "data/evaluation-v3/holdout.json",
+    "source_file_sha256": {
+      "backend/sentinelforge/__init__.py": "62777a4b57ec2fad33c0f8058ebafd43c713dd2a6ef3cbd83b50b53edc05ab5f",
+      "backend/sentinelforge/api.py": "f1d081964fcb0688407b2517c2556d30537e98f8c804973daae20ad148a9c1cd",
+      "backend/sentinelforge/config.py": "0864396cf77f81ae40054008d75c5dee524b0670818304ad68df3584080839f3",
+      "backend/sentinelforge/context.py": "ea94f7a3ceec93c537fdbada07932739c6c96308d67f73e86ae05d3db1c2bd51",
+      "backend/sentinelforge/db.py": "0167f9e70f75f13b09b15c5cfe5c38e7ee5b4ff87bd06cd0f40395b33078b88c",
+      "backend/sentinelforge/engine.py": "ff8fec68dd1386e2bcd0b973d35878ca70c5e6c340431cb01618acb994451a5e",
+      "backend/sentinelforge/linux_evidence.py": "78baa67539f0e99c68ddd79b8ba5672fb0c7d0d3e9e44d12e4e0df0bfbae1762",
+      "backend/sentinelforge/main.py": "626acc1bd498d4f2ec8a77a0720608b1212f29c16c514c7f71247e1242415fb8",
+      "backend/sentinelforge/normalize.py": "9cb9d922e74bdd8d07628f2d88ecf29ebdc2a3c7da6ff94ba6b8b749523f8820",
+      "backend/sentinelforge/process_evidence.py": "813821cdcada06885e478d6e2f46d827106bea02884821e6aa9e5fa53fd47385",
+      "backend/sentinelforge/public_demo.py": "5df477d987202d636a7fa41d861b07f6f9d5a706845a6b7808dec4954d589a44",
+      "backend/sentinelforge/rules.py": "cb5354b055aa3565f68f4a1db5f37c0d45cb6b96e7d150e3dcb396bc0cfb5535",
+      "backend/sentinelforge/schemas.py": "1b73207d4a2e1dee9f49542b4a0c927d61d218e9712c39498188b89c7702697b",
+      "scripts/benchmark.py": "dd0a342f3364b8c0a3d056c44aef737a0b42c7e43b149db773219aeb94470717",
+      "scripts/build_accuracy_corpus.py": "c6df3849cdd918d893f5f506e929bf3fca48ff13ee3831125ebfa4bd37617b2c",
+      "scripts/build_evaluation_corpus.py": "7cf25db11efb487b212fbced80963d960ef014a2174a982246f5f1e832359eeb",
+      "scripts/build_fixtures.py": "00975e06789eddd531b655f23f8a61c3e57f439fa4365084d40dd25d4c2dfd0b",
+      "scripts/build_public_demo.py": "b9cf97399670cbfdb9c8a8518dec67d73ae2be8554439590fa4ab98fd21c054a",
+      "scripts/compare_baseline.py": "b739cdd93afd817f83dadda71221f4f9095fce29781c9c64941f7a707bc40bda",
+      "scripts/evaluate.py": "c548b91df07cd3aa047e52d5ba83977161accd9e600c55e3d0eb81b6471a97cb",
+      "scripts/evaluation_metrics.py": "9e193e769ee9fb39f14d06222f7c9980a27270fccd7665d107b6e227a98a5d0f",
+      "scripts/export_openapi.py": "17de0188c442ab12727926bbf213f86685c9805ff742523e41ff8e8979b02cf1",
+      "scripts/replay.py": "70d1b2978c6465e7a2b1fb5a308f7beb50185acd0df8f5bc81999d5278ed5b89",
+      "scripts/run_local.py": "6e83adc1b6bb743b95f476ab24f9a1a6335615d12a6ce9e31197b705c516a512",
+      "scripts/setup.py": "bee161ba708fcdfc0a52fb7b2024b8b40237c6030a9cb9b2f1f0ff25371d61ce",
+      "scripts/smoke.py": "12008dbd668dc093abf7e634b90ebd7aac379d2d7f5d841644664a3ebf48b406",
+      "scripts/update_attack.py": "1b4f3d74945c6d78c1b3fb540c18466ab6849423ec322be382400098267a59b9",
+      "scripts/verify_evidence.py": "f33ea7255559105b1f9a2c91730bfb2964c61baf502fa3a5e806e5c0364cbfeb",
+      "rules/account-uid-zero.yml": "1e18274481c3b5f29385a8ec018196d58475db29467f703cf7302652309e2fa8",
+      "rules/https-context.yml": "72e4c71a094a396fbaac0fa667f2cc527a62cc5cc9bdf46ef071e39a072846c6",
+      "rules/outbound-port.yml": "7b88466083dde83116895fa6b1613d2cafbdd8ad1b64724e3118c9bcb5424fe8",
+      "rules/powershell-encoded.yml": "141524dc254770b52471ce3ecf2883289176c4cfdf868aefa4b0a983e2faca00",
+      "rules/powershell-file-context.yml": "406ef063e41f220e56a61620db8e5168024ad90b5a805de9991aa4efbbb802db",
+      "rules/scheduled-task.yml": "bbc9ec74ab0859ac633ff73ddba562de71fc43795ea4732a8e659f7db52292a7",
+      "rules/shell-unusual.yml": "6599449b319c7221dad41e103f0a186ea9b73e028d769141e1ac58026b7ec284",
+      "rules/ssh-brute-force.yml": "00769c3941b378f112a70948a1a8ce0470a997410b14afa219b44785c82a4de2",
+      "rules/sudo-shell.yml": "bee63ce63015bee40251fd8e49a4fcded000a82323aead63672737dd4c99f5e6",
+      "requirements.lock": "e96e9dca6ab2b1b581795b7a826ebcf5b9168d05e39aabd4d3ffdda17ba2fd11",
+      "requirements-runtime.lock": "0107863a89c874936801f1e65548f490d0777ee2cf95e8795c7f1322566b3df8",
+      "pyproject.toml": "e2a741cf95426d344d1e99d25d3459bf87f3ad1dc25f939b21c5bd1738a18f85"
+    },
+    "source_tree_sha256": "b5a28388abcdef0883eb05047446c02dd9424bf4ce9c5273727785d64e7618d2",
+    "effective_configuration": {
+      "local_mode": false,
+      "public_demo": false,
+      "database_url": "sqlite:///:memory:",
+      "rules_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/rules",
+      "attack_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/attack.json",
+      "frontend_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/frontend/dist",
+      "rate_limit": 100000,
+      "max_body_bytes": 1048576,
+      "identities": [
+        {
+          "name": "evaluation",
+          "role": "admin"
+        }
+      ]
+    },
+    "configuration_sha256": "5cc41706c54ae3660f38568c6b1227c8a0e91c57585a87f8ffb01dbbabc592bb",
+    "processing_time": "2026-11-16T12:00:00.000000+00:00",
+    "clock_policy": "One explicitly recorded UTC time for every scenario; never selected from a label"
+  },
+  "dataset_manifest": {
+    "path": "data/evaluation-v3/manifest.json",
+    "sha256": "6d3d6866409bad432ac3c5fc1c10a89fb0755903b5b83ce5acba86c1f974f6bf",
+    "metadata": {
+      "version": "3.0.0",
+      "frozen_date": "2026-11-16",
+      "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+      "freeze_policy": "All partitions frozen together before any v3 outcome. No overwrite option; corrections require a new version and preserved original artifacts.",
+      "files": {
+        "development.json": "d6ea5b920a176920014c51c36ec18af7f863a2f2c493e2611226aea42f8c321f",
+        "validation.json": "932d1f44e4ef94c3471089ca2521c71ef4296dddca9da78275f3670a4c0b74e3",
+        "holdout.json": "220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d"
+      },
+      "builder_sha256": "c6df3849cdd918d893f5f506e929bf3fca48ff13ee3831125ebfa4bd37617b2c",
+      "plan_sha256": "3c4f1f565a14b36c6d65c8477edda52be06aa762e1aa4c691ff523bf0511a20a",
+      "selection_plan": {
+        "partitions": 3,
+        "per_partition": 40,
+        "positive_per_partition": 20,
+        "negative_per_partition": 20,
+        "total_scenarios": 120
+      },
+      "detector_executed_during_authoring": false,
+      "scope": "Five selected command/context rule domains; no claim about complete rule coverage or field efficacy",
+      "access_order": "Freeze all; development for tuning; validation for selection; freeze candidate; holdout once for report. Any reuse is development evidence thereafter."
+    },
+    "dataset_hash_matches": true,
+    "release_acceptance_designated": false
+  },
+  "active_rule_count": 9,
+  "confusion_matrix": {
+    "TP": 18,
+    "FP": 3,
+    "TN": 17,
+    "FN": 2
+  },
+  "denominators": {
+    "total": 40,
+    "positive": 20,
+    "negative": 20,
+    "predicted_positive": 21,
+    "classified": 40,
+    "errors": 0
+  },
+  "prevalence": 0.5,
+  "classification_coverage": 1.0,
+  "precision": 0.8571428571428571,
+  "recall": 0.9,
+  "accuracy": 0.875,
+  "false_positive_rate": 0.15,
+  "uncertainty": {
+    "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+    "intervals": {
+      "precision": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 18,
+        "trials": 21,
+        "lower": 0.6536393971937906,
+        "upper": 0.9501898750027473
+      },
+      "recall": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 18,
+        "trials": 20,
+        "lower": 0.6989663547715128,
+        "upper": 0.9721335187862319
+      },
+      "accuracy": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 35,
+        "trials": 40,
+        "lower": 0.738878801611489,
+        "upper": 0.945404997490546
+      },
+      "false_positive_rate": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 3,
+        "trials": 20,
+        "lower": 0.052368745896216595,
+        "upper": 0.36041886474075696
+      }
+    }
+  },
+  "targets": {
+    "passed": false,
+    "checks": {
+      "precision": {
+        "value": 0.8571428571428571,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "recall": {
+        "value": 0.9,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "accuracy": {
+        "value": 0.875,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "false_positive_rate": {
+        "value": 0.15,
+        "operator": "<",
+        "threshold": 0.05,
+        "passed": false
+      }
+    },
+    "basis": "Unrounded point estimates; separate from uncertainty and external validity",
+    "required": true
+  },
+  "input_audit": {
+    "input_key": "Canonical submitted event sequence and operator context, excluding scenario metadata",
+    "duplicate_groups": [],
+    "contradictions": [],
+    "minimum_unavoidable_errors": 0,
+    "accuracy_upper_bound": 1.0,
+    "assumptions": "Deterministic detector, identical initial state and fixed processing clock; upper bound only"
+  },
+  "by_source": {
+    "linux_auth": {
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 0,
+        "TN": 3,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 6,
+        "positive": 3,
+        "negative": 3,
+        "predicted_positive": 3,
+        "classified": 6,
+        "errors": 0
+      },
+      "prevalence": 0.5,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 6,
+            "lower": 0.6096657120978346,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 3,
+            "lower": 0.0,
+            "upper": 0.5614970317550454
+          }
+        }
+      }
+    },
+    "synthetic": {
+      "confusion_matrix": {
+        "TP": 10,
+        "FP": 3,
+        "TN": 11,
+        "FN": 2
+      },
+      "denominators": {
+        "total": 26,
+        "positive": 12,
+        "negative": 14,
+        "predicted_positive": 13,
+        "classified": 26,
+        "errors": 0
+      },
+      "prevalence": 0.46153846153846156,
+      "classification_coverage": 1.0,
+      "precision": 0.7692307692307693,
+      "recall": 0.8333333333333334,
+      "accuracy": 0.8076923076923077,
+      "false_positive_rate": 0.21428571428571427,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 10,
+            "trials": 13,
+            "lower": 0.49743624053272495,
+            "upper": 0.9182047128150143
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 10,
+            "trials": 12,
+            "lower": 0.5519691377470266,
+            "upper": 0.9530348578161463
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 21,
+            "trials": 26,
+            "lower": 0.6212374288068301,
+            "upper": 0.9149293885105758
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 14,
+            "lower": 0.07571386712693184,
+            "upper": 0.47589230586600295
+          }
+        }
+      }
+    },
+    "sysmon": {
+      "confusion_matrix": {
+        "TP": 5,
+        "FP": 0,
+        "TN": 3,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 8,
+        "positive": 5,
+        "negative": 3,
+        "predicted_positive": 5,
+        "classified": 8,
+        "errors": 0
+      },
+      "prevalence": 0.625,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 5,
+            "trials": 5,
+            "lower": 0.5655175352168251,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 5,
+            "trials": 5,
+            "lower": 0.5655175352168251,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 8,
+            "trials": 8,
+            "lower": 0.6755924351161198,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 3,
+            "lower": 0.0,
+            "upper": 0.5614970317550454
+          }
+        }
+      }
+    }
+  },
+  "by_rule": {
+    "00000000-0000-0000-0000-000000000005": {
+      "title": "UID-zero account creation",
+      "slug": "account-uid-zero",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 4,
+      "confusion_matrix": {
+        "TP": 4,
+        "FP": 0,
+        "TN": 36,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 4,
+        "negative": 36,
+        "predicted_positive": 4,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.1,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 36,
+            "lower": 0.0,
+            "upper": 0.09641862859446367
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000009": {
+      "title": "Port 443 destination matches active scoped intelligence",
+      "slug": "https-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000007": {
+      "title": "Outbound connection on an uncommon port",
+      "slug": "outbound-port",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000002": {
+      "title": "Suspicious PowerShell arguments",
+      "slug": "powershell-encoded",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 6,
+      "confusion_matrix": {
+        "TP": 6,
+        "FP": 0,
+        "TN": 34,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 6,
+        "negative": 34,
+        "predicted_positive": 6,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.15,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 6,
+            "lower": 0.6096657120978346,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 6,
+            "lower": 0.6096657120978346,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 34,
+            "lower": 0.0,
+            "upper": 0.10151455415332376
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000008": {
+      "title": "PowerShell file execution with supporting evidence",
+      "slug": "powershell-file-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 5,
+      "confusion_matrix": {
+        "TP": 5,
+        "FP": 0,
+        "TN": 35,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 5,
+        "negative": 35,
+        "predicted_positive": 5,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.125,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 5,
+            "trials": 5,
+            "lower": 0.5655175352168251,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 5,
+            "trials": 5,
+            "lower": 0.5655175352168251,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 35,
+            "lower": 0.0,
+            "upper": 0.09890099232440402
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000004": {
+      "title": "Scheduled task creation",
+      "slug": "scheduled-task",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 3,
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 0,
+        "TN": 37,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 3,
+        "negative": 37,
+        "predicted_positive": 3,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.075,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 37,
+            "lower": 0.0,
+            "upper": 0.09405782583720251
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000003": {
+      "title": "Shell with a TCP redirection",
+      "slug": "shell-unusual",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000001": {
+      "title": "SSH password guessing",
+      "slug": "ssh-brute-force",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 40,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 0,
+        "negative": 40,
+        "predicted_positive": 0,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 40,
+            "lower": 0.0,
+            "upper": 0.08762160119728664
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000006": {
+      "title": "Root shell through sudo",
+      "slug": "sudo-shell",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 0,
+      "emitted_alert_count": 3,
+      "confusion_matrix": {
+        "TP": 3,
+        "FP": 0,
+        "TN": 37,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 40,
+        "positive": 3,
+        "negative": 37,
+        "predicted_positive": 3,
+        "classified": 40,
+        "errors": 0
+      },
+      "prevalence": 0.075,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 3,
+            "trials": 3,
+            "lower": 0.4385029682449546,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 40,
+            "trials": 40,
+            "lower": 0.9123783988027135,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 37,
+            "lower": 0.0,
+            "upper": 0.09405782583720251
+          }
+        }
+      }
+    }
+  },
+  "rule_contracts": {
+    "evaluated": 40,
+    "matched": 40,
+    "mismatches": [],
+    "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+  },
+  "totals": {
+    "alerts": 21,
+    "suppressions": 0,
+    "ingestion": {
+      "accepted": 40,
+      "duplicates": 0,
+      "rejected": 0
+    }
+  },
+  "breakdown_note": "Source groups may overlap for multi-source scenarios; rule results measure contract correctness separately from intent classification.",
+  "latency_ms": {
+    "definition": "HTTP TestClient ingestion to committed response, alerting scenarios only; excludes operator context provisioning, network transit and observation delay",
+    "median": 4.599,
+    "maximum": 8.685
+  },
+  "limitations": [
+    "Synthetic experiments, not deployment efficacy or representative prevalence",
+    "Generated variants are correlated; nominal binomial intervals are not an independence claim",
+    "Any rejected/failed scenario invalidates headline metrics; no implicit benign prediction",
+    "No population FPR below 5% is established by these point estimates"
+  ],
+  "scenarios": [
+    {
+      "id": "v3-holdout-encoded-mixed-case",
+      "label": true,
+      "reason": "Assigned malicious encoded execution combines mixed-case switches with an alias.",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-01",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "5bd9f1a1-9a68-4ea8-bfe3-de29af95b5c1",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "ca4e7103-3f61-45aa-98ad-938bac08b315"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (54 bytes; SHA256 ab9782cd31435bf27ffc59ef1b61d09fc7e33f9b6cb5027d473f830def5abb76); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "ca4e7103-3f61-45aa-98ad-938bac08b315",
+            "alert_ids": [
+              "5bd9f1a1-9a68-4ea8-bfe3-de29af95b5c1"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 8.685,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-encoded-quoted-value",
+      "label": true,
+      "reason": "Assigned malicious execution uses a quoted encoded-command argument.",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-02",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "177786ef-5786-4440-882c-7ded700e69d2",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "0c2a092b-8fe6-43cd-81d2-78a4b93f8d1c"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (58 bytes; SHA256 056842a31a2cc6031fd5ff188f9034a6cf689c6bd7d7ffdba6b93e83193e7eed); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "0c2a092b-8fe6-43cd-81d2-78a4b93f8d1c",
+            "alert_ids": [
+              "177786ef-5786-4440-882c-7ded700e69d2"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.837,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-encoded-after-multiple-values",
+      "label": true,
+      "reason": "Assigned malicious encoding follows two separate consumed engine values.",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-03",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "4d430e19-6802-4ad9-9bb1-6f5b48b6948d",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "8f675859-2bd3-40cb-80f3-d5f1c949108b"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (56 bytes; SHA256 f6f3422e53cc4476a6676dfc93b2591d0b457c4607cb71b128c36935df45bae0); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "8f675859-2bd3-40cb-80f3-d5f1c949108b",
+            "alert_ids": [
+              "4d430e19-6802-4ad9-9bb1-6f5b48b6948d"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.599,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-encoded-winps",
+      "label": true,
+      "reason": "Assigned malicious encoding on Windows PowerShell 5.1 identity.",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-04",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "37729dd4-ab76-4790-b679-cc29939b4b2d",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "48b5414e-bbdc-4e87-8405-2564786358a2"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (56 bytes; SHA256 8bbfbc5f401a62c50b62d497b0a79e3e96db74c3b5433304c6e3ad3c84c7f39c); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "48b5414e-bbdc-4e87-8405-2564786358a2",
+            "alert_ids": [
+              "37729dd4-ab76-4790-b679-cc29939b4b2d"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.535,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-encoded-renamed",
+      "label": true,
+      "reason": "Assigned malicious encoded execution by renamed PowerShell with observed original filename.",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-05",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "8f06ab56-36a5-4d16-b57c-0b8c28890f61",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "74d476f0-7c52-4777-9e46-f4acb7768325"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (60 bytes; SHA256 57a2bdfc0940b2d842069a6b6731b85e4b824944d7ae58e01a5f05a33cd1dd38); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "74d476f0-7c52-4777-9e46-f4acb7768325",
+            "alert_ids": [
+              "8f06ab56-36a5-4d16-b57c-0b8c28890f61"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.682,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-action-create-word",
+      "label": true,
+      "reason": "Assigned unauthorized create verb remains observable even when action also contains create.",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-06",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "65cbc042-8b82-4e8e-960c-6a6c5b6f23f2",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "f7ebab5b-3755-4bfe-bc2d-427a54a71fb5"
+          ],
+          "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "f7ebab5b-3755-4bfe-bc2d-427a54a71fb5",
+            "alert_ids": [
+              "65cbc042-8b82-4e8e-960c-6a6c5b6f23f2"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 5.093,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-nested-name",
+      "label": true,
+      "reason": "Assigned unauthorized task creation in a named task folder.",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-07",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "d9898a46-4e4c-44f2-ac04-6d6f6f289da2",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "b25264d2-f4a8-4bc0-b67a-f5f542005d90"
+          ],
+          "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "b25264d2-f4a8-4bc0-b67a-f5f542005d90",
+            "alert_ids": [
+              "d9898a46-4e4c-44f2-ac04-6d6f6f289da2"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 5.34,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-spaced-action",
+      "label": true,
+      "reason": "Assigned unauthorized idle task with quoted action path and mixed-case verb.",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-08",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "e7033a3b-7e24-4346-a844-5c446cfdc8c8",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "ce44c2a9-4725-42fd-92ae-b6b5daaf0e51"
+          ],
+          "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "ce44c2a9-4725-42fd-92ae-b6b5daaf0e51",
+            "alert_ids": [
+              "e7033a3b-7e24-4346-a844-5c446cfdc8c8"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.287,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-after-value-lookalike",
+      "label": true,
+      "reason": "Assigned unauthorized UID-zero attempt; nonzero comment must not mask real UID option.",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-09",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "169f7c6a-2f6e-4ea4-bcb8-0bfd93bed7a3",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "1a879347-8bfe-49c6-b302-571e1c8e01ab"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "1a879347-8bfe-49c6-b302-571e1c8e01ab",
+            "alert_ids": [
+              "169f7c6a-2f6e-4ea4-bcb8-0bfd93bed7a3"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.151,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-after-shell",
+      "label": true,
+      "reason": "Assigned unauthorized root-equivalent account uses a non-login shell but explicit UID zero.",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-10",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "7c9feb0d-6a1e-4ab1-812f-41dfe1f44e81",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "24f74acb-daeb-40ca-841d-3e8c29e94e5f"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "24f74acb-daeb-40ca-841d-3e8c29e94e5f",
+            "alert_ids": [
+              "7c9feb0d-6a1e-4ab1-812f-41dfe1f44e81"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.277,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-after-home",
+      "label": true,
+      "reason": "Assigned unauthorized UID-zero attempt follows several unrelated standard options.",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-11",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "3daa1942-b55d-4e46-8ac2-dcb5d683027c",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "70bdfa23-6e23-4ded-b976-05d6dec625a9"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "70bdfa23-6e23-4ded-b976-05d6dec625a9",
+            "alert_ids": [
+              "3daa1942-b55d-4e46-8ac2-dcb5d683027c"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.044,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-sh-argument-path",
+      "label": true,
+      "reason": "Assigned unauthorized root shell remains a shell even when its script names another executable.",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-12",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "c6482453-12c4-4426-8b45-4e658668b34f",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "e7a80c2f-f7da-4513-a7ce-6d315a17f7de"
+          ],
+          "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "e7a80c2f-f7da-4513-a7ce-6d315a17f7de",
+            "alert_ids": [
+              "c6482453-12c4-4426-8b45-4e658668b34f"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 5.014,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-bash-long-option",
+      "label": true,
+      "reason": "Assigned unauthorized root shell uses a long shell option after the executable.",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-13",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "4cbe0a7e-8231-4f6e-af27-65da155311ff",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "3b6c4db0-e05f-4dea-8b3a-edd2beaca6d2"
+          ],
+          "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "3b6c4db0-e05f-4dea-8b3a-edd2beaca6d2",
+            "alert_ids": [
+              "4cbe0a7e-8231-4f6e-af27-65da155311ff"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.545,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-zsh-quoted-executable",
+      "label": true,
+      "reason": "Assigned unauthorized root shell with balanced single-quoted executable.",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-14",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "e6d9a016-6c5c-4221-bd2b-0d1b211465f3",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "1d987e13-7bf5-4fad-842e-6347cdf93379"
+          ],
+          "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "1d987e13-7bf5-4fad-842e-6347cdf93379",
+            "alert_ids": [
+              "e6d9a016-6c5c-4221-bd2b-0d1b211465f3"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.293,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-office-multiple-engine-options",
+      "label": true,
+      "reason": "Assigned malicious mail child; a hidden engine option survives preceding consumed format values.",
+      "origin_template": "holdout-office-combinations",
+      "session_id": "v3-holdout-session-15",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "09d23095-5a1e-43ec-ac90-ecb0fa427de2",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "bbbbe4cf-973c-45d5-b859-482119b7f047"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. PowerShell file execution with Office parent and explicit bypass/hidden option; behavior requires review."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "bbbbe4cf-973c-45d5-b859-482119b7f047",
+            "alert_ids": [
+              "09d23095-5a1e-43ec-ac90-ecb0fa427de2"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.203,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-office-policy-alias",
+      "label": true,
+      "reason": "Assigned malicious spreadsheet child uses the documented ex policy alias.",
+      "origin_template": "holdout-office-combinations",
+      "session_id": "v3-holdout-session-16",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "8e381157-2d8a-40c4-bcf4-e316a67247e9",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "383d9352-7eec-4f35-be34-3fc08c9b1368"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. PowerShell file execution with Office parent and explicit bypass/hidden option; behavior requires review."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "383d9352-7eec-4f35-be34-3fc08c9b1368",
+            "alert_ids": [
+              "8e381157-2d8a-40c4-bcf4-e316a67247e9"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.152,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-digest-file-arguments",
+      "label": true,
+      "reason": "Assigned malicious observed file digest remains evidence regardless of script parameters after File.",
+      "origin_template": "holdout-context-argument-tail",
+      "session_id": "v3-holdout-session-17",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "f9d754ef-87f7-4146-95ba-08b7e587a5b3",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "d23e06c6-5b63-4d19-a9e9-ba1be8225240"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. Observed script path/hash matches an active operator-managed script indicator; collector attribution is required. Indicator 0a24ffc2-ed14-46f9-b7ba-689e2d4d00c5; version v3-holdout-digest-file-arguments; provenance Engineer-authored synthetic intelligence; no external reputation claim; binding 3138d286-8cb1-410f-ba6d-08d8580bed35; valid [2026-11-16T00:00:00.000000+00:00, 2026-11-17T00:00:00.000000+00:00); expires 2026-11-17T00:00:00.000000+00:00."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "3138d286-8cb1-410f-ba6d-08d8580bed35"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "0a24ffc2-ed14-46f9-b7ba-689e2d4d00c5"
+        }
+      ],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "d23e06c6-5b63-4d19-a9e9-ba1be8225240",
+            "alert_ids": [
+              "f9d754ef-87f7-4146-95ba-08b7e587a5b3"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 5.03,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-digest-engine-prefix",
+      "label": true,
+      "reason": "Assigned malicious observed file uses short File after consumed format value.",
+      "origin_template": "holdout-context-argument-tail",
+      "session_id": "v3-holdout-session-18",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "bf52fc7f-aa69-4202-ae1c-6c26aa827271",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "2c432ddf-46ee-4996-9b21-7d0100e5ff56"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. Observed script path/hash matches an active operator-managed script indicator; collector attribution is required. Indicator cc5626f0-f205-497f-b753-dc8e349cd1a3; version v3-holdout-digest-engine-prefix; provenance Engineer-authored synthetic intelligence; no external reputation claim; binding d9a57de3-628f-431e-8bff-c35a215d0176; valid [2026-11-16T00:00:00.000000+00:00, 2026-11-17T00:00:00.000000+00:00); expires 2026-11-17T00:00:00.000000+00:00."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "d9a57de3-628f-431e-8bff-c35a215d0176"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "cc5626f0-f205-497f-b753-dc8e349cd1a3"
+        }
+      ],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "2c432ddf-46ee-4996-9b21-7d0100e5ff56",
+            "alert_ids": [
+              "bf52fc7f-aa69-4202-ae1c-6c26aa827271"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.188,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-plain-command-intent",
+      "label": true,
+      "reason": "Assigned malicious discovery is observationally identical to ordinary administration; no supported signal.",
+      "origin_template": "holdout-unobservable-role",
+      "session_id": "v3-holdout-session-19",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "815510ea-ea0f-4762-80d8-457974b18912",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.96,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-file-content-intent",
+      "label": true,
+      "reason": "Assigned malicious file content is missing; a neutral path without context cannot establish intent.",
+      "origin_template": "holdout-unobservable-role",
+      "session_id": "v3-holdout-session-20",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "fbf913cd-79fb-4821-bbf5-d6cc5ac3caf9",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.241,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-pipe-exact-ec",
+      "label": false,
+      "reason": "Authorized debugger pipe has the exact ec token as its consumed name.",
+      "origin_template": "holdout-engine-consumed-tokens",
+      "session_id": "v3-holdout-session-21",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "b4837152-77d9-4c78-8650-3c198f87c158",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.944,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-configuration-exact-encoded",
+      "label": false,
+      "reason": "Authorized endpoint name is exactly the encoded option spelling; it is consumed as data.",
+      "origin_template": "holdout-engine-consumed-tokens",
+      "session_id": "v3-holdout-session-22",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "98ac829e-f27f-4a97-9591-e5fb12ae74a4",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.082,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-file-decode-argument",
+      "label": false,
+      "reason": "Authorized formatting script receives a decode marker as literal input after File.",
+      "origin_template": "holdout-script-tail-literals",
+      "session_id": "v3-holdout-session-23",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "f0a34e24-1cd6-411a-bd7a-14174b4a2420",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.554,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-file-ec-argument",
+      "label": false,
+      "reason": "Authorized script argument uses the ec name; it is not an engine option after File.",
+      "origin_template": "holdout-script-tail-literals",
+      "session_id": "v3-holdout-session-24",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "f9a2aff3-5b9a-431e-9cb7-de6517eae3b9",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.051,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-query-compound-name",
+      "label": false,
+      "reason": "Authorized existing task query contains several option-like fragments inside its name.",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-25",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "8fcea419-4037-42f4-bcbf-12093e9036e5",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.204,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-change-action-only",
+      "label": false,
+      "reason": "Authorized task change passes a nested-looking command as action data, not an outer create verb.",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-26",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "19f6b0f0-e52e-4a0e-8934-091a7e75a12f",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.297,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-task-run-folder",
+      "label": false,
+      "reason": "Authorized run of an existing task; case-insensitive create text remains within the name.",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-27",
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "3e2aa8f0-2093-4128-b553-aeee8249de62",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.062,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-attached-comment",
+      "label": false,
+      "reason": "Authorized account; attached short comment consumes u0 text and explicit UID is nonzero.",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-28",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "ff2e1c90-765d-4679-84a1-4a24154715e5",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.062,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-long-comment-space",
+      "label": false,
+      "reason": "Authorized nonzero account; UID-looking tokens occur only inside a consumed comment.",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-29",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "9077dfa5-e8fa-4fd8-b807-1b720e53458d",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.136,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-uid-zero-prefix-nonzero",
+      "label": false,
+      "reason": "Authorized ordinary numeric UID starts with zeros but is not numerically zero.",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-30",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "7b964244-2837-491f-8d91-0c669625abbd",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.516,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-copy-shell",
+      "label": false,
+      "reason": "Authorized binary backup executes cp; copying a shell is not starting it.",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-31",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "41525056-f53c-4485-a0a9-984aa617165e",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.266,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-hash-shell",
+      "label": false,
+      "reason": "Authorized integrity check executes sha256sum, with a shell pathname as data.",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-32",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "f9a31c64-ac52-4d64-a9df-0a7546db2802",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.333,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-sudo-nonroot-shell",
+      "label": false,
+      "reason": "Authorized service-account shell targets a non-root identity; root-target predicate is absent.",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-33",
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "b4f29a80-0872-47b7-90d0-4a3e2ec71755",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.442,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-wrong-host",
+      "label": false,
+      "reason": "Authorized host check; binding belongs to another host despite a matching synthetic digest.",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-34",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "0e9e72ac-b4aa-429a-827f-34ad77cce172"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "941cb669-c90d-4788-aa37-35d64885e9a4"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "0fa4ec23-47de-4a8b-a322-be153fa680c7",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.722,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-wrong-digest",
+      "label": false,
+      "reason": "Authorized observed file has a different digest from the active indicator.",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-35",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "01fa4cc3-8fbf-4390-8739-a0feb3c0076b"
+        },
+        {
+          "kind": "indicators",
+          "status": 201,
+          "id": "382fbd6e-9d6a-419a-a91b-1ca4c6de824d"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "e9028ea4-9c56-4f17-81d7-bb3470bddb53",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.916,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-no-intelligence",
+      "label": false,
+      "reason": "Authorized release has a bound file observation but no indicator; observation alone is not a verdict.",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-36",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [
+        {
+          "kind": "bindings",
+          "status": 201,
+          "id": "edd190b4-3d52-43bc-9431-3fc39eccb62c"
+        }
+      ],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "0c9070f7-08bb-4267-96be-010e211dfd10",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.24,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-office-post-file-hidden",
+      "label": false,
+      "reason": "Authorized mail export; Hidden appears only in the script parameters after File.",
+      "origin_template": "holdout-office-tail-boundary",
+      "session_id": "v3-holdout-session-37",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "5d367488-5e17-4ed2-b039-26626cb6c1ae",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.106,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-authorized-encoded",
+      "label": false,
+      "reason": "Authorized recovery command uses encoding without scoped approval; alert remains contract-correct.",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-38",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "f51cf582-bc62-4ac0-9f47-9f276427cd23",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "857aad13-e1c7-4cc1-b1bd-d9a8e04518a8"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (84 bytes; SHA256 18318d7b6b53a7bfbeadeaf600df0eff63c4bdbee5f42a40bed29f2b1583ea87); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "857aad13-e1c7-4cc1-b1bd-d9a8e04518a8",
+            "alert_ids": [
+              "f51cf582-bc62-4ac0-9f47-9f276427cd23"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.8,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-authorized-uid",
+      "label": false,
+      "reason": "Authorized sandbox recovery account is root-equivalent; benign intent is not observable to the rule.",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-39",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "47406fbb-5697-4f6f-886a-16b06e8e9015",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "4c2b996e-b19e-4ab8-84ce-5ee976d01f09"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "4c2b996e-b19e-4ab8-84ce-5ee976d01f09",
+            "alert_ids": [
+              "47406fbb-5697-4f6f-886a-16b06e8e9015"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 6.208,
+      "rule_contract_match": true
+    },
+    {
+      "id": "v3-holdout-authorized-office",
+      "label": false,
+      "reason": "Authorized document automation uses bypass; a filename suggesting signing does not cancel the observable predicate.",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-40",
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "6ed96465-2713-4ca2-a2d2-64c3daaf321d",
+          "rule_id": "00000000-0000-0000-0000-000000000008",
+          "event_ids": [
+            "bae3a176-5226-45e0-960b-36219f04941b"
+          ],
+          "explanation": "PowerShell -File execution has an observed script hash matched to active operator intelligence, or Office ancestry with a bypass/hidden engine option. This is a scoped signal, not proof of compromise. PowerShell file execution with Office parent and explicit bypass/hidden option; behavior requires review."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "bae3a176-5226-45e0-960b-36219f04941b",
+            "alert_ids": [
+              "6ed96465-2713-4ca2-a2d2-64c3daaf321d"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.66,
+      "rule_contract_match": true
+    }
+  ],
+  "command": [
+    "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+    "scripts/evaluate.py",
+    "--dataset",
+    "data/evaluation-v3/holdout.json",
+    "--require-targets",
+    "--output",
+    "work/accuracy-upgrade/candidate/holdout-v3.json"
+  ],
+  "exit_code": 1
+}
