@@ -113,7 +113,7 @@ jobs:
           python -m uvicorn app:app --host 127.0.0.1 --port 8002 --no-access-log > /tmp/sentinelforge-public.log 2>&1 &
           for i in $(seq 1 30); do curl --fail --silent http://127.0.0.1:8002/api/health && break; sleep 1; done
           curl --fail --silent http://127.0.0.1:8002/api/health
-          pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts
+          pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts ux-hardening.spec.ts
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -124,6 +124,7 @@ jobs:
             /tmp/sentinelforge.log
             /tmp/sentinelforge-public.log
             work/modernization/
+            work/ux-hardening/
             work/vercel-screenshots/
   containers:
     runs-on: ubuntu-latest
