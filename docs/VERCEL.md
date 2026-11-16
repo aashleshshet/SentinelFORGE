@@ -17,7 +17,7 @@ For the subsequent interface/guide release, see [the modernization release recor
 
 ## Data and isolation
 
-`scripts/build_public_demo.py` replays `data/demo.json` through the actual authenticated ingestion API in an isolated in-memory database. It runs the seven detection rules, creates correlated cases, adds clearly synthetic investigation notes and preserves evidence snapshots. The result is committed as `data/public-demo.json` with a digest of its source fixtures and rules. IDs and bookkeeping timestamps are deterministic.
+`scripts/build_public_demo.py` replays `data/demo.json` through the actual authenticated ingestion API in an isolated in-memory database. It runs the nine experimental detection rules, creates correlated cases, adds clearly synthetic investigation notes and preserves evidence snapshots. The result is committed as `data/public-demo.json` with a digest of its source fixtures and rules. IDs and bookkeeping timestamps are deterministic.
 
 The dedicated `app.py` entrypoint ignores operator credentials, database URLs and file paths. Each function instance loads the same bundled snapshot into an in-memory SQLite database, then enables SQLite's query-only mode. All mutations are rejected before processing their body. Public visitors can query/filter telemetry, alerts, cases and rules, inspect timelines, and download preserved synthetic reports. Evidence exports verify their digest but do not append audit rows in the immutable demo. Other analyst/admin operations remain inaccessible.
 
@@ -42,7 +42,7 @@ python -m uvicorn app:app --host 127.0.0.1 --port 8002
 In another terminal:
 
 ```sh
-SF_PUBLIC_DEMO=1 SF_BASE_URL=http://127.0.0.1:8002 pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts
+SF_PUBLIC_DEMO=1 SF_BASE_URL=http://127.0.0.1:8002 pnpm --dir frontend exec playwright test public-demo.spec.ts modernization.spec.ts ux-hardening.spec.ts
 ```
 
 To refresh the demo after changing fixtures or rules, run `python scripts/build_public_demo.py`, review its diff, then commit the new snapshot. A stale source digest fails closed at startup. Never generate this file from a real operator database.
@@ -50,3 +50,5 @@ To refresh the demo after changing fixtures or rules, run `python scripts/build_
 ## Guide routing and frontend headers
 
 Vite builds `how-it-works/index.html` with page-specific metadata. Exact service-scoped rewrites serve it at `/how-it-works` and `/how-it-works/`; unknown API and asset routes are not converted into HTML. FastAPI serves the same fixed route locally. Public ingress sets CSP, nosniff, frame denial, no-referrer and restricted browser permissions for static frontend responses as well as the API. The policy preserves the existing style-only inline exception for chart widths, with scripts restricted to the same origin.
+
+The review branch also builds `what-it-is/index.html` and exact `/what-it-is` and `/what-it-is/` service rewrites. Both document pages have route-specific metadata, a no-JavaScript description and lazy code/CSS. See [UI refinement](UI_REFINEMENT.md); this addition is not yet promoted to production.

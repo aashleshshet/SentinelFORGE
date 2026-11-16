@@ -835,5 +835,10 @@ def create_app(settings: Settings | None = None, *, clock=None):
             # A fixed public document route; never a catch-all for API/asset paths.
             return FileResponse(Path(settings.frontend_path) / "how-it-works" / "index.html")
 
+        @app.get("/what-it-is", include_in_schema=False)
+        @app.get("/what-it-is/", include_in_schema=False)
+        def product_overview():
+            return FileResponse(Path(settings.frontend_path) / "what-it-is" / "index.html")
+
         app.mount("/", StaticFiles(directory=settings.frontend_path, html=True), name="dashboard")
     return app

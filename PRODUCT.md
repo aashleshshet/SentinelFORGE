@@ -9,9 +9,9 @@ SOC L1 analysts and detection/incident-response interns; hiring reviewers evalua
 ## Product Purpose
 Turn attributed telemetry into tested signals, explainable incident cases, analyst decisions and preserved evidence.
 ## Capabilities and Constraints
-Seven narrow detections; six telemetry adapters; synthetic replay; explicit coverage and limitations. No autonomous destructive remediation. A separately approved isolation action is a simulation only.
+Nine experimental detections; six telemetry adapters; synthetic replay; explicit coverage and limitations. No autonomous destructive remediation. A separately approved isolation action is a simulation only.
 ## Brand Commitments
-SentinelForge. A sophisticated dark-first interface with restrained effects and readable evidence.
+SentinelForge. A dark cyberpunk interface with electric cyan, restrained magenta, selective glass and readable evidence.
 ## Evidence on Hand
 Synthetic labeled fixtures in data/. Official MITRE STIX subset in data/attack.json. No customer telemetry or operational validation claims.
 ## Product Principles

@@ -15,6 +15,14 @@
         {
           "source": "/how-it-works/",
           "destination": "/how-it-works/index.html"
+        },
+        {
+          "source": "/what-it-is",
+          "destination": "/what-it-is/index.html"
+        },
+        {
+          "source": "/what-it-is/",
+          "destination": "/what-it-is/index.html"
         }
       ]
     },

@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  Info,
   Check,
   ChevronRight,
   CircleAlert,
@@ -49,7 +50,18 @@ import {
   GlassTable,
   GlassModal,
 } from "./components/glass";
+import { DocumentBoundary } from "./components/DocumentBoundary";
 const HowItWorks = lazy(() => import("./HowItWorks"));
+const WhatItIs = lazy(() => import("./WhatItIs"));
+type InfoPage = "what-it-is" | "how-it-works";
+function initialInfoPage(): InfoPage | null {
+  const path = window.location.pathname.replace(/\/$/, "");
+  return path === "/what-it-is"
+    ? "what-it-is"
+    : path === "/how-it-works"
+      ? "how-it-works"
+      : null;
+}
 function initialView(): View {
   const value = new URLSearchParams(window.location.search).get("view");
   return value &&
@@ -156,14 +168,14 @@ function App() {
     };
   }, []);
   const [view, setView] = useState<View>(initialView);
-  const [guide, setGuide] = useState(
-    window.location.pathname.replace(/\/$/, "") === "/how-it-works",
-  );
+  const [guide, setGuide] = useState<InfoPage | null>(initialInfoPage);
   const [collapsed, setCollapsed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onPop = () => {
-      setGuide(window.location.pathname.replace(/\/$/, "") === "/how-it-works");
+      actionScope.current++;
+      restoreListFocus.current = false;
+      setGuide(initialInfoPage());
       setView(initialView());
       setSelectedId(null);
       setDetail(null);
@@ -174,21 +186,25 @@ function App() {
       setSource("");
       setStatus("");
       setMenuOpen(false);
+      setError("");
+      setMessage("");
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
   useEffect(() => {
     document.title = guide
-      ? "How It Works · SentinelForge"
+      ? `${guide === "what-it-is" ? "What It Is" : "How It Works"} · SentinelForge`
       : `${labels[view]} · SentinelForge`;
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
-        guide
-          ? "Learn SentinelForge: security log ingestion, explainable detections, incident investigation and evidence exports. An interactive guide to the real workflow."
-          : "SentinelForge security operations and evidence-led investigation",
+        guide === "what-it-is"
+          ? "What is SentinelForge? Explore the defensive engineering lab, its telemetry, detections, investigations, evidence and deployment limits."
+          : guide
+            ? "Learn SentinelForge: security log ingestion, explainable detections, incident investigation and evidence exports. An interactive guide to the real workflow."
+            : "SentinelForge security operations and evidence-led investigation",
       );
   }, [guide, view]);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -205,6 +221,12 @@ function App() {
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(0);
   const [error, setError] = useState("");
+  const [loadFailure, setLoadFailure] = useState<{
+    key: string;
+    message: string;
+  } | null>(null);
+  const [loadedKey, setLoadedKey] = useState<string | null>(null);
+  const [pendingKey, setPendingKey] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState("");
@@ -212,7 +234,52 @@ function App() {
   const [ioc, setIoc] = useState("");
   const file = useRef<HTMLInputElement>(null);
   const generation = useRef(0);
-  const canEdit = principal?.role !== "viewer";
+  const actionScope = useRef(0);
+  const actionPending = useRef(false);
+  const caseReturn = useRef<{ id: string; scroll: number } | null>(null);
+  const restoreListFocus = useRef(false);
+  const canEdit = principal?.role === "analyst" || principal?.role === "admin";
+  // A result belongs to the exact view and filters that requested it. Keeping
+  // the inputs mounted while a new key loads preserves search keyboard focus.
+  const requestKey = JSON.stringify([
+    principal?.name,
+    principal?.role,
+    guide,
+    view,
+    selectedId,
+    page,
+    query,
+    severity,
+    technique,
+    source,
+    status,
+  ]);
+  const currentRequestKey = useRef(requestKey);
+  currentRequestKey.current = requestKey;
+  const hasCurrentData = loadedKey === requestKey;
+  const loadError = loadFailure?.key === requestKey ? loadFailure.message : "";
+  const refreshing = pendingKey === requestKey;
+  const loading = !hasCurrentData && !loadError;
+  const hasFilters = !!(query || severity || technique || source || status);
+  useEffect(() => {
+    if (
+      !restoreListFocus.current ||
+      selectedId ||
+      (!hasCurrentData && !loadError)
+    )
+      return;
+    restoreListFocus.current = false;
+    const previous = caseReturn.current;
+    const target =
+      previous &&
+      document.querySelector<HTMLElement>(
+        `[data-investigation-id="${CSS.escape(previous.id)}"]`,
+      );
+    (target || document.getElementById("main-content"))?.focus({
+      preventScroll: true,
+    });
+    if (previous) window.scrollTo(0, previous.scroll);
+  }, [hasCurrentData, loadError, selectedId]);
   const api = useCallback(
     async <T,>(path: string, method = "GET", body?: unknown): Promise<T> => {
       const response = await fetch("/api" + path, {
@@ -238,7 +305,10 @@ function App() {
     [token],
   );
   const refresh = useCallback(async () => {
+    if (!principal || guide || currentRequestKey.current !== requestKey) return;
     const current = ++generation.current;
+    setPendingKey(requestKey);
+    setLoadFailure(null);
     const filter = new URLSearchParams({
       limit: "50",
       offset: String(page * 50),
@@ -270,49 +340,121 @@ function App() {
           ? api<CaseDetail>("/cases/" + selectedId)
           : Promise.resolve(null),
       ]);
-      if (generation.current !== current) return;
+      if (
+        generation.current !== current ||
+        currentRequestKey.current !== requestKey
+      )
+        return;
+      const results =
+        view === "alerts"
+          ? a
+          : view === "cases"
+            ? c
+            : view === "telemetry"
+              ? e
+              : null;
+      if (results && page > Math.max(0, Math.ceil(results.total / 50) - 1)) {
+        setPage(Math.max(0, Math.ceil(results.total / 50) - 1));
+        return;
+      }
       setStats(s);
       if (a) setAlerts(a);
       if (c) setCases(c);
       if (e) setEvents(e);
       if (r) setRules(r.items);
       setDetail(d);
-      setError("");
+      setLoadedKey(requestKey);
     } catch (e) {
-      if (generation.current === current)
-        setError((e as Error).message + " Use Refresh to retry.");
+      if (
+        generation.current === current &&
+        currentRequestKey.current === requestKey
+      )
+        setLoadFailure({ key: requestKey, message: (e as Error).message });
+    } finally {
+      if (generation.current === current) setPendingKey(null);
     }
-  }, [api, page, query, severity, technique, source, status, view, selectedId]);
+  }, [
+    api,
+    page,
+    query,
+    severity,
+    technique,
+    source,
+    status,
+    view,
+    selectedId,
+    principal,
+    guide,
+    requestKey,
+  ]);
+  const latestRefresh = useRef(refresh);
+  latestRefresh.current = refresh;
   useEffect(() => {
     if (!principal || guide) return;
     const delay = setTimeout(refresh, 180);
-    const poll = principal.demo ? undefined : setInterval(refresh, 10000);
+    const poll = principal.demo
+      ? undefined
+      : setInterval(() => {
+          if (!actionPending.current) void refresh();
+        }, 10000);
     return () => {
       clearTimeout(delay);
       clearInterval(poll);
       generation.current++;
     };
   }, [principal, refresh, guide]);
-  async function action(work: () => Promise<unknown>, success?: string) {
+  async function action(
+    work: (isCurrent: () => boolean) => Promise<unknown>,
+    success?: string,
+  ) {
+    if (actionPending.current) return;
+    actionPending.current = true;
+    generation.current++;
+    setPendingKey(null);
+    const scope = actionScope.current;
+    const isCurrent = () =>
+      scope === actionScope.current && currentRequestKey.current === requestKey;
     setBusy(true);
     setError("");
+    setMessage("");
     try {
-      await work();
+      await work(isCurrent);
+      if (!isCurrent()) return;
       if (success) setMessage(success);
-      await refresh();
+      await latestRefresh.current();
     } catch (e) {
-      setError((e as Error).message);
+      if (isCurrent()) {
+        setError((e as Error).message);
+        await latestRefresh.current();
+      }
     } finally {
+      actionPending.current = false;
       setBusy(false);
     }
   }
+  function focusMain() {
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() =>
+      document.getElementById("main-content")?.focus({ preventScroll: true }),
+    );
+  }
+  function clearFilters() {
+    setQuery("");
+    setSeverity("");
+    setTechnique("");
+    setSource("");
+    setStatus("");
+    setPage(0);
+  }
   function navigate(next: View) {
+    actionScope.current++;
+    restoreListFocus.current = false;
     window.history.pushState(
       null,
       "",
       next === "overview" ? "/" : `/?view=${next}`,
     );
-    setGuide(false);
+    setGuide(null);
     setMenuOpen(false);
     window.scrollTo(0, 0);
     requestAnimationFrame(() =>
@@ -328,16 +470,22 @@ function App() {
     setSource("");
     setStatus("");
     setMessage("");
+    setError("");
   }
-  function showGuide(event?: React.MouseEvent<HTMLAnchorElement>) {
+  function showInfo(
+    next: InfoPage,
+    event?: React.MouseEvent<HTMLAnchorElement>,
+  ) {
     if (
       event &&
       (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
     )
       return;
     event?.preventDefault();
-    window.history.pushState(null, "", "/how-it-works");
-    setGuide(true);
+    actionScope.current++;
+    restoreListFocus.current = false;
+    window.history.pushState(null, "", `/${next}`);
+    setGuide(next);
     setMenuOpen(false);
     window.scrollTo(0, 0);
     requestAnimationFrame(() =>
@@ -345,16 +493,52 @@ function App() {
     );
   }
   function investigate(id: string) {
+    actionScope.current++;
+    caseReturn.current = { id, scroll: window.scrollY };
+    restoreListFocus.current = false;
     setSelectedId(id);
     setDetail(null);
     setIoc("");
     setNote("");
     setReason("");
     setMessage("");
+    setError("");
+    focusMain();
+  }
+  function returnToList() {
+    actionScope.current++;
+    restoreListFocus.current = true;
+    setSelectedId(null);
+    setDetail(null);
+    setMessage("");
+    setError("");
+    focusMain();
+  }
+  function signOut() {
+    actionScope.current++;
+    generation.current++;
+    restoreListFocus.current = false;
+    setPrincipal(null);
+    setToken("");
+    setStats(null);
+    setAlerts({ total: 0, items: [] });
+    setCases({ total: 0, items: [] });
+    setEvents({ total: 0, items: [] });
+    setRules([]);
+    setDetail(null);
+    setSelectedId(null);
+    setLoadedKey(null);
+    setPendingKey(null);
+    setLoadFailure(null);
+    setNote("");
+    setReason("");
+    setMessage("");
+    setError("");
   }
   async function replay() {
-    await action(async () => {
+    await action(async (isCurrent) => {
       const r = await api<ReplayResult>("/demo", "POST");
+      if (!isCurrent()) return;
       setMessage(
         `Demo replay: ${r.accepted} accepted, ${r.duplicates} duplicates, ${r.rejected} rejected; ${r.alerts_created} new alerts.`,
       );
@@ -396,6 +580,7 @@ function App() {
                 <td>
                   <GlassButton
                     className="row-title"
+                    data-investigation-id={a.case_id}
                     onClick={() => investigate(a.case_id)}
                   >
                     {a.title}
@@ -439,12 +624,23 @@ function App() {
       </Empty>
     );
 
+  const aboutLink = (
+    <a
+      className="guide-link secondary"
+      href="/what-it-is"
+      onClick={(event) => showInfo("what-it-is", event)}
+      aria-current={guide === "what-it-is" ? "page" : undefined}
+    >
+      <Info size={16} />
+      What It Is
+    </a>
+  );
   const guideLink = (
     <a
       className="guide-link secondary"
       href="/how-it-works"
-      onClick={showGuide}
-      aria-current={guide ? "page" : undefined}
+      onClick={(event) => showInfo("how-it-works", event)}
+      aria-current={guide === "how-it-works" ? "page" : undefined}
     >
       <BookOpen size={16} />
       How It Works
@@ -476,6 +672,7 @@ function App() {
             <strong>SentinelForge</strong>
           </a>
           <nav aria-label="Main navigation">
+            {aboutLink}
             {guideLink}
             <GlassButton
               className="primary"
@@ -486,16 +683,36 @@ function App() {
             </GlassButton>
           </nav>
         </GlassNavbar>
-        <Suspense
-          fallback={
-            <main id="main-content" className="route-loading" aria-busy="true">
-              <p>Opening the field guide…</p>
-              <div className="skeleton" />
-            </main>
-          }
-        >
-          <HowItWorks navigate={navigate} />
-        </Suspense>
+        <DocumentBoundary key={guide} onWorkspace={() => navigate("overview")}>
+          <Suspense
+            fallback={
+              <main
+                id="main-content"
+                className="route-loading"
+                aria-busy="true"
+                tabIndex={-1}
+              >
+                <p role="status">
+                  Opening{" "}
+                  {guide === "what-it-is"
+                    ? "the product overview"
+                    : "the field guide"}
+                  …
+                </p>
+                <div className="skeleton" />
+              </main>
+            }
+          >
+            {guide === "what-it-is" ? (
+              <WhatItIs
+                navigate={navigate}
+                showGuide={(event) => showInfo("how-it-works", event)}
+              />
+            ) : (
+              <HowItWorks navigate={navigate} />
+            )}
+          </Suspense>
+        </DocumentBoundary>
       </div>
     );
 
@@ -532,10 +749,11 @@ function App() {
               e.preventDefault();
               setBusy(true);
               setError("");
+              const scope = actionScope.current;
               try {
                 const me = await api<Principal>("/me");
                 setPrincipal(me);
-                navigate("overview");
+                if (scope === actionScope.current) navigate("overview");
               } catch (e) {
                 setError((e as Error).message);
               } finally {
@@ -546,6 +764,7 @@ function App() {
             <label htmlFor="token">Access token</label>
             <GlassInput
               id="token"
+              disabled={busy}
               type="password"
               autoComplete="off"
               required
@@ -564,7 +783,10 @@ function App() {
               {error}
             </p>
           )}
-          {guideLink}
+          <nav className="learn-links" aria-label="Learn about SentinelForge">
+            {aboutLink}
+            {guideLink}
+          </nav>
           <p className="login-help">
             First run? Generate your local credentials with{" "}
             <code>python scripts/setup.py</code> and open <code>.env</code>.
@@ -641,7 +863,8 @@ function App() {
         <div className="sidebar-guide">
           <BookOpen size={20} />
           <strong>Follow the evidence.</strong>
-          <p>A practical guide to your first investigation.</p>
+          <p>Understand the platform. Start your first investigation.</p>
+          {aboutLink}
           {guideLink}
         </div>
         {!principal.local && !principal.demo && (
@@ -649,14 +872,7 @@ function App() {
             className="signout"
             title="Sign out"
             aria-label="Sign out"
-            onClick={() => {
-              setPrincipal(null);
-              setToken("");
-              setStats(null);
-              setSelectedId(null);
-              setMessage("");
-              setError("");
-            }}
+            onClick={signOut}
           >
             <LogOut size={18} />
           </GlassButton>
@@ -681,6 +897,7 @@ function App() {
               </GlassButton>
             );
           })}
+          {aboutLink}
           {guideLink}
         </nav>
       </GlassModal>
@@ -697,15 +914,26 @@ function App() {
           <div className="wordmark">
             SentinelForge <span>/</span>{" "}
             <span className="workspace-name">
-              {principal.demo ? "Public demo" : "Local lab"}
+              {principal.demo
+                ? "Public demo"
+                : principal.local
+                  ? "Local lab"
+                  : "Workspace"}
             </span>
           </div>
           <div className="topbar-right">
-            <span className={`connection ${error ? "offline" : ""}`}>
+            <span className={`connection ${loadError ? "offline" : ""}`}>
               <span />
-              {error ? "Connection needs attention" : "API connected"}
+              {loadError
+                ? "Connection needs attention"
+                : stats
+                  ? "API connected"
+                  : "Connecting…"}
             </span>
-            <div className="top-guide-link">{guideLink}</div>
+            <nav className="top-guide-link" aria-label="Product guides">
+              {aboutLink}
+              {guideLink}
+            </nav>
             {!principal.demo && (
               <span className="identity">
                 {principal.local ? "Local analyst" : principal.name}
@@ -716,12 +944,7 @@ function App() {
               <GlassButton
                 className="mobile-signout icon-button"
                 aria-label="Sign out"
-                onClick={() => {
-                  setPrincipal(null);
-                  setToken("");
-                  setSelectedId(null);
-                  setStats(null);
-                }}
+                onClick={signOut}
               >
                 <LogOut size={16} />
               </GlassButton>
@@ -747,24 +970,18 @@ function App() {
           <div className="page-heading">
             <div>
               {selectedId && (
-                <GlassButton
-                  className="back-button"
-                  onClick={() => {
-                    setSelectedId(null);
-                    setDetail(null);
-                  }}
-                >
+                <GlassButton className="back-button" onClick={returnToList}>
                   <ArrowLeft size={14} /> Back to {labels[view].toLowerCase()}
                 </GlassButton>
               )}
               <h1>{title}</h1>
               <p>
                 {selectedId
-                  ? detail
+                  ? detail && hasCurrentData
                     ? `${short(detail.id)} · Evidence-led triage`
                     : "Loading case…"
                   : view === "overview"
-                    ? `${stats?.open_cases ?? "—"} open investigations. Every signal has a trail.`
+                    ? `${hasCurrentData ? (stats?.open_cases ?? "—") : "—"} open investigations. Every signal has a trail.`
                     : view === "alerts"
                       ? "Review signals, inspect their evidence, and decide what needs attention."
                       : view === "cases"
@@ -777,11 +994,13 @@ function App() {
             <div className="heading-actions">
               <GlassButton
                 className="secondary"
-                disabled={busy}
+                disabled={busy || refreshing}
+                aria-label="Refresh"
+                aria-busy={refreshing}
                 onClick={refresh}
               >
                 <RefreshCw size={14} />
-                <span>Refresh</span>
+                <span>{refreshing ? "Refreshing…" : "Refresh"}</span>
               </GlassButton>
               {principal.role === "admin" && !selectedId && (
                 <GlassButton
@@ -795,10 +1014,31 @@ function App() {
               )}
             </div>
           </div>
+          {loadError && (
+            <div className="notice error" role="alert" data-testid="load-error">
+              <CircleAlert size={16} />
+              <span>
+                Could not update{" "}
+                {selectedId ? "this investigation" : labels[view].toLowerCase()}
+                . {loadError}{" "}
+                {hasCurrentData
+                  ? "Showing the last successful result. "
+                  : "Results are unavailable for this view. "}
+                Use Refresh to retry.
+              </span>
+            </div>
+          )}
           {error && (
             <div className="notice error" role="alert">
               <CircleAlert size={16} />
-              <span>{error} Displayed data may be stale.</span>
+              <span>{error}</span>
+              <GlassButton
+                className="icon-button"
+                aria-label="Dismiss error"
+                onClick={() => setError("")}
+              >
+                <X size={15} />
+              </GlassButton>
             </div>
           )}
           {message && (
@@ -814,10 +1054,22 @@ function App() {
               </GlassButton>
             </div>
           )}
-          {!stats && !error && (
-            <Empty>Loading telemetry and investigations…</Empty>
+          {loading && (
+            <div
+              className="notice data-loading"
+              role="status"
+              aria-live="polite"
+            >
+              <RefreshCw size={16} />
+              <span>
+                {selectedId
+                  ? "Loading investigation…"
+                  : `Loading ${labels[view].toLowerCase()}…`}
+              </span>
+            </div>
           )}
           {selectedId ? (
+            hasCurrentData &&
             detail && (
               <>
                 <section className="case-banner">
@@ -884,7 +1136,7 @@ function App() {
                                 <GlassButton
                                   className="text-button"
                                   onClick={() =>
-                                    action(async () => {
+                                    action(async (isCurrent) => {
                                       const result = await api<{
                                         match: { label: string } | null;
                                         external_requests: number;
@@ -892,6 +1144,7 @@ function App() {
                                         "/iocs/lookup?value=" +
                                           encodeURIComponent(e.dst_ip!),
                                       );
+                                      if (!isCurrent()) return;
                                       setIoc(
                                         `${e.dst_ip}: ${result.match?.label || "No match in local IOC database"}. No external request sent.`,
                                       );
@@ -956,13 +1209,17 @@ function App() {
                           className="note-form"
                           onSubmit={(e) => {
                             e.preventDefault();
-                            action(async () => {
+                            const submittedNote = note;
+                            action(async (isCurrent) => {
                               await api(
                                 "/cases/" + detail.id + "/notes",
                                 "POST",
-                                { text: note },
+                                { text: submittedNote },
                               );
-                              setNote("");
+                              if (isCurrent())
+                                setNote((current) =>
+                                  current === submittedNote ? "" : current,
+                                );
                             }, "Investigation note saved.");
                           }}
                         >
@@ -1050,6 +1307,7 @@ function App() {
                             checked={!!detail.checklist[key]}
                             disabled={!canEdit || busy}
                             onChange={(e) => {
+                              if (actionPending.current) return;
                               const complete = e.target.checked;
                               setDetail((current) =>
                                 current
@@ -1062,7 +1320,7 @@ function App() {
                                     }
                                   : current,
                               );
-                              action(async () => {
+                              action(async (isCurrent) => {
                                 try {
                                   await api(
                                     "/cases/" + detail.id + "/checklist",
@@ -1070,8 +1328,9 @@ function App() {
                                     { key, complete },
                                   );
                                 } catch (error) {
+                                  if (!isCurrent()) throw error;
                                   setDetail((current) =>
-                                    current
+                                    current?.id === detail.id
                                       ? {
                                           ...current,
                                           checklist: {
@@ -1152,13 +1411,20 @@ function App() {
                         <form
                           onSubmit={(e) => {
                             e.preventDefault();
-                            action(async () => {
+                            const submittedReason = reason;
+                            action(async (isCurrent) => {
                               await api(
                                 "/cases/" + detail.id + "/responses",
                                 "POST",
-                                { action: "simulate_isolation", reason },
+                                {
+                                  action: "simulate_isolation",
+                                  reason: submittedReason,
+                                },
                               );
-                              setReason("");
+                              if (isCurrent())
+                                setReason((current) =>
+                                  current === submittedReason ? "" : current,
+                                );
                             }, "Simulation requested. A separate administrator can approve it.");
                           }}
                         >
@@ -1222,7 +1488,7 @@ function App() {
             )
           ) : (
             <>
-              {view === "overview" && stats && (
+              {view === "overview" && hasCurrentData && stats && (
                 <>
                   <section className="metrics" aria-label="Workspace totals">
                     <div>
@@ -1500,10 +1766,28 @@ function App() {
                         </option>
                       ))}
                     </select>
-                    <span className="result-count">{alerts.total} alerts</span>
+                    <span className="result-count">
+                      {hasCurrentData
+                        ? `${alerts.total} alerts`
+                        : loadError
+                          ? "Results unavailable"
+                          : "Updating results…"}
+                    </span>
+                    {hasFilters && (
+                      <GlassButton
+                        className="text-button"
+                        onClick={clearFilters}
+                      >
+                        Clear filters
+                      </GlassButton>
+                    )}
                   </div>
-                  <section className="panel">
-                    {alertTable(alerts.items)}
+                  <section
+                    className="panel"
+                    aria-label="Alert results"
+                    aria-busy={loading || refreshing}
+                  >
+                    {hasCurrentData && alertTable(alerts.items)}
                   </section>
                 </>
               )}
@@ -1538,10 +1822,26 @@ function App() {
                       )}
                     </select>
                     <span className="result-count">
-                      {cases.total} investigations
+                      {hasCurrentData
+                        ? `${cases.total} investigations`
+                        : loadError
+                          ? "Results unavailable"
+                          : "Updating results…"}
                     </span>
+                    {hasFilters && (
+                      <GlassButton
+                        className="text-button"
+                        onClick={clearFilters}
+                      >
+                        Clear filters
+                      </GlassButton>
+                    )}
                   </div>
-                  <section className="panel">
+                  <section
+                    className="panel"
+                    aria-label="Investigation results"
+                    aria-busy={loading || refreshing}
+                  >
                     <div className="table-scroll">
                       <GlassTable>
                         <thead>
@@ -1554,44 +1854,48 @@ function App() {
                           </tr>
                         </thead>
                         <tbody>
-                          {cases.items.map((c) => (
-                            <tr key={c.id}>
-                              <td>
-                                <GlassButton
-                                  className="row-title"
-                                  onClick={() => investigate(c.id)}
-                                >
-                                  {c.title}
-                                </GlassButton>
-                                <small className="cell-sub mono">
-                                  {short(c.id)} · {c.hosts.length} hosts
-                                </small>
-                              </td>
-                              <td>
-                                <span className="case-status">{c.status}</span>
-                              </td>
-                              <td className="muted">
-                                {c.assignee || "Unassigned"}
-                              </td>
-                              <td className="numeric mono">
-                                {c.risk}
-                                <span className="muted">/100</span>
-                              </td>
-                              <td>
-                                <GlassButton
-                                  className="icon-button"
-                                  aria-label={`Open case ${short(c.id)}`}
-                                  onClick={() => investigate(c.id)}
-                                >
-                                  <ChevronRight size={16} />
-                                </GlassButton>
-                              </td>
-                            </tr>
-                          ))}
+                          {hasCurrentData &&
+                            cases.items.map((c) => (
+                              <tr key={c.id}>
+                                <td>
+                                  <GlassButton
+                                    className="row-title"
+                                    data-investigation-id={c.id}
+                                    onClick={() => investigate(c.id)}
+                                  >
+                                    {c.title}
+                                  </GlassButton>
+                                  <small className="cell-sub mono">
+                                    {short(c.id)} · {c.hosts.length} hosts
+                                  </small>
+                                </td>
+                                <td>
+                                  <span className="case-status">
+                                    {c.status}
+                                  </span>
+                                </td>
+                                <td className="muted">
+                                  {c.assignee || "Unassigned"}
+                                </td>
+                                <td className="numeric mono">
+                                  {c.risk}
+                                  <span className="muted">/100</span>
+                                </td>
+                                <td>
+                                  <GlassButton
+                                    className="icon-button"
+                                    aria-label={`Open case ${short(c.id)}`}
+                                    onClick={() => investigate(c.id)}
+                                  >
+                                    <ChevronRight size={16} />
+                                  </GlassButton>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </GlassTable>
                     </div>
-                    {!cases.items.length && (
+                    {hasCurrentData && !cases.items.length && (
                       <Empty>No investigations match this view.</Empty>
                     )}
                   </section>
@@ -1627,7 +1931,21 @@ function App() {
                         </option>
                       ))}
                     </select>
-                    <span className="result-count">{events.total} events</span>
+                    <span className="result-count">
+                      {hasCurrentData
+                        ? `${events.total} events`
+                        : loadError
+                          ? "Results unavailable"
+                          : "Updating results…"}
+                    </span>
+                    {hasFilters && (
+                      <GlassButton
+                        className="text-button"
+                        onClick={clearFilters}
+                      >
+                        Clear filters
+                      </GlassButton>
+                    )}
                     {principal.role === "admin" && (
                       <>
                         <GlassInput
@@ -1639,17 +1957,25 @@ function App() {
                           onChange={(e) => {
                             const f = e.target.files?.[0];
                             if (!f) return;
-                            action(async () => {
+                            action(async (isCurrent) => {
                               if (f.size > 1048576)
                                 throw new Error(
                                   "Choose a JSON file smaller than 1 MiB.",
                                 );
-                              const data = JSON.parse(await f.text());
+                              let data: unknown;
+                              try {
+                                data = JSON.parse(await f.text());
+                              } catch {
+                                throw new Error(
+                                  "This file is not valid JSON. Check its formatting and import it again.",
+                                );
+                              }
                               const r = await api<ReplayResult>(
                                 "/ingest",
                                 "POST",
                                 Array.isArray(data) ? { events: data } : data,
                               );
+                              if (!isCurrent()) return;
                               setMessage(
                                 `Import: ${r.accepted} accepted, ${r.duplicates} duplicates, ${r.rejected} rejected. Use the API for per-event rejection details.`,
                               );
@@ -1668,25 +1994,32 @@ function App() {
                       </>
                     )}
                   </div>
-                  <section className="panel event-list">
-                    {events.items.map((e) => (
-                      <details key={e.id}>
-                        <summary>
-                          <span className="event-kind">{e.kind}</span>
-                          <span>
-                            <strong className="mono">{e.host}</strong>
-                            <small>
-                              {sourceNames[e.source]} ·{" "}
-                              {e.user || "No user attribution"}
-                            </small>
-                          </span>
-                          <time className="mono">{date(e.timestamp)} UTC</time>
-                          <ChevronRight size={15} />
-                        </summary>
-                        <pre>{JSON.stringify(e, null, 2)}</pre>
-                      </details>
-                    ))}
-                    {!events.items.length && (
+                  <section
+                    className="panel event-list"
+                    aria-label="Telemetry results"
+                    aria-busy={loading || refreshing}
+                  >
+                    {hasCurrentData &&
+                      events.items.map((e) => (
+                        <details key={e.id}>
+                          <summary>
+                            <span className="event-kind">{e.kind}</span>
+                            <span>
+                              <strong className="mono">{e.host}</strong>
+                              <small>
+                                {sourceNames[e.source]} ·{" "}
+                                {e.user || "No user attribution"}
+                              </small>
+                            </span>
+                            <time className="mono">
+                              {date(e.timestamp)} UTC
+                            </time>
+                            <ChevronRight size={15} />
+                          </summary>
+                          <pre>{JSON.stringify(e, null, 2)}</pre>
+                        </details>
+                      ))}
+                    {hasCurrentData && !events.items.length && (
                       <Empty>No telemetry matches these filters.</Empty>
                     )}
                   </section>
@@ -1702,104 +2035,109 @@ function App() {
                       probability.
                     </span>
                   </div>
-                  <div className="rules-list">
-                    {rules.map((r) => (
-                      <details className="panel rule-card" key={r.id}>
-                        <summary>
-                          <div>
-                            <strong>{r.title}</strong>
-                            <small>
-                              {r.techniques
-                                .map((t) => `${t.id} · ${t.name}`)
-                                .join(", ")}
-                            </small>
+                  <div className="rules-list" aria-busy={loading || refreshing}>
+                    {hasCurrentData &&
+                      rules.map((r) => (
+                        <details className="panel rule-card" key={r.id}>
+                          <summary>
+                            <div>
+                              <strong>{r.title}</strong>
+                              <small>
+                                {r.techniques
+                                  .map((t) => `${t.id} · ${t.name}`)
+                                  .join(", ")}
+                              </small>
+                            </div>
+                            <Severity level={r.level} />
+                            <span className="fixture-state">
+                              <Check size={14} />
+                              Synthetic fixtures
+                            </span>
+                            <span className="mono numeric">
+                              {r.alert_count} alerts
+                            </span>
+                            <ChevronRight size={16} />
+                          </summary>
+                          <div className="rule-body">
+                            <p>{r["x-sentinelforge"].explanation}</p>
+                            <p>
+                              <strong>Required telemetry:</strong>{" "}
+                              {r["x-sentinelforge"].required_telemetry.join(
+                                ", ",
+                              )}
+                            </p>
+                            <p>
+                              <strong>False positives:</strong>{" "}
+                              {r.falsepositives.join("; ")}
+                            </p>
+                            <p>
+                              <strong>Status:</strong> {r.status} · Confidence{" "}
+                              {r["x-sentinelforge"].confidence}/100
+                            </p>
+                            <pre>{JSON.stringify(r.detection, null, 2)}</pre>
                           </div>
-                          <Severity level={r.level} />
-                          <span className="fixture-state">
-                            <Check size={14} />
-                            Synthetic fixtures
-                          </span>
-                          <span className="mono numeric">
-                            {r.alert_count} alerts
-                          </span>
-                          <ChevronRight size={16} />
-                        </summary>
-                        <div className="rule-body">
-                          <p>{r["x-sentinelforge"].explanation}</p>
-                          <p>
-                            <strong>Required telemetry:</strong>{" "}
-                            {r["x-sentinelforge"].required_telemetry.join(", ")}
-                          </p>
-                          <p>
-                            <strong>False positives:</strong>{" "}
-                            {r.falsepositives.join("; ")}
-                          </p>
-                          <p>
-                            <strong>Status:</strong> {r.status} · Confidence{" "}
-                            {r["x-sentinelforge"].confidence}/100
-                          </p>
-                          <pre>{JSON.stringify(r.detection, null, 2)}</pre>
-                        </div>
-                      </details>
-                    ))}
+                        </details>
+                      ))}
                   </div>
                 </>
               )}
-              {["alerts", "cases", "telemetry"].includes(view) && (
-                <div className="pagination">
-                  <span>
-                    {(view === "alerts"
-                      ? alerts
-                      : view === "cases"
-                        ? cases
-                        : events
-                    ).total
-                      ? page * 50 + 1
-                      : 0}
-                    –
-                    {Math.min(
-                      (page + 1) * 50,
-                      (view === "alerts"
-                        ? alerts
-                        : view === "cases"
-                          ? cases
-                          : events
-                      ).total,
-                    )}{" "}
-                    of{" "}
-                    {
-                      (view === "alerts"
+              {hasCurrentData &&
+                ["alerts", "cases", "telemetry"].includes(view) && (
+                  <div className="pagination">
+                    <span>
+                      {(view === "alerts"
                         ? alerts
                         : view === "cases"
                           ? cases
                           : events
                       ).total
-                    }
-                  </span>
-                  <GlassButton
-                    className="secondary"
-                    disabled={page === 0}
-                    onClick={() => setPage((p) => p - 1)}
-                  >
-                    Previous
-                  </GlassButton>
-                  <GlassButton
-                    className="secondary"
-                    disabled={
-                      (page + 1) * 50 >=
-                      (view === "alerts"
-                        ? alerts
-                        : view === "cases"
-                          ? cases
-                          : events
-                      ).total
-                    }
-                    onClick={() => setPage((p) => p + 1)}
-                  >
-                    Next
-                  </GlassButton>
-                </div>
-              )}
+                        ? page * 50 + 1
+                        : 0}
+                      –
+                      {Math.min(
+                        (page + 1) * 50,
+                        (view === "alerts"
+                          ? alerts
+                          : view === "cases"
+                            ? cases
+                            : events
+                        ).total,
+                      )}{" "}
+                      of{" "}
+                      {
+                        (view === "alerts"
+                          ? alerts
+                          : view === "cases"
+                            ? cases
+                            : events
+                        ).total
+                      }
+                    </span>
+                    <GlassButton
+                      className="secondary"
+                      disabled={page === 0 || refreshing}
+                      onClick={() => setPage((p) => p - 1)}
+                    >
+                      Previous
+                    </GlassButton>
+                    <GlassButton
+                      className="secondary"
+                      disabled={
+                        refreshing ||
+                        (page + 1) * 50 >=
+                          (view === "alerts"
+                            ? alerts
+                            : view === "cases"
+                              ? cases
+                              : events
+                          ).total
+                      }
+                      onClick={() => setPage((p) => p + 1)}
+                    >
+                      Next
+                    </GlassButton>
+                  </div>
+                )}
             </>
           )}
           <footer className="workspace-footer">

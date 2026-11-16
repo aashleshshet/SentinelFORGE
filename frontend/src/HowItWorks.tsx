@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -234,6 +234,12 @@ export default function HowItWorks({
 }: {
   navigate: (view: View) => void;
 }) {
+  useEffect(() => {
+    document.getElementById("main-content")?.focus({ preventScroll: true });
+    if (window.location.hash) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    }
+  }, []);
   const [step, setStep] = useState(0);
   const [local, setLocal] = useState(false);
   const [node, setNode] = useState<number | null>(0);

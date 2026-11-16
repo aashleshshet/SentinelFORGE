@@ -10,6 +10,8 @@ See the [modernization and validation report](docs/MODERNIZATION.md) for the mid
 
 ![SentinelForge dashboard showing synthetic lab telemetry](docs/screenshots/desktop.png)
 
+The review branch adds a detailed **What It Is** tab at `/what-it-is`, a cyberpunk palette and interaction recovery improvements. See [UI refinement and validation](docs/UI_REFINEMENT.md). These changes are in the draft PR and have not been released to the production demo.
+
 ## What you can do
 
 1. Ingest Linux authentication, assembled auditd, Sysmon JSON, Wazuh alert JSON, Zeek conn.log JSON, and synthetic events.
@@ -142,7 +144,7 @@ For the approval flow, sign in as `analyst`, request a simulation, then sign in 
 | Responsive dashboard, search, source/severity/technique filters | Implemented; real API data, 10-second polling |
 | Immutable-by-API evidence snapshots and JSON report export | Implemented; SHA-256 integrity, not WORM or signed custody |
 | Local IP IOC lookup | Implemented; no third-party egress |
-| MITRE STIX data | Bundled seven-technique subset; explicit operator refresh script |
+| MITRE STIX data | Bundled eight-technique subset; explicit operator refresh script |
 | Auth, RBAC, request limits, structured logs, hardened API container | Implemented for a local single-tenant lab |
 | Wazuh server/agents, live log tailers, auditd assembly, XML/EVTX parsing | Planned; only import formats are implemented |
 | Full Sigma/pySigma compiler and Sigma correlation specification | Planned |
