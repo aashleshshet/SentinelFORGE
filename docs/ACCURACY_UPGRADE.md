@@ -2,7 +2,7 @@
 
 The new parser corrects 21 false alerts across the frozen 120-case v3 synthetic challenge, with no new classification errors. On its 40-case holdout, assigned-intent accuracy improves **70.0% → 87.5%**, precision **64.29% → 85.71%**, and FPR **50.0% → 15.0%**; recall stays **90.0%**. All 40 holdout rule contracts match. **The strict >90% precision/recall/accuracy and <5% FPR targets remain unmet.** Contract correctness is distinct from recognizing malicious intent.
 
-These are deliberately difficult, correlated, engineer-authored command examples at artificial 50% prevalence. They are not representative operational measurements or an independent blinded efficacy study. The original acceptance gate remains unchanged and failing. This change has not been deployed to the public production demo or merged into `main`.
+These are deliberately difficult, correlated, engineer-authored command examples at artificial 50% prevalence. They are not representative operational measurements or an independent blinded efficacy study. The original acceptance gate remains unchanged and failing. The user subsequently authorized production deployment of the public synthetic demo; the verified release is recorded below. The draft branch remains unmerged into `main`.
 
 ## Implementation
 
@@ -71,3 +71,11 @@ python scripts/evaluate.py --dataset data/evaluation-v3/holdout.json --require-t
 ```
 
 To reproduce the reference, create a detached checkout at the baseline revision and run its evaluator with `PYTHONPATH=backend`, pointing `--dataset` at the same absolute v3 file and using the locked Python environment. Never use the older `compare_baseline.py` context-free harness for this comparison: this baseline supports the context API and must receive the same operator observations.
+
+## Public production release
+
+At the user's explicit request on 2026-11-16, Vercel rebuilt the exact ready Git preview for source `0aa11033164ca56414f6ef8109ea72f9a964fadc` as production deployment `dpl_HGJEzzBmSNbcuesieaULeWLxXffo`. Project `sentinelforge` (`prj_odyoVI5sZitJkIXGRWuNFgc6J57H`), team `aashlesh-ramadas-shet`. Status **READY**; approximately 48.0 seconds from build start to ready. The [public demo](https://sentinelforge-theta.vercel.app) and [product overview](https://sentinelforge-theta.vercel.app/what-it-is) serve this revision. Previous production `dpl_9iVvPv3GjP2zudLE8pp85rPcuoed` remains available for rollback.
+
+All **10 public browser tests passed in 44.3 seconds** against the canonical production domain; four authenticated-only tests were appropriately skipped. API checks confirmed viewer identity, `demo: true`, `local: false`, the new “Root shell through sudo” rule title and accepted authorization metadata, 18 events/seven alerts/two cases/nine rules, and HTTP 403 for public replay. CSP, nosniff, frame denial and referrer policy were present. The first auxiliary verification script used an incorrect stats key; correcting it to the documented `open_cases` field required no application change, and the complete API check passed.
+
+The deployment-scoped production error/fatal scan returned no matching records in the 2026-11-16 20:09:59–20:24:59 IST window (14:39:59–14:54:59 UTC). No log drains are configured; this is a point-in-time scan, not continuous monitoring. Existing preview protection and environment credentials were unchanged. The hosted app remains a fixed synthetic read-only demo, not a live operator ingestion workspace. No local operational data was uploaded, no PR was merged, and the failing strict detection efficacy gate remains unchanged. Subsequent edits only record this release.
