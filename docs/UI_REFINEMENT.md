@@ -23,4 +23,4 @@ Commands: `pnpm --dir frontend run build`, `ruff check backend tests scripts`, `
 
 ## Review boundary
 
-The update stays on draft PR #2. No automatic merge or production promotion is performed. Automated accessibility checks do not replace manual screen-reader, Safari/Firefox or physical-device testing. The broader detection, retention, identity and deployment limitations remain documented in SECURITY.md and DETECTION_IMPROVEMENT.md.
+The source update stays on draft PR #2, unmerged. Following the user’s explicit deployment request, commit `1195a46` was deployed directly to the public synthetic demo on 2026-11-16; see the [deployment record](DEPLOYMENT_2026_11_16.md). Automated accessibility checks do not replace manual screen-reader, Safari/Firefox or physical-device testing. The broader detection, retention, identity and deployment limitations remain documented in SECURITY.md and DETECTION_IMPROVEMENT.md.

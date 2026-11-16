@@ -10,7 +10,7 @@ See the [modernization and validation report](docs/MODERNIZATION.md) for the mid
 
 ![SentinelForge dashboard showing synthetic lab telemetry](docs/screenshots/desktop.png)
 
-The review branch adds a detailed **What It Is** tab at `/what-it-is`, a cyberpunk palette and interaction recovery improvements. See [UI refinement and validation](docs/UI_REFINEMENT.md). These changes are in the draft PR and have not been released to the production demo.
+The public demo includes a detailed **[What It Is](https://sentinelforge-theta.vercel.app/what-it-is)** tab, a cyberpunk palette and interaction recovery improvements. See [UI refinement and validation](docs/UI_REFINEMENT.md). Commit `1195a46` was deployed directly at the user’s request; the source PR remains a draft and is unmerged.
 
 ## What you can do
 
