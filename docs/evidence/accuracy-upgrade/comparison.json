@@ -1,0 +1,181 @@
+{
+  "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+  "candidate_revision": "93f7d490cea1ac65f30e50f5c4bea88a8e8a3cad",
+  "claim_scope": "Synthetic correlated command-semantics challenge; not operational efficacy",
+  "rows": [
+    {
+      "split": "development",
+      "input_sha256": "d6ea5b920a176920014c51c36ec18af7f863a2f2c493e2611226aea42f8c321f",
+      "baseline": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 11,
+          "TN": 9,
+          "FN": 2
+        },
+        "precision": 0.6206896551724138,
+        "recall": 0.9,
+        "accuracy": 0.675,
+        "false_positive_rate": 0.55,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 32,
+          "mismatches": [
+            "v3-development-pipe-value",
+            "v3-development-configuration-value",
+            "v3-development-task-query-name",
+            "v3-development-task-change-action",
+            "v3-development-task-run-name",
+            "v3-development-sudo-stat-shell",
+            "v3-development-sudo-cat-profile",
+            "v3-development-sudo-print-shell"
+          ],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "candidate": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 3,
+          "TN": 17,
+          "FN": 2
+        },
+        "precision": 0.8571428571428571,
+        "recall": 0.9,
+        "accuracy": 0.875,
+        "false_positive_rate": 0.15,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 40,
+          "mismatches": [],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "fixed": [
+        "v3-development-pipe-value",
+        "v3-development-configuration-value",
+        "v3-development-task-query-name",
+        "v3-development-task-change-action",
+        "v3-development-task-run-name",
+        "v3-development-sudo-stat-shell",
+        "v3-development-sudo-cat-profile",
+        "v3-development-sudo-print-shell"
+      ],
+      "regressed": []
+    },
+    {
+      "split": "validation",
+      "input_sha256": "932d1f44e4ef94c3471089ca2521c71ef4296dddca9da78275f3670a4c0b74e3",
+      "baseline": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 9,
+          "TN": 11,
+          "FN": 2
+        },
+        "precision": 0.6666666666666666,
+        "recall": 0.9,
+        "accuracy": 0.725,
+        "false_positive_rate": 0.45,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 34,
+          "mismatches": [
+            "v3-validation-task-delete-name",
+            "v3-validation-task-end-name",
+            "v3-validation-task-change-quoted-value",
+            "v3-validation-sudo-test-shell",
+            "v3-validation-sudo-file-shell",
+            "v3-validation-sudo-editor-shell"
+          ],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "candidate": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 3,
+          "TN": 17,
+          "FN": 2
+        },
+        "precision": 0.8571428571428571,
+        "recall": 0.9,
+        "accuracy": 0.875,
+        "false_positive_rate": 0.15,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 40,
+          "mismatches": [],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "fixed": [
+        "v3-validation-task-delete-name",
+        "v3-validation-task-end-name",
+        "v3-validation-task-change-quoted-value",
+        "v3-validation-sudo-test-shell",
+        "v3-validation-sudo-file-shell",
+        "v3-validation-sudo-editor-shell"
+      ],
+      "regressed": []
+    },
+    {
+      "split": "holdout",
+      "input_sha256": "220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d",
+      "baseline": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 10,
+          "TN": 10,
+          "FN": 2
+        },
+        "precision": 0.6428571428571429,
+        "recall": 0.9,
+        "accuracy": 0.7,
+        "false_positive_rate": 0.5,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 33,
+          "mismatches": [
+            "v3-holdout-pipe-exact-ec",
+            "v3-holdout-configuration-exact-encoded",
+            "v3-holdout-task-query-compound-name",
+            "v3-holdout-task-change-action-only",
+            "v3-holdout-task-run-folder",
+            "v3-holdout-sudo-copy-shell",
+            "v3-holdout-sudo-hash-shell"
+          ],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "candidate": {
+        "confusion_matrix": {
+          "TP": 18,
+          "FP": 3,
+          "TN": 17,
+          "FN": 2
+        },
+        "precision": 0.8571428571428571,
+        "recall": 0.9,
+        "accuracy": 0.875,
+        "false_positive_rate": 0.15,
+        "rule_contracts": {
+          "evaluated": 40,
+          "matched": 40,
+          "mismatches": [],
+          "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+        }
+      },
+      "fixed": [
+        "v3-holdout-pipe-exact-ec",
+        "v3-holdout-configuration-exact-encoded",
+        "v3-holdout-task-query-compound-name",
+        "v3-holdout-task-change-action-only",
+        "v3-holdout-task-run-folder",
+        "v3-holdout-sudo-copy-shell",
+        "v3-holdout-sudo-hash-shell"
+      ],
+      "regressed": []
+    }
+  ]
+}

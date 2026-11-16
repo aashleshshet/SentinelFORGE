@@ -103,6 +103,8 @@ The preserved legacy toy corpus deliberately includes failures: **7 TP, 2 FP, 7 
 
 The [evidence-led improvement report](docs/DETECTION_IMPROVEMENT.md) records separately frozen synthetic datasets, scoped administrative approvals and two context-supported rules. On its 16-case holdout the candidate measures 83.33% precision, 62.50% recall, 75.00% accuracy and 12.50% FPR: **the requested targets remain unmet**. These co-designed synthetic cases are not independent deployment validation. The strict CI target gate remains failing.
 
+The subsequent [command accuracy upgrade](docs/ACCURACY_UPGRADE.md) fixes option/value confusion in PowerShell, scheduled tasks, UID-zero and sudo evidence. On a new 40-case synthetic challenge holdout, accuracy rises **70% → 87.5%**, precision **64.29% → 85.71%**, and false alerts fall **10 → 3**, with recall unchanged at 90%. All 120 new rule contracts and 260 Python tests pass. This is narrow synthetic evidence, not operational accuracy; the original metrics and failing acceptance gate remain unchanged. The upgrade is in the draft branch and is not yet deployed to the public demo.
+
 ## Replay your own telemetry
 
 Create a JSON array of envelopes or an object with an `events` array. In the token-free local dashboard, open **Telemetry → Import JSON** to upload it directly. For the authenticated command-line replay tool, set `SF_TOKEN` to the collector token without placing it in shell history (for example, use your shell's hidden-input prompt), then run:

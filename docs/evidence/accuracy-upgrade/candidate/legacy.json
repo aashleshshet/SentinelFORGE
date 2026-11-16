@@ -1,0 +1,1953 @@
+{
+  "schema_version": 2,
+  "dataset": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation.json",
+  "dataset_metadata": {
+    "name": "legacy-v1",
+    "partition": "development",
+    "provenance": "Synthetic development regression; no independent validation"
+  },
+  "unit": "Scenario; any emitted alert predicts suspicious. No label or scenario metadata is sent to detection.",
+  "valid": true,
+  "errors": [],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-27.3-arm64-arm-64bit",
+    "machine": "arm64",
+    "database": "SQLite in memory",
+    "sqlite": "3.53.1",
+    "packages": {
+      "fastapi": "0.163.0",
+      "sqlalchemy": "2.1.8",
+      "pydantic": "2.14.3",
+      "httpx": "0.28.1",
+      "PyYAML": "6.0.3"
+    }
+  },
+  "provenance": {
+    "source_revision": {
+      "commit": "93f7d490cea1ac65f30e50f5c4bea88a8e8a3cad",
+      "working_tree_dirty": false
+    },
+    "dataset_sha256": "555e748cea7a12c0e9690ea026c08e66660c43232643a00d8b9911d649c3aa73",
+    "dataset_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/evaluation.json",
+    "source_file_sha256": {
+      "backend/sentinelforge/__init__.py": "62777a4b57ec2fad33c0f8058ebafd43c713dd2a6ef3cbd83b50b53edc05ab5f",
+      "backend/sentinelforge/api.py": "f1d081964fcb0688407b2517c2556d30537e98f8c804973daae20ad148a9c1cd",
+      "backend/sentinelforge/config.py": "0864396cf77f81ae40054008d75c5dee524b0670818304ad68df3584080839f3",
+      "backend/sentinelforge/context.py": "ea94f7a3ceec93c537fdbada07932739c6c96308d67f73e86ae05d3db1c2bd51",
+      "backend/sentinelforge/db.py": "0167f9e70f75f13b09b15c5cfe5c38e7ee5b4ff87bd06cd0f40395b33078b88c",
+      "backend/sentinelforge/engine.py": "ff8fec68dd1386e2bcd0b973d35878ca70c5e6c340431cb01618acb994451a5e",
+      "backend/sentinelforge/linux_evidence.py": "78baa67539f0e99c68ddd79b8ba5672fb0c7d0d3e9e44d12e4e0df0bfbae1762",
+      "backend/sentinelforge/main.py": "626acc1bd498d4f2ec8a77a0720608b1212f29c16c514c7f71247e1242415fb8",
+      "backend/sentinelforge/normalize.py": "9cb9d922e74bdd8d07628f2d88ecf29ebdc2a3c7da6ff94ba6b8b749523f8820",
+      "backend/sentinelforge/process_evidence.py": "813821cdcada06885e478d6e2f46d827106bea02884821e6aa9e5fa53fd47385",
+      "backend/sentinelforge/public_demo.py": "5df477d987202d636a7fa41d861b07f6f9d5a706845a6b7808dec4954d589a44",
+      "backend/sentinelforge/rules.py": "cb5354b055aa3565f68f4a1db5f37c0d45cb6b96e7d150e3dcb396bc0cfb5535",
+      "backend/sentinelforge/schemas.py": "1b73207d4a2e1dee9f49542b4a0c927d61d218e9712c39498188b89c7702697b",
+      "scripts/benchmark.py": "dd0a342f3364b8c0a3d056c44aef737a0b42c7e43b149db773219aeb94470717",
+      "scripts/build_accuracy_corpus.py": "c6df3849cdd918d893f5f506e929bf3fca48ff13ee3831125ebfa4bd37617b2c",
+      "scripts/build_evaluation_corpus.py": "7cf25db11efb487b212fbced80963d960ef014a2174a982246f5f1e832359eeb",
+      "scripts/build_fixtures.py": "00975e06789eddd531b655f23f8a61c3e57f439fa4365084d40dd25d4c2dfd0b",
+      "scripts/build_public_demo.py": "b9cf97399670cbfdb9c8a8518dec67d73ae2be8554439590fa4ab98fd21c054a",
+      "scripts/compare_baseline.py": "b739cdd93afd817f83dadda71221f4f9095fce29781c9c64941f7a707bc40bda",
+      "scripts/evaluate.py": "c548b91df07cd3aa047e52d5ba83977161accd9e600c55e3d0eb81b6471a97cb",
+      "scripts/evaluation_metrics.py": "9e193e769ee9fb39f14d06222f7c9980a27270fccd7665d107b6e227a98a5d0f",
+      "scripts/export_openapi.py": "17de0188c442ab12727926bbf213f86685c9805ff742523e41ff8e8979b02cf1",
+      "scripts/replay.py": "70d1b2978c6465e7a2b1fb5a308f7beb50185acd0df8f5bc81999d5278ed5b89",
+      "scripts/run_local.py": "6e83adc1b6bb743b95f476ab24f9a1a6335615d12a6ce9e31197b705c516a512",
+      "scripts/setup.py": "bee161ba708fcdfc0a52fb7b2024b8b40237c6030a9cb9b2f1f0ff25371d61ce",
+      "scripts/smoke.py": "12008dbd668dc093abf7e634b90ebd7aac379d2d7f5d841644664a3ebf48b406",
+      "scripts/update_attack.py": "1b4f3d74945c6d78c1b3fb540c18466ab6849423ec322be382400098267a59b9",
+      "scripts/verify_evidence.py": "f33ea7255559105b1f9a2c91730bfb2964c61baf502fa3a5e806e5c0364cbfeb",
+      "rules/account-uid-zero.yml": "1e18274481c3b5f29385a8ec018196d58475db29467f703cf7302652309e2fa8",
+      "rules/https-context.yml": "72e4c71a094a396fbaac0fa667f2cc527a62cc5cc9bdf46ef071e39a072846c6",
+      "rules/outbound-port.yml": "7b88466083dde83116895fa6b1613d2cafbdd8ad1b64724e3118c9bcb5424fe8",
+      "rules/powershell-encoded.yml": "141524dc254770b52471ce3ecf2883289176c4cfdf868aefa4b0a983e2faca00",
+      "rules/powershell-file-context.yml": "406ef063e41f220e56a61620db8e5168024ad90b5a805de9991aa4efbbb802db",
+      "rules/scheduled-task.yml": "bbc9ec74ab0859ac633ff73ddba562de71fc43795ea4732a8e659f7db52292a7",
+      "rules/shell-unusual.yml": "6599449b319c7221dad41e103f0a186ea9b73e028d769141e1ac58026b7ec284",
+      "rules/ssh-brute-force.yml": "00769c3941b378f112a70948a1a8ce0470a997410b14afa219b44785c82a4de2",
+      "rules/sudo-shell.yml": "bee63ce63015bee40251fd8e49a4fcded000a82323aead63672737dd4c99f5e6",
+      "requirements.lock": "e96e9dca6ab2b1b581795b7a826ebcf5b9168d05e39aabd4d3ffdda17ba2fd11",
+      "requirements-runtime.lock": "0107863a89c874936801f1e65548f490d0777ee2cf95e8795c7f1322566b3df8",
+      "pyproject.toml": "e2a741cf95426d344d1e99d25d3459bf87f3ad1dc25f939b21c5bd1738a18f85"
+    },
+    "source_tree_sha256": "b5a28388abcdef0883eb05047446c02dd9424bf4ce9c5273727785d64e7618d2",
+    "effective_configuration": {
+      "local_mode": false,
+      "public_demo": false,
+      "database_url": "sqlite:///:memory:",
+      "rules_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/rules",
+      "attack_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/data/attack.json",
+      "frontend_path": "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/frontend/dist",
+      "rate_limit": 100000,
+      "max_body_bytes": 1048576,
+      "identities": [
+        {
+          "name": "evaluation",
+          "role": "admin"
+        }
+      ]
+    },
+    "configuration_sha256": "5cc41706c54ae3660f38568c6b1227c8a0e91c57585a87f8ffb01dbbabc592bb",
+    "processing_time": "2026-11-16T14:39:20.014290+00:00",
+    "clock_policy": "One explicitly recorded UTC time for every scenario; never selected from a label"
+  },
+  "dataset_manifest": null,
+  "active_rule_count": 9,
+  "confusion_matrix": {
+    "TP": 7,
+    "FP": 2,
+    "TN": 7,
+    "FN": 2
+  },
+  "denominators": {
+    "total": 18,
+    "positive": 9,
+    "negative": 9,
+    "predicted_positive": 9,
+    "classified": 18,
+    "errors": 0
+  },
+  "prevalence": 0.5,
+  "classification_coverage": 1.0,
+  "precision": 0.7777777777777778,
+  "recall": 0.7777777777777778,
+  "accuracy": 0.7777777777777778,
+  "false_positive_rate": 0.2222222222222222,
+  "uncertainty": {
+    "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+    "intervals": {
+      "precision": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 7,
+        "trials": 9,
+        "lower": 0.45258896910698887,
+        "upper": 0.9367748928821533
+      },
+      "recall": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 7,
+        "trials": 9,
+        "lower": 0.45258896910698887,
+        "upper": 0.9367748928821533
+      },
+      "accuracy": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 14,
+        "trials": 18,
+        "lower": 0.5478541568378739,
+        "upper": 0.9099907189139831
+      },
+      "false_positive_rate": {
+        "method": "Wilson score, two-sided 95%",
+        "successes": 2,
+        "trials": 9,
+        "lower": 0.06322510711784671,
+        "upper": 0.5474110308930111
+      }
+    }
+  },
+  "targets": {
+    "passed": false,
+    "checks": {
+      "precision": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "recall": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "accuracy": {
+        "value": 0.7777777777777778,
+        "operator": ">",
+        "threshold": 0.9,
+        "passed": false
+      },
+      "false_positive_rate": {
+        "value": 0.2222222222222222,
+        "operator": "<",
+        "threshold": 0.05,
+        "passed": false
+      }
+    },
+    "basis": "Unrounded point estimates; separate from uncertainty and external validity",
+    "required": false
+  },
+  "input_audit": {
+    "input_key": "Canonical submitted event sequence and operator context, excluding scenario metadata",
+    "duplicate_groups": [
+      {
+        "input_sha256": "30dd92757f1ce786167f187cc237cf696bb48b906b2105893327e5563738a465",
+        "members": [
+          {
+            "id": "powershell-encoded-positive",
+            "label": true
+          },
+          {
+            "id": "authorized-encoded-admin",
+            "label": false
+          }
+        ]
+      },
+      {
+        "input_sha256": "3e4f493dfece08ede76768b1d1fb4ba11a3216e5ca3c54fcc798d5325fb73d2c",
+        "members": [
+          {
+            "id": "scheduled-task-positive",
+            "label": true
+          },
+          {
+            "id": "authorized-task-maintenance",
+            "label": false
+          }
+        ]
+      },
+      {
+        "input_sha256": "6fe88a1e453b45625195449ebb4c38cababf1759ed70ea9735aec6e0360bfb5e",
+        "members": [
+          {
+            "id": "outbound-port-negative",
+            "label": false
+          },
+          {
+            "id": "https-c2-blindspot",
+            "label": true
+          }
+        ]
+      }
+    ],
+    "contradictions": [
+      {
+        "input_sha256": "30dd92757f1ce786167f187cc237cf696bb48b906b2105893327e5563738a465",
+        "members": [
+          {
+            "id": "powershell-encoded-positive",
+            "label": true
+          },
+          {
+            "id": "authorized-encoded-admin",
+            "label": false
+          }
+        ],
+        "minimum_errors": 1
+      },
+      {
+        "input_sha256": "3e4f493dfece08ede76768b1d1fb4ba11a3216e5ca3c54fcc798d5325fb73d2c",
+        "members": [
+          {
+            "id": "scheduled-task-positive",
+            "label": true
+          },
+          {
+            "id": "authorized-task-maintenance",
+            "label": false
+          }
+        ],
+        "minimum_errors": 1
+      },
+      {
+        "input_sha256": "6fe88a1e453b45625195449ebb4c38cababf1759ed70ea9735aec6e0360bfb5e",
+        "members": [
+          {
+            "id": "outbound-port-negative",
+            "label": false
+          },
+          {
+            "id": "https-c2-blindspot",
+            "label": true
+          }
+        ],
+        "minimum_errors": 1
+      }
+    ],
+    "minimum_unavoidable_errors": 3,
+    "accuracy_upper_bound": 0.8333333333333334,
+    "assumptions": "Deterministic detector, identical initial state and fixed processing clock; upper bound only"
+  },
+  "by_source": {
+    "auditd": {
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 1,
+        "positive": 1,
+        "negative": 0,
+        "predicted_positive": 1,
+        "classified": 1,
+        "errors": 0
+      },
+      "prevalence": 1.0,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": null,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          }
+        }
+      }
+    },
+    "linux_auth": {
+      "confusion_matrix": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 2,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 4,
+        "positive": 2,
+        "negative": 2,
+        "predicted_positive": 2,
+        "classified": 4,
+        "errors": 0
+      },
+      "prevalence": 0.5,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 2,
+            "trials": 2,
+            "lower": 0.34238022750665303,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 2,
+            "trials": 2,
+            "lower": 0.34238022750665303,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 4,
+            "trials": 4,
+            "lower": 0.5101091635454027,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 2,
+            "lower": 0.0,
+            "upper": 0.6576197724933469
+          }
+        }
+      }
+    },
+    "synthetic": {
+      "confusion_matrix": {
+        "TP": 2,
+        "FP": 1,
+        "TN": 4,
+        "FN": 1
+      },
+      "denominators": {
+        "total": 8,
+        "positive": 3,
+        "negative": 5,
+        "predicted_positive": 3,
+        "classified": 8,
+        "errors": 0
+      },
+      "prevalence": 0.375,
+      "classification_coverage": 1.0,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "accuracy": 0.75,
+      "false_positive_rate": 0.2,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 2,
+            "trials": 3,
+            "lower": 0.2076596008020477,
+            "upper": 0.9385080552796037
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 2,
+            "trials": 3,
+            "lower": 0.2076596008020477,
+            "upper": 0.9385080552796037
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 6,
+            "trials": 8,
+            "lower": 0.40927543031016883,
+            "upper": 0.9285207872478909
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 5,
+            "lower": 0.03622410863243014,
+            "upper": 0.6244653702374747
+          }
+        }
+      }
+    },
+    "sysmon": {
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 1,
+        "TN": 0,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 2,
+        "positive": 1,
+        "negative": 1,
+        "predicted_positive": 2,
+        "classified": 2,
+        "errors": 0
+      },
+      "prevalence": 0.5,
+      "classification_coverage": 1.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "accuracy": 0.5,
+      "false_positive_rate": 1.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 2,
+            "lower": 0.09453120573423074,
+            "upper": 0.9054687942657693
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 2,
+            "lower": 0.09453120573423074,
+            "upper": 0.9054687942657693
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          }
+        }
+      }
+    },
+    "zeek": {
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 1,
+        "FN": 1
+      },
+      "denominators": {
+        "total": 3,
+        "positive": 2,
+        "negative": 1,
+        "predicted_positive": 1,
+        "classified": 3,
+        "errors": 0
+      },
+      "prevalence": 0.6666666666666666,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 0.5,
+      "accuracy": 0.6666666666666666,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 2,
+            "lower": 0.09453120573423074,
+            "upper": 0.9054687942657693
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 2,
+            "trials": 3,
+            "lower": 0.2076596008020477,
+            "upper": 0.9385080552796037
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 1,
+            "lower": 0.0,
+            "upper": 0.7934506856227626
+          }
+        }
+      }
+    }
+  },
+  "by_rule": {
+    "00000000-0000-0000-0000-000000000005": {
+      "title": "UID-zero account creation",
+      "slug": "account-uid-zero",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 1,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000009": {
+      "title": "Port 443 destination matches active scoped intelligence",
+      "slug": "https-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 14,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 0,
+        "negative": 14,
+        "predicted_positive": 0,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 14,
+            "lower": 0.0,
+            "upper": 0.2153108027376358
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000007": {
+      "title": "Outbound connection on an uncommon port",
+      "slug": "outbound-port",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 1,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000002": {
+      "title": "Suspicious PowerShell arguments",
+      "slug": "powershell-encoded",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 2,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000008": {
+      "title": "PowerShell file execution with supporting evidence",
+      "slug": "powershell-file-context",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 0,
+      "confusion_matrix": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 14,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 0,
+        "negative": 14,
+        "predicted_positive": 0,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.0,
+      "classification_coverage": 1.0,
+      "precision": null,
+      "recall": null,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 0,
+            "lower": null,
+            "upper": null
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 14,
+            "lower": 0.0,
+            "upper": 0.2153108027376358
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000004": {
+      "title": "Scheduled task creation",
+      "slug": "scheduled-task",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 2,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000003": {
+      "title": "Shell with a TCP redirection",
+      "slug": "shell-unusual",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 1,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000001": {
+      "title": "SSH password guessing",
+      "slug": "ssh-brute-force",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 1,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    },
+    "00000000-0000-0000-0000-000000000006": {
+      "title": "Root shell through sudo",
+      "slug": "sudo-shell",
+      "unit": "Scenario/rule contract, expected ID membership versus emitted ID membership",
+      "scenarios_without_expectation": 4,
+      "emitted_alert_count": 1,
+      "confusion_matrix": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 13,
+        "FN": 0
+      },
+      "denominators": {
+        "total": 14,
+        "positive": 1,
+        "negative": 13,
+        "predicted_positive": 1,
+        "classified": 14,
+        "errors": 0
+      },
+      "prevalence": 0.07142857142857142,
+      "classification_coverage": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "accuracy": 1.0,
+      "false_positive_rate": 0.0,
+      "uncertainty": {
+        "interpretation": "Nominal binomial intervals describe this experiment only. Synthetic template variants are not independent population samples; no deployment efficacy or population FPR claim follows.",
+        "intervals": {
+          "precision": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "recall": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 1,
+            "trials": 1,
+            "lower": 0.20654931437723745,
+            "upper": 1.0
+          },
+          "accuracy": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 14,
+            "trials": 14,
+            "lower": 0.7846891972623643,
+            "upper": 1.0
+          },
+          "false_positive_rate": {
+            "method": "Wilson score, two-sided 95%",
+            "successes": 0,
+            "trials": 13,
+            "lower": 0.0,
+            "upper": 0.22809537235419838
+          }
+        }
+      }
+    }
+  },
+  "rule_contracts": {
+    "evaluated": 14,
+    "matched": 14,
+    "mismatches": [],
+    "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
+  },
+  "totals": {
+    "alerts": 9,
+    "suppressions": 0,
+    "ingestion": {
+      "accepted": 25,
+      "duplicates": 0,
+      "rejected": 0
+    }
+  },
+  "breakdown_note": "Source groups may overlap for multi-source scenarios; rule results measure contract correctness separately from intent classification.",
+  "latency_ms": {
+    "definition": "HTTP TestClient ingestion to committed response, alerting scenarios only; excludes operator context provisioning, network transit and observation delay",
+    "median": 4.308,
+    "maximum": 12.344
+  },
+  "limitations": [
+    "Synthetic experiments, not deployment efficacy or representative prevalence",
+    "Generated variants are correlated; nominal binomial intervals are not an independence claim",
+    "Any rejected/failed scenario invalidates headline metrics; no implicit benign prediction",
+    "No population FPR below 5% is established by these point estimates"
+  ],
+  "scenarios": [
+    {
+      "id": "ssh-brute-force-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 5,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000001"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000001"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "97a79198-e8a1-48f7-932e-21b96b0adfee",
+          "rule_id": "00000000-0000-0000-0000-000000000001",
+          "event_ids": [
+            "edf8d694-d507-4dd5-9f0c-5ae44e6d136e",
+            "2c9996d5-334b-4a98-a268-af479baaf9b0",
+            "22c6479c-8147-4b47-be03-44d8ee319a06",
+            "039cd9f3-355a-4518-b7bb-d20225277aa7",
+            "0c2e1ef6-2a1c-4cf4-a209-eb67d3bd6a80"
+          ],
+          "explanation": "5 SSH failures in 300 seconds from 192.0.2.45."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 5,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "edf8d694-d507-4dd5-9f0c-5ae44e6d136e",
+            "alert_ids": []
+          },
+          {
+            "index": 1,
+            "status": "accepted",
+            "event_id": "2c9996d5-334b-4a98-a268-af479baaf9b0",
+            "alert_ids": []
+          },
+          {
+            "index": 2,
+            "status": "accepted",
+            "event_id": "22c6479c-8147-4b47-be03-44d8ee319a06",
+            "alert_ids": []
+          },
+          {
+            "index": 3,
+            "status": "accepted",
+            "event_id": "039cd9f3-355a-4518-b7bb-d20225277aa7",
+            "alert_ids": []
+          },
+          {
+            "index": 4,
+            "status": "accepted",
+            "event_id": "0c2e1ef6-2a1c-4cf4-a209-eb67d3bd6a80",
+            "alert_ids": [
+              "97a79198-e8a1-48f7-932e-21b96b0adfee"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 12.344,
+      "rule_contract_match": true
+    },
+    {
+      "id": "ssh-brute-force-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 4,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 4,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "a7a0aa92-5fcf-40da-8e6e-dddb1fc4cffd",
+            "alert_ids": []
+          },
+          {
+            "index": 1,
+            "status": "accepted",
+            "event_id": "8066e3eb-7227-4eac-aff2-ab6ff499f7bf",
+            "alert_ids": []
+          },
+          {
+            "index": 2,
+            "status": "accepted",
+            "event_id": "1522dcc5-95a0-4b48-99c1-a2fc893a12e2",
+            "alert_ids": []
+          },
+          {
+            "index": 3,
+            "status": "accepted",
+            "event_id": "741ae517-eca0-403d-9bc4-72117aa21012",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.65,
+      "rule_contract_match": true
+    },
+    {
+      "id": "powershell-encoded-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "6113602d-a1f9-4357-88f4-59cda810fb47",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "e86842c3-e35d-48e8-b201-15b77a264ae0"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (30 bytes; SHA256 4565f15cde9b63a032d9f9320c91eb3faa2096aa2f2bba486d1b1b87653a0b84); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "e86842c3-e35d-48e8-b201-15b77a264ae0",
+            "alert_ids": [
+              "6113602d-a1f9-4357-88f4-59cda810fb47"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.818,
+      "rule_contract_match": true
+    },
+    {
+      "id": "powershell-encoded-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "553d89c1-462d-49e8-bc99-0c602cad542f",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.013,
+      "rule_contract_match": true
+    },
+    {
+      "id": "shell-unusual-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "auditd"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000003"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000003"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "de361bf8-69dd-4fde-bd95-c22bb09623bc",
+          "rule_id": "00000000-0000-0000-0000-000000000003",
+          "event_ids": [
+            "ed9257db-5de8-4375-9b60-428d187093d2"
+          ],
+          "explanation": "Unix shell command contains /dev/tcp/ redirection; investigate process context."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "ed9257db-5de8-4375-9b60-428d187093d2",
+            "alert_ids": [
+              "de361bf8-69dd-4fde-bd95-c22bb09623bc"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.843,
+      "rule_contract_match": true
+    },
+    {
+      "id": "shell-unusual-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "59ee1d72-678b-4e0c-ac4a-072f69eaa853",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.92,
+      "rule_contract_match": true
+    },
+    {
+      "id": "scheduled-task-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "2ba2ea5d-3465-47fb-853a-576afc17d02c",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "279740c5-c0e7-461b-8820-623ce6b408cd"
+          ],
+          "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "279740c5-c0e7-461b-8820-623ce6b408cd",
+            "alert_ids": [
+              "2ba2ea5d-3465-47fb-853a-576afc17d02c"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.406,
+      "rule_contract_match": true
+    },
+    {
+      "id": "scheduled-task-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "41149ef6-0e96-4df4-9fe5-33d85b93ded3",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.925,
+      "rule_contract_match": true
+    },
+    {
+      "id": "account-uid-zero-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "869e9d05-8dbf-4ad8-a8e6-e46dc0c9116f",
+          "rule_id": "00000000-0000-0000-0000-000000000005",
+          "event_ids": [
+            "198f3382-aa4d-49c4-8774-bad16b012fae"
+          ],
+          "explanation": "useradd explicitly requests UID 0, creating a root-equivalent local identity if it succeeds."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "198f3382-aa4d-49c4-8774-bad16b012fae",
+            "alert_ids": [
+              "869e9d05-8dbf-4ad8-a8e6-e46dc0c9116f"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.283,
+      "rule_contract_match": true
+    },
+    {
+      "id": "account-uid-zero-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "46f2af9e-f5f3-461e-88b1-8659481eca12",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.254,
+      "rule_contract_match": true
+    },
+    {
+      "id": "sudo-shell-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "c8fa636b-0767-4e91-a4fa-82850233e54d",
+          "rule_id": "00000000-0000-0000-0000-000000000006",
+          "event_ids": [
+            "5661c9ef-6345-4fef-af1f-8681eb521481"
+          ],
+          "explanation": "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "5661c9ef-6345-4fef-af1f-8681eb521481",
+            "alert_ids": [
+              "c8fa636b-0767-4e91-a4fa-82850233e54d"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.308,
+      "rule_contract_match": true
+    },
+    {
+      "id": "sudo-shell-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "linux_auth"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "00ac8258-486b-4255-947b-b28c69243eb1",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 2.994,
+      "rule_contract_match": true
+    },
+    {
+      "id": "outbound-port-positive",
+      "label": true,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "zeek"
+      ],
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000007"
+      ],
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000007"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "cedc63ba-dece-4ba5-8df0-1a4b592f96ff",
+          "rule_id": "00000000-0000-0000-0000-000000000007",
+          "event_ids": [
+            "bc9b2ff5-ab70-435d-8098-c9bc5fac8c37"
+          ],
+          "explanation": "Connection to a globally routable IP on a configured uncommon port. Port alone does not establish C2."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "TP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "bc9b2ff5-ab70-435d-8098-c9bc5fac8c37",
+            "alert_ids": [
+              "cedc63ba-dece-4ba5-8df0-1a4b592f96ff"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.972,
+      "rule_contract_match": true
+    },
+    {
+      "id": "outbound-port-negative",
+      "label": false,
+      "reason": "Rule contract fixture",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "zeek"
+      ],
+      "expected_rule_ids": [],
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "TN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "df84ebc8-e77c-4fb5-adb5-8c017d41612e",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.27,
+      "rule_contract_match": true
+    },
+    {
+      "id": "authorized-encoded-admin",
+      "label": false,
+      "reason": "Authorized encoded PowerShell produces a known false positive",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "sysmon"
+      ],
+      "expected_rule_ids": null,
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "5c2ef209-6054-4d0f-beb0-33d60ed7bc54",
+          "rule_id": "00000000-0000-0000-0000-000000000002",
+          "event_ids": [
+            "b48174b8-3a6e-431d-9218-34aafa3ea01f"
+          ],
+          "explanation": "PowerShell engine arguments contain an encoded-command option or inline download/decode marker; bounded parsing never executes content. Intent requires review. Encoded UTF-16LE command observed (30 bytes; SHA256 4565f15cde9b63a032d9f9320c91eb3faa2096aa2f2bba486d1b1b87653a0b84); never executed."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "b48174b8-3a6e-431d-9218-34aafa3ea01f",
+            "alert_ids": [
+              "5c2ef209-6054-4d0f-beb0-33d60ed7bc54"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.035,
+      "rule_contract_match": null
+    },
+    {
+      "id": "authorized-task-maintenance",
+      "label": false,
+      "reason": "Approved task creation produces a known false positive",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": null,
+      "emitted_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "alert_count": 1,
+      "alerts": [
+        {
+          "id": "b4ce1bbb-cff5-4e3f-b886-d1eeb9c664c7",
+          "rule_id": "00000000-0000-0000-0000-000000000004",
+          "event_ids": [
+            "2ee6615c-f409-4159-b002-25efe64edad0"
+          ],
+          "explanation": "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent."
+        }
+      ],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": true,
+      "classification": "FP",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "2ee6615c-f409-4159-b002-25efe64edad0",
+            "alert_ids": [
+              "b4ce1bbb-cff5-4e3f-b886-d1eeb9c664c7"
+            ]
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 4.031,
+      "rule_contract_match": null
+    },
+    {
+      "id": "powershell-file-evasion",
+      "label": true,
+      "reason": "Malicious file execution without monitored arguments is outside coverage",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "synthetic"
+      ],
+      "expected_rule_ids": null,
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "8de3f495-cd69-4cff-9330-12d431dad56b",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 3.167,
+      "rule_contract_match": null
+    },
+    {
+      "id": "https-c2-blindspot",
+      "label": true,
+      "reason": "HTTPS C2 is not detected by the uncommon-port heuristic",
+      "origin_template": null,
+      "session_id": null,
+      "events": 1,
+      "sources": [
+        "zeek"
+      ],
+      "expected_rule_ids": null,
+      "emitted_rule_ids": [],
+      "alert_count": 0,
+      "alerts": [],
+      "suppressions": [],
+      "suppression_count": 0,
+      "context_receipts": [],
+      "alerted": false,
+      "classification": "FN",
+      "ingestion": {
+        "accepted": 1,
+        "duplicates": 0,
+        "rejected": 0,
+        "results": [
+          {
+            "index": 0,
+            "status": "accepted",
+            "event_id": "81ff8d9c-242b-454f-8137-3cbfb7782607",
+            "alert_ids": []
+          }
+        ]
+      },
+      "errors": [],
+      "ingest_ms": 31.798,
+      "rule_contract_match": null
+    }
+  ],
+  "command": [
+    "/Users/aashleshshet/Documents/ChatGPT/SentinelFORGE/.venv/bin/python",
+    "scripts/evaluate.py",
+    "--output",
+    "work/accuracy-upgrade/candidate/legacy.json"
+  ],
+  "exit_code": 0
+}
