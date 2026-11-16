@@ -1,0 +1,1152 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge command semantics challenge",
+  "version": "3.0.0",
+  "partition": "holdout",
+  "evaluation_time": "2026-11-16T12:00:00Z",
+  "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+  "provenance": "Separately authored synthetic scenarios, never captured operational telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in reason; expected_rule_ids describe prespecified semantic contracts and need not agree with intent. Labels never enter telemetry.",
+  "independence": "All partitions authored and frozen before v3 detector evaluation. Shared rule domains, constructor code and engineer authorship create correlation; this is not blinded, independent operational validation.",
+  "selection_plan": {
+    "scenarios": 40,
+    "positive": 20,
+    "negative": 20,
+    "unobservable_positive": 2,
+    "authorized_alertable_negative": 3,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "v3-holdout-encoded-mixed-case",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-01",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution combines mixed-case switches with an alias.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-01",
+          "payload": {
+            "host": "v3-holdout-01.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -nOpRoFiLe -EC VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGgAbwBsAGQAbwB1AHQALQBjAGEAcwBlACcA",
+            "external_id": "v3-holdout-01"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-encoded-quoted-value",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-02",
+      "suspicious": true,
+      "reason": "Assigned malicious execution uses a quoted encoded-command argument.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-02",
+          "payload": {
+            "host": "v3-holdout-02.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NonInteractive -EncodedCommand \"VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGgAbwBsAGQAbwB1AHQALQBxAHUAbwB0AGUAZAAnAA==\"",
+            "external_id": "v3-holdout-02"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-encoded-after-multiple-values",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-03",
+      "suspicious": true,
+      "reason": "Assigned malicious encoding follows two separate consumed engine values.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-03",
+          "payload": {
+            "host": "v3-holdout-03.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -OutputFormat Text -ExecutionPolicy Bypass -e VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGgAbwBsAGQAbwB1AHQALQBtAHUAbAB0AGkAJwA=",
+            "external_id": "v3-holdout-03"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-encoded-winps",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-04",
+      "suspicious": true,
+      "reason": "Assigned malicious encoding on Windows PowerShell 5.1 identity.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-04",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-04.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGgAbwBsAGQAbwB1AHQALQB3AGkAbgBwAHMAJwA=",
+            "RecordID": "v3-holdout-04"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-encoded-renamed",
+      "origin_template": "holdout-engine-combinations",
+      "session_id": "v3-holdout-session-05",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution by renamed PowerShell with observed original filename.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-05",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-05.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Tools\\diagnostic.exe",
+            "CommandLine": "pwsh.exe -NoLogo -ec VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGgAbwBsAGQAbwB1AHQALQByAGUAbgBhAG0AZQBkACcA",
+            "RecordID": "v3-holdout-05",
+            "OriginalFileName": "pwsh.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-action-create-word",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-06",
+      "suspicious": true,
+      "reason": "Assigned unauthorized create verb remains observable even when action also contains create.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-06",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-06.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC DAILY /TN \"Daily Construct\" /TR \"C:\\Stage\\build.exe /create\"",
+            "RecordID": "v3-holdout-06"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-nested-name",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-07",
+      "suspicious": true,
+      "reason": "Assigned unauthorized task creation in a named task folder.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-07",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-07.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC WEEKLY /TN \"\\Support\\Queue Monitor\" /TR \"C:\\Stage\\monitor.exe\"",
+            "RecordID": "v3-holdout-07"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-spaced-action",
+      "origin_template": "holdout-create-action-content",
+      "session_id": "v3-holdout-session-08",
+      "suspicious": true,
+      "reason": "Assigned unauthorized idle task with quoted action path and mixed-case verb.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-08",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-08.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /cReAtE /SC ONIDLE /I 10 /TN \"Idle Agent\" /TR \"C:\\Program Data\\agent.exe\"",
+            "RecordID": "v3-holdout-08"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-after-value-lookalike",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-09",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt; nonzero comment must not mask real UID option.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-09",
+          "payload": {
+            "host": "v3-holdout-09.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -c \"-u 1701\" -o --uid=00 hold_service",
+            "external_id": "v3-holdout-09"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-after-shell",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-10",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root-equivalent account uses a non-login shell but explicit UID zero.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-10",
+          "payload": {
+            "host": "v3-holdout-10.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --shell /bin/false -o -u 0000 hold_observer",
+            "external_id": "v3-holdout-10"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-after-home",
+      "origin_template": "holdout-uid-consumption-chain",
+      "session_id": "v3-holdout-session-11",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt follows several unrelated standard options.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-11",
+          "payload": {
+            "host": "v3-holdout-11.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -d /srv/hold-cache -M -N -o -u0 hold_cache",
+            "external_id": "v3-holdout-11"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-sh-argument-path",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-12",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell remains a shell even when its script names another executable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-12",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-12.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/bin/sh -c 'printf /usr/bin/id'"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-bash-long-option",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-13",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell uses a long shell option after the executable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-13",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-13.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/bash --noprofile -c 'id -un'"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-zsh-quoted-executable",
+      "origin_template": "holdout-sudo-command-structure",
+      "session_id": "v3-holdout-session-14",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell with balanced single-quoted executable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-14",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-14.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND='/usr/bin/zsh' -c 'print ready'"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-office-multiple-engine-options",
+      "origin_template": "holdout-office-combinations",
+      "session_id": "v3-holdout-session-15",
+      "suspicious": true,
+      "reason": "Assigned malicious mail child; a hidden engine option survives preceding consumed format values.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-15",
+          "payload": {
+            "host": "v3-holdout-15.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -OutputFormat Text -WindowStyle Hidden -File \"C:\\Stage\\mail-cache.ps1\"",
+            "external_id": "v3-holdout-15",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-office-policy-alias",
+      "origin_template": "holdout-office-combinations",
+      "session_id": "v3-holdout-session-16",
+      "suspicious": true,
+      "reason": "Assigned malicious spreadsheet child uses the documented ex policy alias.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-16",
+          "payload": {
+            "host": "v3-holdout-16.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ex Bypass -File \"C:\\Stage\\table-cache.ps1\"",
+            "external_id": "v3-holdout-16",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-digest-file-arguments",
+      "origin_template": "holdout-context-argument-tail",
+      "session_id": "v3-holdout-session-17",
+      "suspicious": true,
+      "reason": "Assigned malicious observed file digest remains evidence regardless of script parameters after File.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-17",
+          "payload": {
+            "host": "v3-holdout-17.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Stage\\connect.ps1\" -Mode report -ExecutionPolicy Default",
+            "external_id": "v3-holdout-17",
+            "fields": {
+              "script_path": "C:\\Stage\\connect.ps1",
+              "script_sha256": "03d89b9d784758372f898d59eb47272e27c04d017799a380cb3589800de51514"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-holdout-sensor-17",
+            "host": "v3-holdout-17.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "03d89b9d784758372f898d59eb47272e27c04d017799a380cb3589800de51514",
+            "purpose": "powershell-script",
+            "version": "v3-holdout-digest-file-arguments",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-holdout-digest-engine-prefix",
+      "origin_template": "holdout-context-argument-tail",
+      "session_id": "v3-holdout-session-18",
+      "suspicious": true,
+      "reason": "Assigned malicious observed file uses short File after consumed format value.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-18",
+          "payload": {
+            "host": "v3-holdout-18.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -InputFormat Text -f \"C:\\Stage\\session.ps1\"",
+            "external_id": "v3-holdout-18",
+            "fields": {
+              "script_path": "C:\\Stage\\session.ps1",
+              "script_sha256": "94ecb07dbfa7dbfe22fd39598acad1e1c3d9d91345f25d82efc1282ee10dc10a"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-holdout-sensor-18",
+            "host": "v3-holdout-18.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "94ecb07dbfa7dbfe22fd39598acad1e1c3d9d91345f25d82efc1282ee10dc10a",
+            "purpose": "powershell-script",
+            "version": "v3-holdout-digest-engine-prefix",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-holdout-plain-command-intent",
+      "origin_template": "holdout-unobservable-role",
+      "session_id": "v3-holdout-session-19",
+      "suspicious": true,
+      "reason": "Assigned malicious discovery is observationally identical to ordinary administration; no supported signal.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-19",
+          "payload": {
+            "host": "v3-holdout-19.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"Get-Process | Select-Object Name\"",
+            "external_id": "v3-holdout-19"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-file-content-intent",
+      "origin_template": "holdout-unobservable-role",
+      "session_id": "v3-holdout-session-20",
+      "suspicious": true,
+      "reason": "Assigned malicious file content is missing; a neutral path without context cannot establish intent.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-20",
+          "payload": {
+            "host": "v3-holdout-20.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -File \"C:\\Ops\\daily-summary.ps1\"",
+            "external_id": "v3-holdout-20"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-pipe-exact-ec",
+      "origin_template": "holdout-engine-consumed-tokens",
+      "session_id": "v3-holdout-session-21",
+      "suspicious": false,
+      "reason": "Authorized debugger pipe has the exact ec token as its consumed name.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-21",
+          "payload": {
+            "host": "v3-holdout-21.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -CustomPipeName \"-ec\" -NoProfile -Command \"Get-Culture\"",
+            "external_id": "v3-holdout-21"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-configuration-exact-encoded",
+      "origin_template": "holdout-engine-consumed-tokens",
+      "session_id": "v3-holdout-session-22",
+      "suspicious": false,
+      "reason": "Authorized endpoint name is exactly the encoded option spelling; it is consumed as data.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-22",
+          "payload": {
+            "host": "v3-holdout-22.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ConfigurationName \"-EncodedCommand\" -NoLogo -Command \"Get-UICulture\"",
+            "external_id": "v3-holdout-22"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-file-decode-argument",
+      "origin_template": "holdout-script-tail-literals",
+      "session_id": "v3-holdout-session-23",
+      "suspicious": false,
+      "reason": "Authorized formatting script receives a decode marker as literal input after File.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-23",
+          "payload": {
+            "host": "v3-holdout-23.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -f \"C:\\Ops\\format.ps1\" -Text \"FromBase64String\"",
+            "external_id": "v3-holdout-23"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-file-ec-argument",
+      "origin_template": "holdout-script-tail-literals",
+      "session_id": "v3-holdout-session-24",
+      "suspicious": false,
+      "reason": "Authorized script argument uses the ec name; it is not an engine option after File.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-24",
+          "payload": {
+            "host": "v3-holdout-24.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -f \"C:\\Ops\\archive-index.ps1\" -ec \"index-number\"",
+            "external_id": "v3-holdout-24"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-query-compound-name",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-25",
+      "suspicious": false,
+      "reason": "Authorized existing task query contains several option-like fragments inside its name.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-25",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-25.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Query /TN \"\\Archive\\draft /create /sc daily\" /V /FO LIST",
+            "RecordID": "v3-holdout-25"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-change-action-only",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-26",
+      "suspicious": false,
+      "reason": "Authorized task change passes a nested-looking command as action data, not an outer create verb.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-26",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-26.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Change /TN \"Pipeline\" /TR \"C:\\Ops\\worker.exe /Create /TN child\" /DISABLE",
+            "RecordID": "v3-holdout-26"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-task-run-folder",
+      "origin_template": "holdout-task-compound-values",
+      "session_id": "v3-holdout-session-27",
+      "suspicious": false,
+      "reason": "Authorized run of an existing task; case-insensitive create text remains within the name.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-holdout-sensor-27",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-holdout-27.lab.invalid",
+            "User": "lab\\analyst-holdout",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Run /TN \"\\Ops\\release /CREATE package\" /I",
+            "RecordID": "v3-holdout-27"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-attached-comment",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-28",
+      "suspicious": false,
+      "reason": "Authorized account; attached short comment consumes u0 text and explicit UID is nonzero.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-28",
+          "payload": {
+            "host": "v3-holdout-28.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -c-u0 --uid 3101 hold_engineer",
+            "external_id": "v3-holdout-28"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-long-comment-space",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-29",
+      "suspicious": false,
+      "reason": "Authorized nonzero account; UID-looking tokens occur only inside a consumed comment.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-29",
+          "payload": {
+            "host": "v3-holdout-29.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --comment \"--uid 0\" -u3102 hold_operator",
+            "external_id": "v3-holdout-29"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-uid-zero-prefix-nonzero",
+      "origin_template": "holdout-uid-decoys",
+      "session_id": "v3-holdout-session-30",
+      "suspicious": false,
+      "reason": "Authorized ordinary numeric UID starts with zeros but is not numerically zero.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-30",
+          "payload": {
+            "host": "v3-holdout-30.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --uid=0003103 -o hold_auditor",
+            "external_id": "v3-holdout-30"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-copy-shell",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-31",
+      "suspicious": false,
+      "reason": "Authorized binary backup executes cp; copying a shell is not starting it.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-31",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-31.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/cp /bin/bash /srv/recovery/bash"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-hash-shell",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-32",
+      "suspicious": false,
+      "reason": "Authorized integrity check executes sha256sum, with a shell pathname as data.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-32",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-32.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/sha256sum /usr/bin/zsh"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-sudo-nonroot-shell",
+      "origin_template": "holdout-sudo-executable-identity",
+      "session_id": "v3-holdout-session-33",
+      "suspicious": false,
+      "reason": "Authorized service-account shell targets a non-root identity; root-target predicate is absent.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-holdout-sensor-33",
+          "payload": "2026-11-16T09:00:00Z v3-holdout-33.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=service ; COMMAND=/bin/sh -c 'id -u'"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-wrong-host",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-34",
+      "suspicious": false,
+      "reason": "Authorized host check; binding belongs to another host despite a matching synthetic digest.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-34",
+          "payload": {
+            "host": "v3-holdout-34.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\host-check.ps1\"",
+            "external_id": "v3-holdout-34",
+            "fields": {
+              "script_path": "C:\\Ops\\host-check.ps1",
+              "script_sha256": "f7b21d2d931b68f9a2f2fc8b2f30670a9ce1146c76a07204cf5044f7157de789"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-holdout-sensor-34",
+            "host": "other.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "f7b21d2d931b68f9a2f2fc8b2f30670a9ce1146c76a07204cf5044f7157de789",
+            "purpose": "powershell-script",
+            "version": "v3-holdout-wrong-host",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-holdout-wrong-digest",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-35",
+      "suspicious": false,
+      "reason": "Authorized observed file has a different digest from the active indicator.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-35",
+          "payload": {
+            "host": "v3-holdout-35.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\content-check.ps1\"",
+            "external_id": "v3-holdout-35",
+            "fields": {
+              "script_path": "C:\\Ops\\content-check.ps1",
+              "script_sha256": "6abad265407db1de7492f9417fc6a21c065fe3750db71225a3a40a12afa6c5d5"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-holdout-sensor-35",
+            "host": "v3-holdout-35.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "de983de7f4addbcc08286d44367d5bc9cf9ec43b6b9ab287499b4980ad273e64",
+            "purpose": "powershell-script",
+            "version": "v3-holdout-wrong-digest",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-holdout-no-intelligence",
+      "origin_template": "holdout-context-binding-digest",
+      "session_id": "v3-holdout-session-36",
+      "suspicious": false,
+      "reason": "Authorized release has a bound file observation but no indicator; observation alone is not a verdict.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-36",
+          "payload": {
+            "host": "v3-holdout-36.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\new-release.ps1\"",
+            "external_id": "v3-holdout-36",
+            "fields": {
+              "script_path": "C:\\Ops\\new-release.ps1",
+              "script_sha256": "26ed49da8e59273d63276ef72b2dc9a5d97927d3ff7ce87a7ff2e4201be02e72"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-holdout-sensor-36",
+            "host": "v3-holdout-36.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-holdout-office-post-file-hidden",
+      "origin_template": "holdout-office-tail-boundary",
+      "session_id": "v3-holdout-session-37",
+      "suspicious": false,
+      "reason": "Authorized mail export; Hidden appears only in the script parameters after File.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-37",
+          "payload": {
+            "host": "v3-holdout-37.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\mail-export.ps1\" -WindowStyle Hidden",
+            "external_id": "v3-holdout-37",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-authorized-encoded",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-38",
+      "suspicious": false,
+      "reason": "Authorized recovery command uses encoding without scoped approval; alert remains contract-correct.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-38",
+          "payload": {
+            "host": "v3-holdout-38.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -OutputFormat XML -e VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGEAdQB0AGgAbwByAGkAegBlAGQALQBoAG8AbABkAG8AdQB0AC0AcgBlAGMAbwB2AGUAcgB5ACcA",
+            "external_id": "v3-holdout-38"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-authorized-uid",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-39",
+      "suspicious": false,
+      "reason": "Authorized sandbox recovery account is root-equivalent; benign intent is not observable to the rule.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-39",
+          "payload": {
+            "host": "v3-holdout-39.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --non-unique --uid=000 rescue_clone",
+            "external_id": "v3-holdout-39"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-holdout-authorized-office",
+      "origin_template": "holdout-authorized-ambiguity",
+      "session_id": "v3-holdout-session-40",
+      "suspicious": false,
+      "reason": "Authorized document automation uses bypass; a filename suggesting signing does not cancel the observable predicate.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-holdout-sensor-40",
+          "payload": {
+            "host": "v3-holdout-40.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-holdout",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ExecutionPolicy Bypass -File \"C:\\Ops\\signed-report.ps1\"",
+            "external_id": "v3-holdout-40",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

@@ -1,8 +1,9 @@
-title: Interactive root shell through sudo
+title: Root shell through sudo
 id: 00000000-0000-0000-0000-000000000006
 status: experimental
-description: A logged sudo command launches a shell as root. Compare against the user's
-  approved duties.
+description: An accepted sudo request names a supported shell executable as root.
+  Authorization does not prove execution completion or an interactive session; compare
+  against approved duties.
 author: SentinelForge contributors
 date: '2026-11-15'
 logsource:
@@ -11,12 +12,7 @@ logsource:
 detection:
   selection:
     kind: privilege
-    process: sudo
-    fields.target_user: root
-    command|contains:
-    - /bin/bash
-    - /bin/sh
-    - /bin/zsh
+    fields.sf_sudo_shell: true
   condition: selection
 level: medium
 tags:
@@ -31,5 +27,6 @@ x-sentinelforge:
   - command
   - fields.target_user
   validation: synthetic-fixtures
-  explanation: A logged sudo command launches a shell as root. Compare against the
-    user's approved duties.
+  explanation: An accepted sudo request names a supported shell executable as root.
+    Authorization does not prove execution completion or an interactive session; compare
+    against approved duties.

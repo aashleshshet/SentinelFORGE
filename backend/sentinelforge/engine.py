@@ -6,7 +6,8 @@ from sqlalchemy import select
 
 from .context import context_for_event, suppress_approved
 from .db import Alert, Audit, Case, Event
-from .process_evidence import process_evidence, uid_zero_argument
+from .linux_evidence import sudo_shell_command
+from .process_evidence import process_evidence, scheduled_task_create, uid_zero_argument
 from .schemas import now, utc
 
 RISK = {"low": 20, "medium": 40, "high": 65, "critical": 85}
@@ -70,6 +71,8 @@ def detect(session, event, rules, *, principal=None, stamp=None):
             "sf_powershell_file_suspicious": process["powershell_file_suspicious"],
             "sf_https_indicator": context["https_indicator"] is not None,
             "sf_uid_zero": uid_zero_argument(event.data),
+            "sf_scheduled_task_create": scheduled_task_create(event.data),
+            "sf_sudo_shell": sudo_shell_command(event.data),
         }
     }
     emitted = []

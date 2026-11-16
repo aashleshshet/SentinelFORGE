@@ -69,12 +69,11 @@ DEFINITIONS = [
         {
             "selection": {
                 "kind": "process",
-                "process|endswith": "\\schtasks.exe",
-                "command|contains": "/create",
+                "fields.sf_scheduled_task_create": True,
             },
             "condition": "selection",
         },
-        "schtasks.exe creates a task. This is a persistence-capable action, not proof of malicious intent.",
+        "schtasks.exe requests task creation. This is a persistence-capable action, not proof of success or malicious intent.",
         ["Approved scheduled maintenance", "Installers"],
         ["process", "command"],
         None,
@@ -99,20 +98,18 @@ DEFINITIONS = [
     ),
     (
         "sudo-shell",
-        "Interactive root shell through sudo",
+        "Root shell through sudo",
         "medium",
         "T1548.003",
         60,
         {
             "selection": {
                 "kind": "privilege",
-                "process": "sudo",
-                "fields.target_user": "root",
-                "command|contains": ["/bin/bash", "/bin/sh", "/bin/zsh"],
+                "fields.sf_sudo_shell": True,
             },
             "condition": "selection",
         },
-        "A logged sudo command launches a shell as root. Compare against the user's approved duties.",
+        "An accepted sudo request names a supported shell executable as root. Authorization does not prove execution completion or an interactive session; compare against approved duties.",
         ["Authorized system administration"],
         ["user", "command", "fields.target_user"],
         None,
