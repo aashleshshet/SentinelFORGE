@@ -37,6 +37,7 @@ jobs:
       - name: Verify frozen inputs and generated rules
         run: |
           python scripts/build_evaluation_corpus.py --check
+          python scripts/build_accuracy_corpus.py --check
           python scripts/build_fixtures.py
           python scripts/build_public_demo.py --check
           git diff --exit-code -- rules data
@@ -53,6 +54,13 @@ jobs:
           set -e
           test "$legacy_exit" -eq 1
           test "$robustness_exit" -eq 2
+      - name: Replay v3 command contracts (synthetic regression evidence)
+        # These inspected splits are regressions, not a fresh blinded efficacy claim.
+        run: |
+          for split in development validation holdout; do
+            python scripts/evaluate.py --dataset data/evaluation-v3/$split.json --output /tmp/detection/v3-$split.json
+          done
+          python -c "import json, pathlib; reports = [json.loads(p.read_text()) for p in pathlib.Path('/tmp/detection').glob('v3-*.json')]; assert len(reports) == 3; assert all(r['valid'] and r['rule_contracts']['matched'] == r['rule_contracts']['evaluated'] == 40 for r in reports)"
       - run: python scripts/benchmark.py --events 1000 --runs 3 --output /tmp/benchmark.json
       - run: pip-audit -r requirements.lock
       - uses: actions/upload-artifact@v4
