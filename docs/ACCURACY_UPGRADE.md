@@ -28,6 +28,8 @@ The separate authoring agent wrote the [plan](EVALUATION_V3.md) and builder with
 
 All 120 scenarios ingested with no errors or rejections in each version. Across the partitions, 21 former false positives become true negatives; no true positive or true negative regresses. Recall gains for additional supported CLI forms are demonstrated by source-led unit regressions, not by this corpus, whose positive cases already matched the baseline. Do not claim a measured recall improvement.
 
+F1, calculated as `2TP / (2TP + FP + FN)`, improves from 73.47% to 87.80% on development, 76.60% to 87.80% on validation, and 75.00% to 87.80% on holdout. The paired comparison records these derived values separately from the unchanged evaluator reports.
+
 The holdout SHA-256 is `220550ffc936c8bef10ebb56d6517a38102914815bd934f8ff7894454bfd4c7d`. [Manifest](../data/evaluation-v3/manifest.json), [paired comparison](evidence/accuracy-upgrade/comparison.json), [baseline artifacts](evidence/accuracy-upgrade/baseline/) and [candidate artifacts](evidence/accuracy-upgrade/candidate/) preserve exact inputs, outcomes and provenance. These inspected cases now serve as regression evidence; future tuning on them requires a separately versioned holdout for any new acceptance claim.
 
 Nominal two-sided 95% Wilson intervals on the candidate holdout are precision 65.36–95.02%, recall 69.90–97.21%, accuracy 73.89–94.54% and FPR 5.24–36.04%. Correlated synthetic variants violate an independent population-sampling interpretation; these intervals do not establish field efficacy.
@@ -51,6 +53,10 @@ Legacy and every v2 scenario retain their exact prior classifications: legacy 7/
 ## Verification and compatibility
 
 260 Python tests pass, with 95.71% coverage above the 85% requirement. Ruff lint/format, v2/v3 hash verification, generated rules and public snapshot reproducibility pass. The public synthetic snapshot still contains 18 events, seven alerts, two cases and nine rules. Source-led regressions include forged flags and retained raw evidence, option/value boundaries, denied sudo records and grouped/repeated UID flags.
+
+CI verifies v3 corpus hashes and replays all three inspected partitions as regression tests, requiring their 120 rule contracts to match. This additional engineering check does not replace the original blocking v2 efficacy gate or imply that repeated holdout runs constitute new independent validation.
+
+At application/CI revision `70159ed316445614f32d987cf9ead831c0fa28ea`, [GitHub Actions run 43888601585](https://github.com/aashleshshet/SentinelFORGE/actions/runs/43888601585) passed **backend/PostgreSQL, browser and containers**. Both SQLite and PostgreSQL ran all 260 Python tests; coverage was 95.71%. The v3 replay/contract step passed. Only **detection-targets** failed at the unchanged strict acceptance check, and its raw report was uploaded. Documentation and derived report additions after this revision do not change the frozen candidate runtime or evaluation inputs.
 
 Existing stored events are not reprocessed or rewritten. New sudo normalization adds authorization metadata, so replaying an old raw sudo event after upgrading can yield a different normalized fingerprint; cross-version deduplication is not guaranteed. No schema migration, new dependency or change to authentication, approval scope, context expiry or read-only demo permissions is introduced. This report makes no new throughput claim.
 

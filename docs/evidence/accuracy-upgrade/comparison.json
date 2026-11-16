@@ -31,7 +31,8 @@
             "v3-development-sudo-print-shell"
           ],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.7346938775510204
       },
       "candidate": {
         "confusion_matrix": {
@@ -49,7 +50,8 @@
           "matched": 40,
           "mismatches": [],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.8780487804878049
       },
       "fixed": [
         "v3-development-pipe-value",
@@ -89,7 +91,8 @@
             "v3-validation-sudo-editor-shell"
           ],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.7659574468085106
       },
       "candidate": {
         "confusion_matrix": {
@@ -107,7 +110,8 @@
           "matched": 40,
           "mismatches": [],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.8780487804878049
       },
       "fixed": [
         "v3-validation-task-delete-name",
@@ -146,7 +150,8 @@
             "v3-holdout-sudo-hash-shell"
           ],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.75
       },
       "candidate": {
         "confusion_matrix": {
@@ -164,7 +169,8 @@
           "matched": 40,
           "mismatches": [],
           "note": "Separate contract observations; an intent TP does not prove the expected rule fired"
-        }
+        },
+        "f1": 0.8780487804878049
       },
       "fixed": [
         "v3-holdout-pipe-exact-ec",
